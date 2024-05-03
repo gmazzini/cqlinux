@@ -18,6 +18,7 @@ do
       xdotool mousemove --window $gmloglog $gmlogcancel click 1
     fi
     xdotool mousemove --window $gmwin $gmtx6 click 1
+    sleep 1
     xdotool mousemove --window $gmwin $gmenable click 1
   fi
   sleep 3
