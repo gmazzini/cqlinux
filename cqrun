@@ -16,9 +16,10 @@ do
     aux=`xdotool windowfocus $gmlogwin 2>&1 | grep Bad | wc -l`
     if (( ! $aux )); then
       xdotool mousemove --window $gmlogwin $gmlogok click 1
+      sleep 8 
     fi
     xdotool mousemove --window $gmwin $gmtx6 click 1
-    sleep 1
+    sleep 2
     xdotool mousemove --window $gmwin $gmenable click 1
   fi
   sleep 3
