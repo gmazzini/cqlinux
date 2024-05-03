@@ -15,8 +15,9 @@ do
   if (( $(echo "$gmred<0.5"|bc -l) && $(echo "$gmgreen>0.1"|bc -l) && $(echo "$gmblu>0.1"|bc -l) )); then
     aux=`xdotool windowfocus $gmlogwin 2>&1 | grep Bad | wc -l`
     if (( ! $aux )); then
+      sleep 6
       xdotool mousemove --window $gmlogwin $gmlogok click 1
-      sleep 8 
+      sleep 6 
     fi
     xdotool mousemove --window $gmwin $gmtx6 click 1
     sleep 2
