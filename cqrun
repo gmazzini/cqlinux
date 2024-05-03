@@ -13,9 +13,9 @@ do
   gmgreen=`echo $aux | awk -F" " '{print $2}'`
   gmblu=`echo $aux | awk -F" " '{print $3}'`
   if (( $(echo "$gmred<0.5"|bc -l) && $(echo "$gmgreen>0.1"|bc -l) && $(echo "$gmblu>0.1"|bc -l) )); then
-    aux=`xdotool windowfocus $gmloglog 2>&1 | grep Bad | wc -l`
+    aux=`xdotool windowfocus $gmlogwin 2>&1 | grep Bad | wc -l`
     if (( ! $aux )); then
-      xdotool mousemove --window $gmloglog $gmlogcancel click 1
+      xdotool mousemove --window $gmlogwin $gmlogok click 1
     fi
     xdotool mousemove --window $gmwin $gmtx6 click 1
     sleep 1
