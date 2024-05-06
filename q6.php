@@ -37,7 +37,7 @@ foreach($cq as $k => $v){
   echo $ff."\n";
   $aff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
   // $sel[$k]=$vff-$aff;
-  $sel[$k]=100/(30+$aux[2]);
+  $sel[$k]=1000/(30+$aux[2]);
 }
 
 
