@@ -34,6 +34,7 @@ $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),sub
 foreach($cq as $k => $v){
   $aux=explode("_",$v);
   $ff=$aux[0];
+  echo $ff."\n";
   $aff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
   $sel[$k]=$vff-$aff;
   // $sel[$k]=30+$aux[2];
