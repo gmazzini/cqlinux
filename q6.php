@@ -47,10 +47,8 @@ foreach($cq as $k => $v){
   $lon2=(float)$x2lon*M_PI/180;
   $a=pow(sin(($lat1-$lat2)/2),2)+cos($lat1)*cos($lat2)*pow(sin(($lon1-$lon2)/2),2);
   $dist=6371*2*atan2(sqrt($a),sqrt(1-$a));
-  $sel[$k]=($vff-$aff)+1000/(30+$aux[2]);
-  $sel[$k]=100000/($dist+0.1);
+  $sel[$k]=($vff-$aff)+1000/(30+$aux[2])+100000/($dist+0.1);
 }
-
 
 print_r($done);
 asort($cq);
