@@ -33,10 +33,10 @@ $ff="240504_030000";
 $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
 foreach($cq as $k => $v){
   $aux=explode("_",$v);
-  $ff=$aux[0]."_".$aux[1];
+  $ff=$aux[0];
   $aff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
   $sel[$k]=$vff-$aff;
-  $sel[$k]=30+$aux[2];
+  // $sel[$k]=30+$aux[2];
 }
 
 
