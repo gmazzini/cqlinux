@@ -50,9 +50,6 @@ foreach($cq as $k => $v){
   $sel[$k]=($vff-$aff)+1000/(30+$aux[2])+100000/($dist+0.1);
 }
 
-print_r($done);
-asort($cq);
-print_r($cq);
 arsort($sel);
 print_r($sel);
 ?>
