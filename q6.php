@@ -48,7 +48,7 @@ foreach($cq as $k => $v){
   $a=pow(sin(($lat1-$lat2)/2),2)+cos($lat1)*cos($lat2)*pow(sin(($lon1-$lon2)/2),2);
   $dist=6371*2*atan2(sqrt($a),sqrt(1-$a));
   $sel[$k]=($vff-$aff)+1000/(30+$aux[2]);
-  $sel[$k]=10000/($dist+0.1);
+  $sel[$k]=100000/($dist+0.1);
 }
 
 
