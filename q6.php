@@ -29,7 +29,7 @@ fclose($fp);
 foreach($done as $k => $v){
   unset($cq[$k]);
 }
-$ff="240504_030000";
+$ff="240504_034200";
 $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
 foreach($cq as $k => $v){
   $aux=explode("_",$v);
