@@ -19,7 +19,7 @@ for(;;){
   }
   if(@$zz[2]=="Rx" && $zz[7]=="CQ"){
     $bb=explode(".",$zz[1]);
-    $ma=(in_array($zz[8],array("DX","NA","AS","OC","ZL","VK"))?1:0;
+    $ma=(in_array($zz[8],array("DX","NA","AS","OC","ZL","VK")))?1:0;
     $cc=$zz[8+$ma]."_".$bb[0].$zz[3];
     $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
   }
