@@ -33,7 +33,7 @@ $from="240504_030000";
 foreach($cq as $k => $v){
   $aux=explode("_",$v);
   if($aux[0]."_".$aux[1]<$from)continue;
-  $sel[$k]=$aux[2];
+  $sel[$k]=30+$aux[2];
 }
 
 
