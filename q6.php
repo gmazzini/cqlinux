@@ -1,6 +1,6 @@
 <?php
 $ff="/home/gmazzini/.local/share/WSJT-X/ALL.TXT";
-// $ff="ALL.TXT";
+$g1="JN54";
 
 $start="20240504_000000";
 $done=array();
@@ -30,7 +30,6 @@ foreach($done as $k => $v){
   unset($cq[$k]);
 }
 $ff=strftime("%y%m%d_%H%M%S");
-$g1="JN54";
 $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
 $x1lat=(ord(substr($g1,1,1))-65)*10+(int)substr($g1,3,1)+1/48-90;
 $x1lon=-((ord(substr($g1,0,1))-65)*20+(int)substr($g1,2,1)*2+1/24-180);
@@ -50,6 +49,11 @@ foreach($cq as $k => $v){
   $sel[$k]=($vff-$aff)+1000/(30+$aux[2])+100000/($dist+0.1);
 }
 
-arsort($sel);
-print_r($sel);
+asort($sel);
+
+$i=0;
+foreach($sel as $k => $v){
+  echo "$k $v\n";
+  if(++$i>3)break;
+}
 ?>
