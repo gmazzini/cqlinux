@@ -2,7 +2,7 @@
 
 gmwin=`xdotool search --onlyvisible --name "K1JT"`
 echo "gmwin=$gmwin" > x4
-import -window $gmwin x1.tif
+import -silent -window $gmwin x1.tif
 convert x1.tif -set colorspace Gray -separate -average x2.tif
 tesseract x2.tif x3 hocr
 gmenable=`grep Enable x3.hocr | awk -F" " '{print int(($5+$7)/2),int(($6+$8)/2)}'`
@@ -15,7 +15,7 @@ xdotool mousemove --window $gmwin $gmlog click 1
 sleep 2
 gmlogwin=`xdotool search --onlyvisible --name "Log"`
 echo "gmlogwin='$gmlogwin'" >> x4
-import -window $gmlogwin x5.tif
+import -silent -window $gmlogwin x5.tif
 convert x5.tif -set colorspace Gray -separate -average x6.tif
 tesseract x6.tif x7 hocr
 gmlogok=`grep OK x7.hocr | tail -n 1 | awk -F" " '{print int(($5+$7)/2),int(($6+$8)/2)}'`
