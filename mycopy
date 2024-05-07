@@ -1,0 +1,2 @@
+rm -rf cqlinux
+git clone https://github.com/gmazzini/cqlinux
