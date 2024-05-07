@@ -53,7 +53,7 @@ asort($sel);
 
 $i=0;
 foreach($sel as $k => $v){
-  echo "$k $v\n";
+  printf("%s %f.0 %s\n",$k,$v,$cq[$k]);
   if(++$i>3)break;
 }
 ?>
