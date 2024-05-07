@@ -6,7 +6,7 @@ gmy=`echo $gmenable | awk -F" " '{print $2}'`
 
 while true
 do
-  import -window $gmwin x10.tif
+  import -silent -window $gmwin x10.tif
   convert x10.tif -crop "10x10+$(($gmx-5))+$(($gmy-5))" +repage x11.tif
   aux=`convert x11.tif -colorspace RGB -format "%[fx:mean.r] %[fx:mean.g] %[fx:mean.b]" info:`
   gmred=`echo $aux | awk -F" " '{print $1}'`
