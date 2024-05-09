@@ -1,5 +1,6 @@
 <?php
 
+$fpw=fopne("x4.txt","wt");
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
 echo "gmwin=$gmwin\n";
 shell_exec("import -silent -window $gmwin x1.tif");
@@ -37,12 +38,12 @@ fclose($fp);
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
 if($i==$can){echo "Enable not found\n"; exit(0);}
 $yb=$an[$i]["y2"];
-printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+fprintf($fpw,"gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Log
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
 if($i==$can){echo "Log not found\n"; exit(0);}
-printf("gmlog='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+fprintf($fpw,"gmlog='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Tx
 $con=0;
@@ -58,13 +59,14 @@ $ctx=0;
 for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5 && $an[$i]["label"]<>"Now"){$txi[$ctx]=$i; $txv[$ctx]=$an[$i]["y1"]; $ctx++; }
 if($ctx<6){echo "Tx only $ctx\n"; exit(0);}
 array_multisort($txv,$txi);
-for($i=0;$i<$ctx;$i++)printf("gmtx%d='%d %d'\n",$i+1,floor(($an[$txi[$i]]["x1"]+$an[$txi[$i]]["x2"])/2),floor(($an[$txi[$i]]["y1"]+$an[$txi[$i]]["y2"])/2));
+for($i=0;$i<$ctx;$i++)fprintf($fpw,"gmtx%d='%d %d'\n",$i+1,floor(($an[$txi[$i]]["x1"]+$an[$txi[$i]]["x2"])/2),floor(($an[$txi[$i]]["y1"]+$an[$txi[$i]]["y2"])/2));
 
 // Call
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call")break;
 if($i==$can){echo "Call not found\n"; exit(0);}
-printf("gmcall='%d %d'\n",$an[$i]["x1"],2*$an[$i]["y2"]-$an[$i]["y1"]);
+fprintf($fpw,"gmcall='%d %d'\n",$an[$i]["x1"],2*$an[$i]["y2"]-$an[$i]["y1"]);
 
+fclose($fpw);
 
 
 
