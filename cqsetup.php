@@ -3,7 +3,7 @@
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
 echo "gmwin=$gmwin\n";
 shell_exec("import -silent -window $gmwin x1.tif");
-shell_exec("convert x1.tif-colorspace Gray -sharpen 0x1.0 x2.tif");
+shell_exec("convert x1.tif -colorspace Gray -sharpen 0x1.0 x2.tif");
 shell_exec("tesseract x2.tif x3 hocr");
 $an=array();
 $can=0;
