@@ -13,8 +13,15 @@ for(;;){
   $c1=strpos($aux,"title='");
   if($c1===false)continue;
   $c2=strpos($aux,"'",$c1+7);
+  if($c2===false)continue;
   $o1=substr($aux,$c1+7,$c2-$c1-7);
   echo "$o1\n";
+  $c1=strpos($aux,">",$c2+1);
+  if($c1===false)continue;
+  $c2=strpos($aux,"<",$c1+1);
+  if($c2===false)continue;
+  $o2=substr($aux,$c1+1,$c2-$c1-1);
+  echo "$o2\n";
 }
 fclose($fp);
 ?>
