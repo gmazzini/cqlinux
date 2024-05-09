@@ -35,6 +35,8 @@ fclose($fp);
 
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
 printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
+printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 echo $i."\n";
 print_r($an[$i]);
