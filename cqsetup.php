@@ -60,7 +60,11 @@ if($ctx<6){echo "Tx only $ctx\n"; exit(0);}
 array_multisort($txv,$txi);
 for($i=0;$i<$ctx;$i++)printf("gmtx%d='%d %d'\n",$i+1,floor(($an[$txi[$i]]["x1"]+$an[$txi[$i]]["x2"])/2),floor(($an[$txi[$i]]["y1"]+$an[$txi[$i]]["y2"])/2));
 
-// Mode
+// Call
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call")break;
+if($i==$can){echo "Call not found\n"; exit(0);}
+printf("gmcall='%d %d'\n",$an[$i]["x1"],2*$an[$i]["y2"]-$an[$i]["y1"]);
+
 
 
 
