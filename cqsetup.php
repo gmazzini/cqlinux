@@ -35,13 +35,13 @@ fclose($fp);
 
 // Enable
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
-if($i==$can){echo "Not work\n"; exit(0);}
+if($i==$can){echo "Enable not found\n"; exit(0);}
 $yb=$an[$i]["y2"];
 printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Log
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
-if($i==$can){echo "Not work\n"; exit(0);}
+if($i==$can){echo "Log not found\n"; exit(0);}
 printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Tx
@@ -54,7 +54,10 @@ for($i=0;$i<$con;$i++){
   if($oc>$top){$top=$oc; $itop=$i;}
 }
 $ref=$on[$itop];
-for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5)print_r($an[$i]);
+$ctx=0;
+for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5 && $an[$i]["label"]<>"Now")$tx[$ctx++]=$i;
+if($i==$can){echo "Tx only $ctx\n"; exit(0);}
+  
 
 
 
