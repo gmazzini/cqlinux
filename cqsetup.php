@@ -32,6 +32,7 @@ for(;;){
   $can++;
 }
 fclose($fp);
-print_r($an);
+
+print_r(array_search("Enable",$an));
 
 ?>
