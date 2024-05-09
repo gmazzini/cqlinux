@@ -64,7 +64,7 @@ for($i=0;$i<$ctx;$i++)fprintf($fpw,"gmtx%d='%d %d'\n",$i+1,floor(($an[$txi[$i]][
 // Call
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call")break;
 if($i==$can){echo "Call not found\n"; exit(0);}
-fprintf($fpw,"gmcall='%d %d'\n",$an[$i]["x1"],2*$an[$i]["y2"]-$an[$i]["y1"]);
+fprintf($fpw,"gmcall='%d %d'\n",$an[$i]["x1"],3*$an[$i]["y2"]-2*$an[$i]["y1"]);
 
 shell_exec("xdotool mousemove --window $gmwin $gmlog click 1");
 sleep(2);
