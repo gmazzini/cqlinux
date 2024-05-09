@@ -54,7 +54,7 @@ for($i=0;$i<$con;$i++){
   if($oc>$top){$top=$oc; $itop=$i;}
 }
 $ref=$on[$itop];
-for($i=0;$i<$con;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5)print_r($an[$i]);
+for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5)print_r($an[$i]);
 
 
 
