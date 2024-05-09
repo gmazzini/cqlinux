@@ -21,7 +21,7 @@ for(;;){
   $an[$can]["x1"]=$o2[1];
   $an[$can]["y1"]=$o2[2];
   $an[$can]["x2"]=$o2[3];
-  $an[$can]["y2"]=$o2[4];
+  $an[$can]["y2"]=substr($o2[4],0,-1);
   $an[$can]["conf"]=$o2[6];
   $c1=strpos($aux,">",$c2+1);
   if($c1===false)continue;
