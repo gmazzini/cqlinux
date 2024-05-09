@@ -53,7 +53,9 @@ for($i=0;$i<$con;$i++){
   for($j=0;$j<$con;$j++)if($on[$i]>$on[$j]-5 && $on[$i]<$on[$j]+5)$oc++;
   if($oc>$top){$top=$oc; $itop=$i;}
 }
-echo "$itop $top\n";
+$ref=$on[$itop];
+for($i=0;$i<$con;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5)print_r($an[$i]);
+
 
 
 
