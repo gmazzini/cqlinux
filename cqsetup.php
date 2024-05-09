@@ -33,13 +33,22 @@ for(;;){
 }
 fclose($fp);
 
+// Enable
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
-printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
+if($i==$can){echo "Not work\n"; exit(0);}
+$yb=$an[$i]["y2"];
 printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
-echo $i."\n";
-print_r($an[$i]);
+// Log
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
+if($i==$can){echo "Not work\n"; exit(0);}
+printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+
+// Tx
+for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && $an[$i]["label"]=="tx")echo $an[$i]["x1"];
+
+
+
 
 
 ?>
