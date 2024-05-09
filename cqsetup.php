@@ -12,7 +12,7 @@ for(;;){
   if(strpos($aux,"<span")===false)continue;
   $c1=strpos($aux,"title='");
   if($c1===false)continue;
-  $c2=strpos($aux,"'",$c1+1);
+  $c2=strpos($aux,"'",$c1+7);
   $o1=substr($aux,$c1+7,$c2-$c1);
   echo "$o1\n";
 }
