@@ -45,8 +45,13 @@ if($i==$can){echo "Not work\n"; exit(0);}
 printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Tx
-for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && $an[$i]["label"]=="Tx")echo $an[$i]["x1"]."\n";
-
+$con=0;
+for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && $an[$i]["label"]=="Tx")$on[$con++]=$an[$i]["x1"];
+for($i=0;$i<$con;$i++){
+  $oc=0;
+  for($j=0;$j<$con;$j++)if($on[$i]>$on[$j]-5 && $on[$i]<$on[$j]+5)$oc++;
+  echo "$i $oc\n";
+}
 
 
 
