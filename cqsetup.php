@@ -43,7 +43,7 @@ fprintf($fpw,"gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor((
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
 if($i==$can){echo "Log not found\n"; exit(0);}
 fprintf($fpw,"gmlog='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
-$gmlog=sprintf($buf,"'%d %d'",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+$gmlog=sprintf("'%d %d'",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Tx
 $con=0;
