@@ -33,6 +33,9 @@ for(;;){
 }
 fclose($fp);
 
-print_r(array_search("Enable",$an));
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
+echo $I."\n";
+print_r($an[$i]);
+
 
 ?>
