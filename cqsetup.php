@@ -111,7 +111,7 @@ if($i==$can){echo "Log Cancel not found\n"; exit(0);}
 fprintf($fpw,"gmlocancel='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmlogcancel=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
-xdotool mousemove --window $gmlogwin $gmlogcancel click 1
+shell_exec("xdotool mousemove --window $gmlogwin $gmlogcancel click 1");
 
 fclose($fpw);
 ?>
