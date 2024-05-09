@@ -51,7 +51,7 @@ for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && $an[$i]["label"]=="Tx")$on[$con++]
 for($i=0;$i<$con;$i++){
   $oc=0;
   for($j=0;$j<$con;$j++)if($on[$i]>$on[$j]-5 && $on[$i]<$on[$j]+5)$oc++;
-  if($ox>$top){$top=$oc; $itop=$i;}
+  if($oc>$top){$top=$oc; $itop=$i;}
 }
 echo "$itop $top\n";
 
