@@ -1,7 +1,7 @@
 <?php
 
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
-echo $gmwin."\n";
+echo "gmwin=$gmwin\n";
 shell_exec("import -silent -window $gmwin x1.tif");
 shell_exec("convert x1.tif -set colorspace Gray -separate -average x2.tif");
 shell_exec("tesseract x2.tif x3 hocr");
@@ -34,7 +34,9 @@ for(;;){
 fclose($fp);
 
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
-echo $I."\n";
+printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+
+echo $i."\n";
 print_r($an[$i]);
 
 
