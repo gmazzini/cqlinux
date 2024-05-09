@@ -66,6 +66,8 @@ for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call")break;
 if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"gmcall='%d %d'\n",$an[$i]["x1"],2*$an[$i]["y2"]-$an[$i]["y1"]);
 
+printf("xdotool mousemove --window $gmwin $gmlog click 1");
+
 shell_exec("xdotool mousemove --window $gmwin $gmlog click 1");
 exit(0);
 sleep(2);
