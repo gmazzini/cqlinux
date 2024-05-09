@@ -2,11 +2,10 @@
 
 $fpw=fopen("x4.txt","wt");
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
-echo "gmwin=$gmwin\n";
+fprintf($fpw,"gmwin=%s\n",$gmwin);
 shell_exec("import -silent -window $gmwin x1.tif");
 shell_exec("convert x1.tif -colorspace Gray -sharpen 0x1.0 x2.tif");
 shell_exec("tesseract x2.tif x3 --psm 6 hocr");
-$an=array();
 $can=0;
 $fp=fopen("x3.hocr","r");
 for(;;){
@@ -66,9 +65,50 @@ for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call")break;
 if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"gmcall='%d %d'\n",$an[$i]["x1"],2*$an[$i]["y2"]-$an[$i]["y1"]);
 
+$gmlogwin=trim(shell_exec("xdotool search --onlyvisible --name 'Log'"));
+fprintf($fpw,"gmlogwin=%s\n",$gmlogwin);
+shell_exec("import -silent -window $gmlogwin x5.tif");
+shell_exec("convert x5.tif -colorspace Gray -sharpen 0x1.0 x6.tif");
+shell_exec("tesseract x6.tif x7 --psm 6 hocr");
+$can=0;
+$fp=fopen("x7.hocr","r");
+for(;;){
+  if(feof($fp))break;
+  $aux=fgets($fp);
+  if(strpos($aux,"<span")===false)continue;
+  $c1=strpos($aux,"title='");
+  if($c1===false)continue;
+  $c2=strpos($aux,"'",$c1+7);
+  if($c2===false)continue;
+  $o1=substr($aux,$c1+7,$c2-$c1-7);
+  $o2=explode(" ",$o1);
+  $an[$can]["x1"]=$o2[1];
+  $an[$can]["y1"]=$o2[2];
+  $an[$can]["x2"]=$o2[3];
+  $an[$can]["y2"]=substr($o2[4],0,-1);
+  $an[$can]["conf"]=$o2[6];
+  $c1=strpos($aux,">",$c2+1);
+  if($c1===false)continue;
+  $c2=strpos($aux,"<",$c1+1);
+  if($c2===false)continue;
+  $o2=substr($aux,$c1+1,$c2-$c1-1);
+  $an[$can]["label"]=$o2;
+  $can++;
+}
+fclose($fp);
+
+// LogOK
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="OK")break;
+if($i==$can){echo "Log OK not found\n"; exit(0);}
+fprintf($fpw,"gmlokok='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+
+// LogCANCEL
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Cancel")break;
+if($i==$can){echo "Log Cancel not found\n"; exit(0);}
+fprintf($fpw,"gmlocancel='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+
+// xdotool mousemove --window $gmlogwin $gmlogcancel click 1
+
+
 fclose($fpw);
-
-
-
-
 ?>
