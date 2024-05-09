@@ -13,7 +13,7 @@ for(;;){
   $c1=strpos($aux,"title='");
   if($c1===false)continue;
   $c2=strpos($aux,"'",$c1+7);
-  $o1=substr($aux,$c1+7,$c2-$c1);
+  $o1=substr($aux,$c1+7,$c2-$c1-7);
   echo "$o1\n";
 }
 fclose($fp);
