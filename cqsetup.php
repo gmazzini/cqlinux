@@ -5,6 +5,8 @@ echo $gmwin."\n";
 shell_exec("import -silent -window $gmwin x1.tif");
 shell_exec("convert x1.tif -set colorspace Gray -separate -average x2.tif");
 shell_exec("tesseract x2.tif x3 hocr");
+$an=array();
+$can=0;
 $fp=fopen("x3.hocr","r");
 for(;;){
   if(feof($fp))break;
@@ -15,13 +17,21 @@ for(;;){
   $c2=strpos($aux,"'",$c1+7);
   if($c2===false)continue;
   $o1=substr($aux,$c1+7,$c2-$c1-7);
-  echo "$o1\n";
+  $o2=explode(" ",$o1);
+  $an[$can]["x1"]=$o2[1];
+  $an[$can]["y1"]=$o2[2];
+  $an[$can]["x2"]=$o2[3];
+  $an[$can]["y2"]=$o2[4];
+  $an[$can]["conf"]=$o2[6];
   $c1=strpos($aux,">",$c2+1);
   if($c1===false)continue;
   $c2=strpos($aux,"<",$c1+1);
   if($c2===false)continue;
   $o2=substr($aux,$c1+1,$c2-$c1-1);
-  echo "$o2\n";
+  $an[$can]["label"]=$o2;
+  $can++;
 }
 fclose($fp);
+print_r($an);
+
 ?>
