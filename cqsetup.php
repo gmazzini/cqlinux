@@ -1,6 +1,6 @@
 <?php
 
-$fpw=fopne("x4.txt","wt");
+$fpw=fopen("x4.txt","wt");
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
 echo "gmwin=$gmwin\n";
 shell_exec("import -silent -window $gmwin x1.tif");
