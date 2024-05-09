@@ -42,7 +42,7 @@ printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i
 // Log
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
 if($i==$can){echo "Log not found\n"; exit(0);}
-printf("gmenable='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+printf("gmlog='%d %d'\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Tx
 $con=0;
