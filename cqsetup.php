@@ -66,6 +66,11 @@ for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call")break;
 if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"gmcall='%d %d'\n",2*$an[$i]["x1"]-$an[$i]["x2"],4*$an[$i]["y2"]-3*$an[$i]["y1"]);
 
+// Report
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Report")break;
+if($i==$can){echo "Peport not found\n"; exit(0);}
+fprintf($fpw,"gmreport='%d %d'\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2);
+
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmlog click 1");
 sleep(2);
 $gmlogwin=trim(shell_exec("xdotool search --onlyvisible --name 'Log'"));
