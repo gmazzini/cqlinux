@@ -120,7 +120,7 @@ fprintf($fpw,"\$gmlogok='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor
 // LogCANCEL
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Cancel")break;
 if($i==$can){echo "Log Cancel not found\n"; exit(0);}
-fprintf($fpw,"\$gmlocancel='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+fprintf($fpw,"\$gmlogcancel='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmlogcancel=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 shell_exec("xdotool windowfocus --sync $gmlogwin mousemove --sync --window $gmlogwin $gmlogcancel click 1");
