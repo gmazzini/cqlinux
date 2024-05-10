@@ -1,8 +1,9 @@
 <?php
 
 $fpw=fopen("x4.php","wt");
+fprintf($fpw,"<?php\n");
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
-fprintf($fpw,"$gmwin=%s;\n",$gmwin);
+fprintf($fpw,"\$gmwin=%s;\n",$gmwin);
 shell_exec("import -silent -window $gmwin x1.tif");
 shell_exec("convert x1.tif -colorspace Gray -sharpen 0x1.0 x2.tif");
 shell_exec("tesseract x2.tif x3 --psm 6 hocr");
@@ -124,5 +125,6 @@ $gmlogcancel=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$
 
 shell_exec("xdotool windowfocus --sync $gmlogwin mousemove --sync --window $gmlogwin $gmlogcancel click 1");
 
+fprintf($fpw,"?>\n");
 fclose($fpw);
 ?>
