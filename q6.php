@@ -58,7 +58,7 @@ foreach($sel as $k => $v){
   if(++$i>1)break;
 }
 
-$aux=eplode("_",$k);
+$aux=explode("_",$k);
 $call=$aux[0];
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type $call");
 
