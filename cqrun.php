@@ -7,7 +7,7 @@ for(;;){
   $aaout=trim(shell_exec("convert x11.tif -colorspace RGB -format '%[fx:mean.r] %[fx:mean.g] %[fx:mean.b]' info:"));
   $aux=explode(" ",$aaout); $aared=$aux[0]; $aagreen=$aux[1]; $aablu=$aux[2];
   if($aared<0.5 && $aagreen>0.1 && $aablu>0.1){
-    echo "Enable off\n";
+    echo "Enable Off\n";
     $aaout=shell_exec("xdotool windowfocus $gmlogwin 2>&1");
     if(strpos($aaout,"Bad")===false){
       sleep(6);
