@@ -18,7 +18,7 @@ for(;;){
     shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmtx6 click 1");
     echo "Tx6\n";
     sleep(2);
-    shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmenale click 1");
+    shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmenable click 1");
     echo "Enable On\n";
   }
   sleep(3);
