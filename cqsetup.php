@@ -73,8 +73,8 @@ fprintf($fpw,"gmreport='%d %d'\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2
 $gmrxx=$an[$i]["x1"];
 
 // Rx
-for($i=can-1;$i>0;$i--)if($an[$i]["label"]=="Hz" && $an[$i]["y1"]>$yb)break;
-if($i==$can){echo "Rx not found\n"; exit(0);}
+for($i=$can-1;$i>=0;$i--)if($an[$i]["label"]=="Hz" && $an[$i]["y1"]>$yb)break;
+if($i<0){echo "Rx not found\n"; exit(0);}
 fprintf($fpw,"gmrx='%d %d'\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmlog click 1");
