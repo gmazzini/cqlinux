@@ -77,6 +77,8 @@ $gmrxx=$an[$i]["x1"];
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Hz" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Rx_1 not found\n"; exit(0);}
 $yc=$an[$i]["y1"];
+echo "$yc\n";
+
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Hz" && $an[$i]["y1"]>$yc)break;
 if($i==$can){echo "Rx_2 not found\n"; exit(0);}
 fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
