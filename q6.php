@@ -55,6 +55,11 @@ asort($sel);
 $i=0;
 foreach($sel as $k => $v){
   printf("%s %.0f %s\n",$k,$v,$cq[$k]);
-  if(++$i>3)break;
+  if(++$i>1)break;
 }
+
+$aux=eplode("_",$k);
+$call=$aux[0];
+shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type $call");
+
 ?>
