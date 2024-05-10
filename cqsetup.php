@@ -70,11 +70,12 @@ fprintf($fpw,"gmcall='%d %d'\n",2*$an[$i]["x1"]-$an[$i]["x2"],4*$an[$i]["y2"]-3*
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Report" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Report not found\n"; exit(0);}
 fprintf($fpw,"gmreport='%d %d'\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+$gmrxx=$an[$i]["x1"];
 
 // Rx
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Rx" && $an[$i]["y1"]>$yb)break;
+for($i=can-1;$i>0;$i--)if($an[$i]["label"]=="Hz" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Rx not found\n"; exit(0);}
-fprintf($fpw,"gmrx='%d %d'\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+fprintf($fpw,"gmrx='%d %d'\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmlog click 1");
 sleep(2);
