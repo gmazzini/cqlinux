@@ -1,6 +1,7 @@
 <?php
 $ff="/home/gmazzini/.local/share/WSJT-X/ALL.TXT";
 $g1="JN54";
+include "x4.php";
 
 $start="20240504_000000";
 $done=array();
