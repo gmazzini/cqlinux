@@ -62,14 +62,19 @@ array_multisort($txv,$txi);
 for($i=0;$i<$ctx;$i++)fprintf($fpw,"gmtx%d='%d %d'\n",$i+1,floor(($an[$txi[$i]]["x1"]+$an[$txi[$i]]["x2"])/2),floor(($an[$txi[$i]]["y1"]+$an[$txi[$i]]["y2"])/2));
 
 // Call
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call")break;
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"gmcall='%d %d'\n",2*$an[$i]["x1"]-$an[$i]["x2"],4*$an[$i]["y2"]-3*$an[$i]["y1"]);
 
 // Report
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Report")break;
-if($i==$can){echo "Peport not found\n"; exit(0);}
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Report" && $an[$i]["y1"]>$yb)break;
+if($i==$can){echo "Report not found\n"; exit(0);}
 fprintf($fpw,"gmreport='%d %d'\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+
+// Rx
+for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Rx" && $an[$i]["y1"]>$yb)break;
+if($i==$can){echo "Rx not found\n"; exit(0);}
+fprintf($fpw,"gmrx='%d %d'\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmlog click 1");
 sleep(2);
