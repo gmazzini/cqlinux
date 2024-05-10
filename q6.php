@@ -62,8 +62,8 @@ $aux=explode("_",$k);
 $call=$aux[0];
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
 $aux=explode("_",$cq[$k]);
-$rx=$aux[2];
-if($rx<0)$rx="\-20";
+if($aux[2]<0)$rx=sprintf("\%d",$aux[2]);
+else $rx=sprintf("%d",$aux[2]);
 
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmreport click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$rx'");
 
