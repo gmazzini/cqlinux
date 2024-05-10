@@ -113,7 +113,7 @@ for(;;){
 fclose($fp);
 
 // LogOK
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="OK")break;
+for($i=$can-1;$i>=0;$i--)if($an[$i]["label"]=="OK")break;
 if($i==$can){echo "Log OK not found\n"; exit(0);}
 fprintf($fpw,"\$gmlogok='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
