@@ -115,7 +115,7 @@ for(;;){
 fclose($fp);
 
 // LogOK
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,2)=="OK" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,2)=="OK")break;
 if($i==$can){echo "Log OK not found\n"; exit(0);}
 for($j=0;$j<$can;$j++)if(substr($an[$j]["label"],0,2)=="OK" && $an[$j]["y1"]>$an[$i]["y1"])break;
 if($j<$can)$i=$j;
