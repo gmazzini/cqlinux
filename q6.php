@@ -74,6 +74,8 @@ if(count($sel)>0){
   $tx=$aux[3];
   shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmreport click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$rx'");
   shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmrx click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$tx'");
+  sleep(1);
+  shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmtx1 click 1");
 }
 
 ?>
