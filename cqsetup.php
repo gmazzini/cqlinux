@@ -74,6 +74,7 @@ fprintf($fpw,"\$gmreport='%d %d';\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i][
 $gmrxx=$an[$i]["x1"];
 
 // Rx
+for($i=0;$i<$can;$i++)print("%s,%d\n",$an[$i]["label"],$i);
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Hz" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Rx not found\n"; exit(0);}
 for($j=0;$j<$can;$j++)if($an[$j]["label"]=="Hz" && $an[$j]["y1"]>$an[$i]["y1"])break;
