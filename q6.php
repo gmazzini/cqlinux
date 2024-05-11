@@ -8,7 +8,6 @@ for(;;){
   if(feof($fp))break;
   $aux=fgets($fp);
   $zz=preg_split('/\s+/',$aux);
-  if($zz[0]<$start)continue;
   if(@$zz[2]=="Tx" && (@$zz[9]=="73"||@$zz[9]=="RR73")){
     $bb=explode(".",$zz[1]);
     $cc=$zz[7]."_".$bb[0].$zz[3];
