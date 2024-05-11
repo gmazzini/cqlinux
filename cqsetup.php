@@ -115,8 +115,10 @@ for(;;){
 fclose($fp);
 
 // LogOK
-for($i=$can-1;$i>=0;$i--)if(substr($an[$i]["label"],0,2)=="OK")break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,2)=="OK" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Log OK not found\n"; exit(0);}
+for($j=0;$j<$can;$j++)if(substr($an[$j]["label"],0,2)=="OK" && $an[$j]["y1"]>$an[$i]["y1"])break;
+if($j<$can)$i=$j;
 fprintf($fpw,"\$gmlogok='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // LogCANCEL
