@@ -56,23 +56,24 @@ if(count($cq)>0){
   asort($sel);
 }
 
-
-
-$i=0;
-foreach($sel as $k => $v){
-  printf("%s %.0f %s\n",$k,$v,$cq[$k]);
-  if(++$i>0)break;
+// Selection & click
+if(count($sel)>0){
+  
+  $i=0;
+  foreach($sel as $k => $v){
+    printf("%s %.0f %s\n",$k,$v,$cq[$k]);
+    if(++$i>0)break;
+  }
+  
+  $aux=explode("_",$k);
+  $call=$aux[0];
+  shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
+  $aux=explode("_",$cq[$k]);
+  if($aux[2]<0)$rx=sprintf("\%d",$aux[2]);
+  else $rx=sprintf("%d",$aux[2]);
+  $tx=$aux[3];
+  shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmreport click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$rx'");
+  shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmrx click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$tx'");
 }
-
-$aux=explode("_",$k);
-$call=$aux[0];
-shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
-$aux=explode("_",$cq[$k]);
-if($aux[2]<0)$rx=sprintf("\%d",$aux[2]);
-else $rx=sprintf("%d",$aux[2]);
-$tx=$aux[3];
-
-shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmreport click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$rx'");
-shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmrx click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$tx'");
 
 ?>
