@@ -1,18 +1,14 @@
 <?php
-$ff="/home/gmazzini/.local/share/WSJT-X/ALL.TXT";
 $g1="JN54";
 include "x4.php";
 
-$start="20240504_000000";
-$done=array();
-$cq=array();
-$fp=fopen($ff,"r");
+// Read actual activity
+$fp=fopen("/home/gmazzini/.local/share/WSJT-X/ALL.TXT","r");
 for(;;){
   if(feof($fp))break;
   $aux=fgets($fp);
   $zz=preg_split('/\s+/',$aux);
   if($zz[0]<$start)continue;
- // echo $aux;
   if(@$zz[2]=="Tx" && (@$zz[9]=="73"||@$zz[9]=="RR73")){
     $bb=explode(".",$zz[1]);
     $cc=$zz[7]."_".$bb[0].$zz[3];
@@ -20,16 +16,14 @@ for(;;){
   }
   if(@$zz[2]=="Rx" && $zz[7]=="CQ"){
     $bb=explode(".",$zz[1]);
-    $ma=(in_array($zz[8],array("DX","NA","AS","OC","ZL","VK")))?1:0;
+    $ma=(strlen($zz[8])<3)?1:0;
     $cc=$zz[8+$ma]."_".$bb[0].$zz[3];
     $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
   }
 }
 fclose($fp);
+foreach($done as $k => $v)unset($cq[$k]);
 
-foreach($done as $k => $v){
-  unset($cq[$k]);
-}
 $ff=strftime("%y%m%d_%H%M%S");
 $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
 $x1lat=(ord(substr($g1,1,1))-65)*10+(int)substr($g1,3,1)+1/48-90;
