@@ -68,11 +68,13 @@ if(count($sel)>0){
   $aux=explode("_",$k);
   $call=$aux[0];
   shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
+  sleep(1);
   $aux=explode("_",$cq[$k]);
   if($aux[2]<0)$rx=sprintf("\%d",$aux[2]);
   else $rx=sprintf("%d",$aux[2]);
   $tx=$aux[3];
   shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmreport click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$rx'");
+  sleep(1);
   shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmrx click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$tx'");
   sleep(1);
   shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmtx1 click 1");
