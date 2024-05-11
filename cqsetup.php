@@ -35,13 +35,13 @@ for(;;){
 fclose($fp);
 
 // Enable
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,-6)=="Enable")break;
 if($i==$can){echo "Enable not found\n"; exit(0);}
 $yb=$an[$i]["y2"];
 fprintf($fpw,"\$gmenable='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Log
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Log")break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,-3)=="Log")break;
 if($i==$can){echo "Log not found\n"; exit(0);}
 fprintf($fpw,"\$gmlog='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmlog=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
@@ -49,7 +49,7 @@ $gmlog=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1
 // Tx
 $con=0;
 $itop=0; $top=0;
-for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && $an[$i]["label"]=="Tx")$on[$con++]=$an[$i]["x1"];
+for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && substr($an[$i]["label"],0,-2)=="Tx")$on[$con++]=$an[$i]["x1"];
 for($i=0;$i<$con;$i++){
   $oc=0;
   for($j=0;$j<$con;$j++)if($on[$i]>$on[$j]-5 && $on[$i]<$on[$j]+5)$oc++;
@@ -57,27 +57,26 @@ for($i=0;$i<$con;$i++){
 }
 $ref=$on[$itop];
 $ctx=0;
-for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5 && $an[$i]["label"]<>"Now"){$txi[$ctx]=$i; $txv[$ctx]=$an[$i]["y1"]; $ctx++; }
+for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5 && substr($an[$i]["label"],0,-3)<>"Now"){$txi[$ctx]=$i; $txv[$ctx]=$an[$i]["y1"]; $ctx++; }
 if($ctx<6){echo "Tx only $ctx\n"; exit(0);}
 array_multisort($txv,$txi);
 for($i=0;$i<$ctx;$i++)fprintf($fpw,"\$gmtx%d='%d %d';\n",$i+1,floor(($an[$txi[$i]]["x1"]+$an[$txi[$i]]["x2"])/2),floor(($an[$txi[$i]]["y1"]+$an[$txi[$i]]["y2"])/2));
 
 // Call
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Call" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,-4)=="Call" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"\$gmcall='%d %d';\n",2*$an[$i]["x1"]-$an[$i]["x2"],4*$an[$i]["y2"]-3*$an[$i]["y1"]);
 
 // Report
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Report" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,-6)=="Report" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Report not found\n"; exit(0);}
 fprintf($fpw,"\$gmreport='%d %d';\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmrxx=$an[$i]["x1"];
 
 // Rx
-for($i=0;$i<$can;$i++)printf("%s,%d\n",$an[$i]["label"],$i);
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Hz" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,-2)=="Hz" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Rx not found\n"; exit(0);}
-for($j=0;$j<$can;$j++)if($an[$j]["label"]=="Hz" && $an[$j]["y1"]>$an[$i]["y1"])break;
+for($j=0;$j<$can;$j++)if(substr($an[$j]["label"],0,-2)=="Hz" && $an[$j]["y1"]>$an[$i]["y1"])break;
 if($j<$can)$i=$j;
 fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
@@ -116,12 +115,12 @@ for(;;){
 fclose($fp);
 
 // LogOK
-for($i=$can-1;$i>=0;$i--)if($an[$i]["label"]=="OK")break;
+for($i=$can-1;$i>=0;$i--)if(substr($an[$i]["label"],0,-2(=="OK")break;
 if($i==$can){echo "Log OK not found\n"; exit(0);}
 fprintf($fpw,"\$gmlogok='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // LogCANCEL
-for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Cancel")break;
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,-6)=="Cancel")break;
 if($i==$can){echo "Log Cancel not found\n"; exit(0);}
 fprintf($fpw,"\$gmlogcancel='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmlogcancel=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
