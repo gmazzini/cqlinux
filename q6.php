@@ -1,6 +1,7 @@
 <?php
 $g1="JN54";
 include "x4.php";
+$black=("IK4LZH");
 
 // Read actual activity
 $done=array(); $cq=array();
@@ -22,7 +23,7 @@ for(;;){
   }
 }
 fclose($fp);
-if(count($done)>0)foreach($done as $k => $v)unset($cq[$k]);
+foreach($done as $k => $v)unset($cq[$k]);
 
 $ff=strftime("%y%m%d_%H%M%S");
 $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
