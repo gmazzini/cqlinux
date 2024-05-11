@@ -23,8 +23,16 @@ for(;;){
   }
 }
 fclose($fp);
-foreach($done as $k => $v)unset($cq[$k]);
 
+// Processing exclusions
+foreach($done as $k => $v)unset($cq[$k]);
+$black=file("black.txt",FILE_IGNORE_NEW_LINES);
+foreach($cq as $k => $v){
+  $aux=explode("_",$k);
+  if(in_array($aux[0],$black))unset($cq[$k]);
+}
+
+// Scoring
 $ff=strftime("%y%m%d_%H%M%S");
 $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
 $x1lat=(ord(substr($g1,1,1))-65)*10+(int)substr($g1,3,1)+1/48-90;
@@ -44,7 +52,6 @@ foreach($cq as $k => $v){
   $dist=6371*2*atan2(sqrt($a),sqrt(1-$a));
   $sel[$k]=($vff-$aff)+1000/(30+$aux[2])+100000/($dist+0.1);
 }
-
 asort($sel);
 
 $i=0;
