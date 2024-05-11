@@ -35,7 +35,7 @@ for(;;){
 fclose($fp);
 
 // Enable
-for($i=0;$i<$can;$i++)echo substr($an[$i]["label"],0,-6)." ";
+for($i=0;$i<$can;$i++)echo substr($an[$i]["label"],0,-6)."/".$an[$i]["label"]." ";
 for($i=0;$i<$can;$i++)if($an[$i]["label"]=="Enable")break;
 if($i==$can){echo "Enable not found\n"; exit(0);}
 $yb=$an[$i]["y2"];
