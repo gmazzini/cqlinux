@@ -3,6 +3,7 @@ $g1="JN54";
 include "x4.php";
 
 // Read actual activity
+$done=array(); $cq=array();
 $fp=fopen("/home/gmazzini/.local/share/WSJT-X/ALL.TXT","r");
 for(;;){
   if(feof($fp))break;
