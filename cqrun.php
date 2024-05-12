@@ -1,6 +1,8 @@
 <?php
 include "x4.php";
 $g1="JN54";
+$cqrate=2;
+$jcq=0;
 $called[0]="IK4LZH"; $called[1]="IK4LZH"; $called[2]="IK4LZH"; $called[3]="IK4LZH"; $called[4]="IK4LZH"; $called[5]="IK4LZH"; $called[6]="IK4LZH";
 $calledv=0;
 $aux=explode(" ",$gmenable); $aax=$aux[0]-5; $aay=$aux[1]-5;
@@ -82,7 +84,8 @@ for(;;){
         $topv=$v;
       }
     }
-    if($topv<300){
+    if($jcq==0 && $topv<300){
+      $jcq++;
       printf("SET: %s %d %s\n",$top,$topv,$cq[$top]);
       $aux=explode("_",$top);
       $call=$aux[0];
@@ -104,6 +107,8 @@ for(;;){
     else {
       shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmtx6 click 1");
       echo "SET: Tx6\n";
+      $jcq++;
+      if($jcq>=$cqrate)$jcq=0;
     }
     sleep(2);
     shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmenable click 1");
