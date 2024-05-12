@@ -1,6 +1,8 @@
 <?php
 include "x4.php";
 $g1="JN54";
+$called[0]="IK4LZH"; $called[1]="IK4LZH"; $called[2]="IK4LZH";
+$calledv=0;
 $aux=explode(" ",$gmenable); $aax=$aux[0]-5; $aay=$aux[1]-5;
 for(;;){
   shell_exec("import -silent -window $gmwin x10.tif");
@@ -47,6 +49,7 @@ for(;;){
     foreach($cq as $k => $v){
       $aux=explode("_",$k);
       if(in_array($aux[0],$black))unset($cq[$k]);
+      else if(in_array($aux[0],$called))unset($cq[$k]);
     }
     
     // Scoring
@@ -84,6 +87,8 @@ for(;;){
       printf("SET: %s %d %s\n",$top,$topv,$cq[$top]);
       $aux=explode("_",$top);
       $call=$aux[0];
+      $called[$calledv++]=$call;
+      if($calledv>=3)$calledv=0;
       shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
       sleep(1);
       $aux=explode("_",$cq[$top]);
