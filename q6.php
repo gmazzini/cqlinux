@@ -2,7 +2,6 @@
 $g1="JN54";
 include "x4.php";
 $black=file("cqlinux/wsjtx_black.txt");
-print_r($black);
 
 // Read actual activity
 $done=array(); $cq=array();
