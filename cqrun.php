@@ -20,10 +20,9 @@ for(;;){
     }
  
     // Read actual activity
-    unset($done);
-    $done=array();
-    unset($cq);
-    $cq=array();
+    unset($done); $done=array();
+    unset($cq); $cq=array();
+    unset($sel); $sel=array();
     $fp=fopen("/home/gmazzini/.local/share/WSJT-X/ALL.TXT","r");
     for(;;){
       if(feof($fp))break;
