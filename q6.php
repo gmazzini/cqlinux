@@ -53,23 +53,24 @@ if(count($cq)>0){
     $dist=6371*2*atan2(sqrt($a),sqrt(1-$a));
     $sel[$k]=($vff-$aff)+1000/(30+$aux[2])+100000/($dist+0.1);
   }
-  asort($sel);
 }
 
 // Selection & click
-if(count($sel)>0){
-  
-  $i=0;
-  foreach($sel as $k => $v){
-    printf("%s %.0f %s\n",$k,$v,$cq[$k]);
-    if(++$i>0)break;
+$top=""; $topv=100000;
+foreach($sel as $k => $v){
+  if($v<300 && $v<$topv){
+    $top=$k;
+    $topv=$v;
   }
-  
-  $aux=explode("_",$k);
+}
+
+if($topv<300){
+  echo "$top $topv $cq[$top]\n";
+  $aux=explode("_",$top);
   $call=$aux[0];
   shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
   sleep(1);
-  $aux=explode("_",$cq[$k]);
+  $aux=explode("_",$cq[$top]);
   if($aux[2]<0)$rx=sprintf("\%d",$aux[2]);
   else $rx=sprintf("%d",$aux[2]);
   $tx=$aux[3];
