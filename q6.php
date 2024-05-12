@@ -1,7 +1,8 @@
 <?php
 $g1="JN54";
 include "x4.php";
-$black=("IK4LZH");
+$black=file("cqlinux/wsjtx_black.txt");
+print_r($black);
 
 // Read actual activity
 $done=array(); $cq=array();
