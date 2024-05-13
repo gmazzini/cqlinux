@@ -2,6 +2,7 @@
 include "x4.php";
 $g1="JN54";
 $cqrate=2;
+$totcalled=7;
 $jcq=0;
 $called[0]="IK4LZH"; $called[1]="IK4LZH"; $called[2]="IK4LZH"; $called[3]="IK4LZH"; $called[4]="IK4LZH"; $called[5]="IK4LZH"; $called[6]="IK4LZH";
 $calledv=0;
@@ -90,9 +91,9 @@ for(;;){
       $aux=explode("_",$top);
       $call=$aux[0];
       $called[$calledv++]=$call;
-      if($calledv>=7)$calledv=0;
+      if($calledv>=$totcalled)$calledv=0;
       printf("STATUS CALLED: %d",$calledv);
-      foreach($black as $k => $v)printf(" %s",$v);
+      for($i=0;$i<$totcalled;$i++)printf(" %s",$called[$i]);
       printf("\n");
       shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
       sleep(1);
