@@ -67,6 +67,11 @@ for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,4)=="Call" && $an[$i]["y1"]>$
 if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"\$gmcall='%d %d';\n",2*$an[$i]["x1"]-$an[$i]["x2"],4*$an[$i]["y2"]-3*$an[$i]["y1"]);
 
+// Generate
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,4)=="Generate" && $an[$i]["y1"]>$yb)break;
+if($i==$can){echo "Generate not found\n"; exit(0);}
+fprintf($fpw,"\$gmgenerate='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+
 // Report
 for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,6)=="Report" && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Report not found\n"; exit(0);}
