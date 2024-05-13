@@ -106,6 +106,7 @@ for(;;){
       shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmrx click --repeat 5 1 key Delete key Delete key Delete key Delete key type '$tx'");
       sleep(1);
       shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmgenerate click 1");
+      echo "SET: Generate\n";
       sleep(1);
       shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmtx1 click 1");
       echo "SET: Tx1\n";
