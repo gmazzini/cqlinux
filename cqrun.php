@@ -91,6 +91,9 @@ for(;;){
       $call=$aux[0];
       $called[$calledv++]=$call;
       if($calledv>=7)$calledv=0;
+      printf("STATUS CALLED: %d",$calledv);
+      foreach($black as $k => $v)printf(" %s",$v);
+      printf("\n");
       shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmcall click --repeat 5 1 key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete key Delete type '$call'");
       sleep(1);
       $aux=explode("_",$cq[$top]);
