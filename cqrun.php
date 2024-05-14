@@ -3,6 +3,7 @@ if($argc!=2){echo "Missed bandmode parameter, e.g. 28FT8\n"; exit(-1);}
 $bandmode=$argv[1];
 $mygrid="JN54";
 $cqrate=2;
+$cqdeep=300;
 $totcalled=7;
 echo "CQRUN by IK4LZH v 1.0 bandmode=$bandmode mygrid=$mygrid cqrate=$cqrate totcalled=$totcalled\n";
 
@@ -85,12 +86,12 @@ for(;;){
     // Selection & click
     $top=""; $topv=100000;
     foreach($sel as $k => $v){
-      if($v<300 && $v<$topv){
+      if($v<$cqdeep && $v<$topv){
         $top=$k;
         $topv=$v;
       }
     }
-    if($jcq==0 && $topv<300){
+    if($jcq==0 && $topv<$cqdeep){
       $jcq++;
       printf("SET: %s %d %s\n",$top,$topv,$cq[$top]);
       $aux=explode("_",$top);
