@@ -5,7 +5,7 @@ $mygrid="JN54";
 $cqrate=2;
 $cqdeep=300;
 $totcalled=7;
-echo "CQRUN by IK4LZH v 1.1 bandmode=$bandmode mygrid=$mygrid cqrate=$cqrate totcalled=$totcalled\n";
+echo "CQRUN by IK4LZH v 1.1 bandmode=$bandmode mygrid=$mygrid cqrate=$cqrate cqdeep=$cqdeep totcalled=$totcalled\n";
 
 include "x4.php";
 $jcq=0;
