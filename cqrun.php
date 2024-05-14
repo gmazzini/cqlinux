@@ -1,5 +1,5 @@
 <?php
-if($argc!=2)echo "Missed bandmode parameter, e.g. 28FT8\n";
+if($argc!=2){echo "Missed bandmode parameter, e.g. 28FT8\n"; exit(-1);}
 $bandmode=$argv[1];
 $mygrid="JN54";
 $cqrate=2;
