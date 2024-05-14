@@ -54,7 +54,7 @@ for(;;){
     $black=file("cqlinux/wsjtx_black.txt",FILE_IGNORE_NEW_LINES);
     foreach($cq as $k => $v){
       $aux=explode("_",$k);
-      if($aux[1]=$bandmode){unset($cq[$k]); continue;}
+      if($aux[1]==$bandmode){unset($cq[$k]); continue;}
       if(in_array($aux[0],$black)){unset($cq[$k]); continue;}
       if(in_array($aux[0],$called)){unset($cq[$k]); continue;}
     }
