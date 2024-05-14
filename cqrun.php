@@ -1,10 +1,14 @@
 <?php
-include "x4.php";
-$g1="JN54";
+if(argc!=1)echo "Missed bandmode parameter, e.g. 28FT8\n";
+$bandmode=argv[1];
+$mygrid="JN54";
 $cqrate=2;
 $totcalled=7;
+echo "CQRUN by IK4LZH v 1.0 bandmode=$bandmode mygrid=$mygrid cqrate=$cqrate totcalled=$totcalled\n";
+
+include "x4.php";
 $jcq=0;
-$called[0]="IK4LZH"; $called[1]="IK4LZH"; $called[2]="IK4LZH"; $called[3]="IK4LZH"; $called[4]="IK4LZH"; $called[5]="IK4LZH"; $called[6]="IK4LZH";
+for($i=0;$i<$totcalled;$i++)$called[$i]="IK4LZH";
 $calledv=0;
 $aux=explode(" ",$gmenable); $aax=$aux[0]-5; $aay=$aux[1]-5;
 for(;;){
@@ -50,16 +54,17 @@ for(;;){
     $black=file("cqlinux/wsjtx_black.txt",FILE_IGNORE_NEW_LINES);
     foreach($cq as $k => $v){
       $aux=explode("_",$k);
-      if(in_array($aux[0],$black))unset($cq[$k]);
-      else if(in_array($aux[0],$called))unset($cq[$k]);
+      if($aux[1]=$bandmode){unset($cq[$k]); continue;}
+      if(in_array($aux[0],$black)){unset($cq[$k]); continue;}
+      if(in_array($aux[0],$called)){unset($cq[$k]); continue;}
     }
     
     // Scoring
     if(count($cq)>0){
       $ff=strftime("%y%m%d_%H%M%S");
       $vff=mktime(substr($ff,7,2),substr($ff,9,2),substr($ff,11,2),substr($ff,2,2),substr($ff,4,2),substr($ff,0,2));
-      $x1lat=(ord(substr($g1,1,1))-65)*10+(int)substr($g1,3,1)+1/48-90;
-      $x1lon=-((ord(substr($g1,0,1))-65)*20+(int)substr($g1,2,1)*2+1/24-180);
+      $x1lat=(ord(substr($mygrid,1,1))-65)*10+(int)substr($mygrid,3,1)+1/48-90;
+      $x1lon=-((ord(substr($mygrid,0,1))-65)*20+(int)substr($mygrid,2,1)*2+1/24-180);
       $lat1=(float)$x1lat*M_PI/180;
       $lon1=(float)$x1lon*M_PI/180;
       foreach($cq as $k => $v){
