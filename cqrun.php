@@ -2,6 +2,7 @@
 if($argc!=2){echo "Missed bandmode parameter, e.g. 28FT8\n"; exit(-1);}
 $bandmode=$argv[1];
 $mygrid="JN54";
+$exclusion=array("NA","AF","OC","JA","SA","ZL","VK","ASIA");
 $cqrate=2;
 $cqdeep=300;
 $totcalled=7;
@@ -44,8 +45,10 @@ for(;;){
       if(@$zz[2]=="Rx" && $zz[7]=="CQ"){
         $bb=explode(".",$zz[1]);
         $ma=(strlen($zz[8])<3)?1:0;
-        $cc=$zz[8+$ma]."_".$bb[0].$zz[3];
-        $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
+        if(!in_array($zz[8],$exclusion)){
+          $cc=$zz[8+$ma]."_".$bb[0].$zz[3];
+          $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
+        }
       }
     }
     fclose($fp);
