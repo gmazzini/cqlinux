@@ -48,7 +48,7 @@ for(;;){
           $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
         }
       }
-      if(@$zz[2]=="Tx")$auxbandmode=$bb[0].$zz[3]:
+      if(@$zz[2]=="Tx")$auxbandmode=$bb[0].$zz[3];
     }
     fclose($fp);
     if($bandmode!=$auxbandmode){
