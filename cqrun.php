@@ -43,7 +43,7 @@ for(;;){
         $done[$cc]=$zz[0];
       }
       if(@$zz[2]=="Rx" && $zz[7]=="CQ"){
-        $ma=(strlen($zz[8])<3)?1:0;
+        $ma=(strlen($zz[8])<3 || !preg_match("~[0-9]+~",$zz[8]))?1:0;
         if(!in_array($zz[8],$exclusion)){
           $cc=$zz[8+$ma]."_".$bb[0].$zz[3];
           $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
