@@ -1,14 +1,13 @@
 <?php
-if($argc!=2){echo "Missed bandmode parameter, e.g. 28FT8\n"; exit(-1);}
-$bandmode=$argv[1];
 $mygrid="JN54";
 $exclusion=array("NA","AF","OC","JA","SA","ZL","VK","ASIA");
 $cqrate=2;
 $cqdeep=300;
 $totcalled=7;
-echo "CQRUN by IK4LZH v 1.2 bandmode=$bandmode mygrid=$mygrid cqrate=$cqrate cqdeep=$cqdeep totcalled=$totcalled\n";
+echo "CQRUN by IK4LZH v 1.3 mygrid=$mygrid cqrate=$cqrate cqdeep=$cqdeep totcalled=$totcalled\n";
 
 include "x4.php";
+$bandmode="";
 $jcq=0;
 for($i=0;$i<$totcalled;$i++)$called[$i]="IK4LZH";
 $calledv=0;
@@ -37,21 +36,25 @@ for(;;){
       if(feof($fp))break;
       $aux=fgets($fp);
       $zz=preg_split('/\s+/',$aux);
+      $bb=explode(".",$zz[1]);
       if(@$zz[2]=="Tx" && (@$zz[9]=="73"||@$zz[9]=="RR73")){
-        $bb=explode(".",$zz[1]);
         $cc=$zz[7]."_".$bb[0].$zz[3];
         $done[$cc]=$zz[0];
       }
       if(@$zz[2]=="Rx" && $zz[7]=="CQ"){
-        $bb=explode(".",$zz[1]);
         $ma=(strlen($zz[8])<3)?1:0;
         if(!in_array($zz[8],$exclusion)){
           $cc=$zz[8+$ma]."_".$bb[0].$zz[3];
           $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
         }
       }
+      if(@$zz[2]=="Tx")$auxbandmode=$bb[0].$zz[3]:
     }
     fclose($fp);
+    if($bandmode!=$auxbandmode){
+      $auxbandmode=$bandmode;
+      echo "MODE: $bandmode\n";
+    }
     
     // Processing exclusions
     foreach($done as $k => $v)unset($cq[$k]);
