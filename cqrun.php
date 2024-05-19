@@ -37,7 +37,7 @@ for(;;){
       if(feof($fp))break;
       $aux=fgets($fp);
       $zz=preg_split('/\s+/',$aux);
-      $bb=explode(".",$zz[1]);
+      @$bb=explode(".",$zz[1]);
       if(@$zz[2]=="Tx" && (@$zz[9]=="73"||@$zz[9]=="RR73")){
         $cc=$zz[7]."_".$bb[0].$zz[3];
         $done[$cc]=$zz[0];
