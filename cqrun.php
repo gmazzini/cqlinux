@@ -4,7 +4,7 @@ $exclusion=array("NA","AF","OC","JA","SA","ZL","VK","ASIA");
 $cqrate=2;
 $cqdeep=300;
 $totcalled=7;
-echo "CQRUN by IK4LZH v 1.3 mygrid=$mygrid cqrate=$cqrate cqdeep=$cqdeep totcalled=$totcalled\n";
+echo "CQRUN by IK4LZH v 1.4 mygrid=$mygrid cqrate=$cqrate cqdeep=$cqdeep totcalled=$totcalled\n";
 
 include "x4.php";
 $bandmode="";
@@ -46,7 +46,7 @@ for(;;){
         $ma=(strlen($zz[8])<3 || !preg_match("~[0-9]+~",$zz[8]))?1:0;
         if(!in_array($zz[8],$exclusion)){
           $cc=$zz[8+$ma]."_".$bb[0].$zz[3];
-          $cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
+          @$cq[$cc]=$zz[0]."_".$zz[4]."_".$zz[6]."_".$zz[9+$ma];
         }
       }
       if(@$zz[2]=="Tx")$auxbandmode=$bb[0].$zz[3];
