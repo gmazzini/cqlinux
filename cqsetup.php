@@ -1,5 +1,5 @@
 <?php
-echo "RUnning setup 
+echo "CQRUN by IK4LZH v 1.0\n";
 $fpw=fopen("x4.php","wt");
 fprintf($fpw,"<?php\n");
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
