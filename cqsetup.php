@@ -1,5 +1,5 @@
 <?php
-
+echo "RUnning setup 
 $fpw=fopen("x4.php","wt");
 fprintf($fpw,"<?php\n");
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
@@ -136,4 +136,5 @@ shell_exec("xdotool windowfocus --sync $gmlogwin mousemove --sync --window $gmlo
 
 fprintf($fpw,"?>\n");
 fclose($fpw);
+echo "All setups completed\n";
 ?>
