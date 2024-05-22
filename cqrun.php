@@ -1,10 +1,10 @@
 <?php
 $mygrid="JN54";
-$exclusion=array("NA","AF","OC","JA","SA","ZL","VK","ASIA");
+$exclusion=array("NA","AF","OC","JA","SA","ZL","VK","ASIA","USA");
 $cqrate=2;
 $cqdeep=300;
 $totcalled=7;
-echo "CQRUN by IK4LZH v 1.4 mygrid=$mygrid cqrate=$cqrate cqdeep=$cqdeep totcalled=$totcalled\n";
+echo "CQRUN by IK4LZH v 1.5 mygrid=$mygrid cqrate=$cqrate cqdeep=$cqdeep totcalled=$totcalled\n";
 
 include "x4.php";
 $bandmode="";
