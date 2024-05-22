@@ -1,5 +1,6 @@
 <?php
-echo "CQRUN by IK4LZH v 1.0\n";
+echo "CQSETUP by IK4LZH v 1.1\n";
+file_put_contents("x8.txt","ERROR");
 $fpw=fopen("x4.php","wt");
 fprintf($fpw,"<?php\n");
 $gmwin=trim(shell_exec("xdotool search --onlyvisible --name 'K1JT'"));
@@ -136,5 +137,6 @@ shell_exec("xdotool windowfocus --sync $gmlogwin mousemove --sync --window $gmlo
 
 fprintf($fpw,"?>\n");
 fclose($fpw);
+file_put_contents("x8.txt","OK");
 echo "All setups completed\n";
 ?>
