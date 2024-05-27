@@ -128,7 +128,7 @@ fclose($fp);
 // LogOK
 for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"OK")!==false)break;
 if($i==$can){echo "Log OK not found\n"; exit(0);}
-for($j=0;$j<$can;$j++)if(strpos($an[$i]["label"],"OK")!==false && $an[$j]["y1"]>$an[$i]["y1"])break;
+for($j=0;$j<$can;$j++)if(strpos($an[$j]["label"],"OK")!==false && $an[$j]["y1"]>$an[$i]["y1"])break;
 if($j<$can)$i=$j;
 fprintf($fpw,"\$gmlogok='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
