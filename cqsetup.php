@@ -58,7 +58,7 @@ for($i=0;$i<$con;$i++){
 }
 $ref=$on[$itop];
 $ctx=0;
-for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5 && substr($an[$i]["label"],0,3)<>"Now"){$txi[$ctx]=$i; $txv[$ctx]=$an[$i]["y1"]; $ctx++; }
+for($i=0;$i<$can;$i++)if($an[$i]["x1"]>$ref-5 && $an[$i]["x1"]<$ref+5 && strpos($an[$i]["Now"],"Tx")===false){$txi[$ctx]=$i; $txv[$ctx]=$an[$i]["y1"]; $ctx++; }
 if($ctx<6){echo "Tx only $ctx\n"; exit(0);}
 array_multisort($txv,$txi);
 for($i=0;$i<$ctx;$i++)fprintf($fpw,"\$gmtx%d='%d %d';\n",$i+1,floor(($an[$txi[$i]]["x1"]+$an[$txi[$i]]["x2"])/2),floor(($an[$txi[$i]]["y1"]+$an[$txi[$i]]["y2"])/2));
