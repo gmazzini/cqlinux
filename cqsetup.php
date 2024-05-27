@@ -36,7 +36,7 @@ for(;;){
 fclose($fp);
 
 // Enable
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,6)=="Enable")break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Enable")!==false)break;
 if($i==$can){echo "Enable not found\n"; exit(0);}
 $yb=$an[$i]["y2"];
 fprintf($fpw,"\$gmenable='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
