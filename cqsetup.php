@@ -1,5 +1,5 @@
 <?php
-echo "CQSETUP by IK4LZH v 1.1\n";
+echo "CQSETUP by IK4LZH v 1.2\n";
 file_put_contents("x8.txt","ERROR");
 $fpw=fopen("x4.php","wt");
 fprintf($fpw,"<?php\n");
