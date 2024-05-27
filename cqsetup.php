@@ -50,7 +50,7 @@ $gmlog=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1
 // Tx
 $con=0;
 $itop=0; $top=0;
-for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && substr($an[$i]["label"],0,2)=="Tx")$on[$con++]=$an[$i]["x1"];
+for($i=0;$i<$can;$i++)if($an[$i]["y1"]>$yb && strpos($an[$i]["label"],"Tx")!==false)$on[$con++]=$an[$i]["x1"];
 for($i=0;$i<$con;$i++){
   $oc=0;
   for($j=0;$j<$con;$j++)if($on[$i]>$on[$j]-5 && $on[$i]<$on[$j]+5)$oc++;
@@ -64,30 +64,30 @@ array_multisort($txv,$txi);
 for($i=0;$i<$ctx;$i++)fprintf($fpw,"\$gmtx%d='%d %d';\n",$i+1,floor(($an[$txi[$i]]["x1"]+$an[$txi[$i]]["x2"])/2),floor(($an[$txi[$i]]["y1"]+$an[$txi[$i]]["y2"])/2));
 
 // Call
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,4)=="Call" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Call")!==false && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"\$gmcall='%d %d';\n",2*$an[$i]["x1"]-$an[$i]["x2"],4*$an[$i]["y2"]-3*$an[$i]["y1"]);
 
 // Generate
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,8)=="Generate" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(sstrpos($an[$i]["label"],"Generate")!==false && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Generate not found\n"; exit(0);}
 fprintf($fpw,"\$gmgenerate='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Report
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,6)=="Report" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Report")!==false && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Report not found\n"; exit(0);}
 fprintf($fpw,"\$gmreport='%d %d';\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmrxx=$an[$i]["x1"];
 
 // Rx
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,2)=="Hz" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Hz")!==false && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Rx not found\n"; exit(0);}
-for($j=0;$j<$can;$j++)if(substr($an[$j]["label"],0,2)=="Hz" && $an[$j]["y1"]>$an[$i]["y1"])break;
+for($j=0;$j<$can;$j++)if(strpos($an[$i]["label"],"Hz")!==false && $an[$j]["y1"]>$an[$i]["y1"])break;
 if($j<$can)$i=$j;
 fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Even
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,4)=="even" && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"even")!==false && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Even not found\n"; exit(0);}
 fprintf($fpw,"\$gmeven='%d %d';\n",$an[$i]["x1"]-floor(($an[$i]["x2"]-$an[$i]["x1"])/strlen($an[$i]["label"])*4),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
@@ -126,14 +126,14 @@ for(;;){
 fclose($fp);
 
 // LogOK
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,2)=="OK")break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"OK")!==false)break;
 if($i==$can){echo "Log OK not found\n"; exit(0);}
-for($j=0;$j<$can;$j++)if(substr($an[$j]["label"],0,2)=="OK" && $an[$j]["y1"]>$an[$i]["y1"])break;
+for($j=0;$j<$can;$j++)if(strpos($an[$i]["label"],"OK")!==false && $an[$j]["y1"]>$an[$i]["y1"])break;
 if($j<$can)$i=$j;
 fprintf($fpw,"\$gmlogok='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // LogCANCEL
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,6)=="Cancel")break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Cancel")!==false)break;
 if($i==$can){echo "Log Cancel not found\n"; exit(0);}
 fprintf($fpw,"\$gmlogcancel='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmlogcancel=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
