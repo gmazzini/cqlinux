@@ -69,7 +69,7 @@ if($i==$can){echo "Call not found\n"; exit(0);}
 fprintf($fpw,"\$gmcall='%d %d';\n",2*$an[$i]["x1"]-$an[$i]["x2"],4*$an[$i]["y2"]-3*$an[$i]["y1"]);
 
 // Generate
-for($i=0;$i<$can;$i++)if(sstrpos($an[$i]["label"],"Generate")!==false && $an[$i]["y1"]>$yb)break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Generate")!==false && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Generate not found\n"; exit(0);}
 fprintf($fpw,"\$gmgenerate='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
