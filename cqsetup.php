@@ -42,7 +42,7 @@ $yb=$an[$i]["y2"];
 fprintf($fpw,"\$gmenable='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
 // Log
-for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,3)=="Log")break;
+for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Log")!==false)break;
 if($i==$can){echo "Log not found\n"; exit(0);}
 fprintf($fpw,"\$gmlog='%d %d';\n",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmlog=sprintf("%d %d",floor(($an[$i]["x1"]+$an[$i]["x2"])/2),floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
