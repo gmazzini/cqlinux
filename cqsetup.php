@@ -86,6 +86,11 @@ for($j=0;$j<$can;$j++)if(substr($an[$j]["label"],0,2)=="Hz" && $an[$j]["y1"]>$an
 if($j<$can)$i=$j;
 fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
+// Even
+for($i=0;$i<$can;$i++)if(substr($an[$i]["label"],0,2)=="even" && $an[$i]["y1"]>$yb)break;
+if($i==$can){echo "Even not found\n"; exit(0);}
+fprintf($fpw,"\$gmeven='%d %d';\n",2*$an[$i]["x1"]-$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+
 shell_exec("xdotool windowfocus --sync $gmwin mousemove --sync --window $gmwin $gmlog click 1");
 sleep(2);
 $gmlogwin=trim(shell_exec("xdotool search --onlyvisible --name 'Log'"));
