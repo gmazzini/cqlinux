@@ -82,7 +82,7 @@ $gmrxx=$an[$i]["x1"];
 // Rx
 for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Hz")!==false && $an[$i]["y1"]>$yb)break;
 if($i==$can){echo "Rx not found\n"; exit(0);}
-for($j=0;$j<$can;$j++)if(strpos($an[$i]["label"],"Hz")!==false && $an[$j]["y1"]>$an[$i]["y1"])break;
+for($j=0;$j<$can;$j++)if(strpos($an[$j]["label"],"Hz")!==false && $an[$j]["y1"]>$an[$i]["y1"])break;
 if($j<$can)$i=$j;
 fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 
