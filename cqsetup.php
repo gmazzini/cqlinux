@@ -1,5 +1,5 @@
 <?php
-echo "CQSETUP by IK4LZH v 1.2\n";
+echo "CQSETUP by IK4LZH v 1.3\n";
 file_put_contents("x8.txt","ERROR");
 $fpw=fopen("x4.php","wt");
 fprintf($fpw,"<?php\n");
@@ -79,12 +79,18 @@ if($i==$can){echo "Report not found\n"; exit(0);}
 fprintf($fpw,"\$gmreport='%d %d';\n",$an[$i]["x2"],floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
 $gmrxx=$an[$i]["x1"];
 
-// Rx
+// Rx Tx
 for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"Hz")!==false && $an[$i]["y1"]>$yb)break;
-if($i==$can){echo "Rx not found\n"; exit(0);}
+if($i==$can){echo "Rx or Tx not found\n"; exit(0);}
 for($j=0;$j<$can;$j++)if(strpos($an[$j]["label"],"Hz")!==false && $an[$j]["y1"]>$an[$i]["y1"])break;
-if($j<$can)$i=$j;
-fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$i]["y1"]+$an[$i]["y2"])/2));
+for($w=0;$w<$can;$w++)if(strpos($an[$w]["label"],"Hz")!==false && $an[$w]["y1"]<$an[$i]["y1"])break;
+if($j==$can && $w==$can){echo "Rx or Tx not found\n"; exit(0);}
+if($j==$can)$aa=$w;
+else $aa=$j;
+if($an[$i]["y1"]<$an[$aa]["y1"]){$gmrxi=$aa; $gmtxi=$i; }
+else {$gmrxi=$i; $gmtxi=$aa; }
+fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$gmrxi]["y1"]+$an[$$gmrxi]["y2"])/2));
+fprintf($fpw,"\$gmtx='%d %d';\n",$gmrxx,floor(($an[$gmtxi]["y1"]+$an[$gmtxi]["y2"])/2));
 
 // Even
 // for($i=0;$i<$can;$i++)if(strpos($an[$i]["label"],"even")!==false && $an[$i]["y1"]>$yb)break;
