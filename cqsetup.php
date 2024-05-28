@@ -89,7 +89,7 @@ if($j==$can)$aa=$w;
 else $aa=$j;
 if($an[$i]["y1"]<$an[$aa]["y1"]){$gmrxi=$aa; $gmtxi=$i; }
 else {$gmrxi=$i; $gmtxi=$aa; }
-fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$gmrxi]["y1"]+$an[$$gmrxi]["y2"])/2));
+fprintf($fpw,"\$gmrx='%d %d';\n",$gmrxx,floor(($an[$gmrxi]["y1"]+$an[$gmrxi]["y2"])/2));
 fprintf($fpw,"\$gmtx='%d %d';\n",$gmrxx,floor(($an[$gmtxi]["y1"]+$an[$gmtxi]["y2"])/2));
 
 // Even
