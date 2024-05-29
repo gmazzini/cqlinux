@@ -1,4 +1,4 @@
-#|/bin/bash
+#!/bin/bash
 killall -9 wsjtx
 killall -9 jt9
 wsjtx &
