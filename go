@@ -5,4 +5,6 @@ wsjtx &
 sleep 10
 php cqlinux/cqsetup.php
 sleep 2
-php cqlinux/cqrun.php
+if grep -q OK "$File"; then
+  php cqlinux/cqrun.php
+fi
