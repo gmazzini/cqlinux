@@ -171,6 +171,7 @@ void* th_enabletx(void* arg){
     now=time(NULL);
     for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
       cqed++;
+  printf(">>>>> %s\n",rxed[i].msg);
       m=strlen(rxed[i].msg);
       nk=0;
       for(j=0;j<m;j++){
