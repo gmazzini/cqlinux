@@ -16,8 +16,8 @@ struct rxed {
   int32_t snr;
   double dt;
   uint32_t df;
-  uint8_t mode[8];
-  uint8_t msg[40];
+  char mode[8];
+  char msg[40];
   uint8_t LowConf;
   uint64_t freq;
 };
@@ -32,8 +32,8 @@ int main() {
   int sock,i,j,k,m,jscore,cqed,inlog,inblack;
   struct sockaddr_in addr,sender_addr;
   socklen_t addr_len=sizeof(addr);
-  uint8_t buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],*p,*q,aux[16],bb;
-  uint8_t call[16],mode[8],nrxed,decoding,bdec,enabletx,jcq,cqrate;
+  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],aux[16],call[16],mode[8];
+  uint8_t *p,*q,bb,nrxed,decoding,bdec,enabletx,jcq,cqrate;
   ssize_t len;
   uint32_t type,xx;
   uint64_t lastfreq;
