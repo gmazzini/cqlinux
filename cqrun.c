@@ -159,10 +159,10 @@ int main() {
 }
 
 void* th_enabletx(void* arg){
-  int jsel,cqed,inlog,inblack,i,j,k,sp1,m;
-  double topscore,score;
+  int jsel,cqed,inlog,inblack,i,j,m,nk,k[4];
+  double topscore,score,ptime,psnr,pdist;
   time_t now;
-  char out[BUF_SIZE],call[16],*q;
+  char out[BUF_SIZE],call[16],grid[8],*q;
 
   mylock=1;
 printf("#### %d\n",jcq);  
@@ -172,20 +172,27 @@ printf("#### %d\n",jcq);
     for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
       cqed++;
       m=strlen(rxed[i].msg);
-      for(k=0,j=m-1;j>0;j--){
-        if(rxed[i].msg[j]==' ')k++;
-        if(k==1)sp1=j;
-        if(k==2)break;
+      nk=0;
+      for(j=0;j<m;j++){
+        if(rxed[i].msg[j]==' ' || rxed[i].msg[j]=='\0')k[nk++]=j;
+        if(nk==4)break;
       }
-      if(j==0)continue;
-      sprintf(call,"%.*s",m-j-6,rxed[i].msg+j+1);
+      if(j==m || nk<3)continue;
+      sprintf(call,"%.*s",k[1]-k[0]-1,rxed[i].msg+k[0]+1);
+      if(onlychar(call)){
+        sprintf(call,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
+        sprintf(grid,"%.*s",k[3]-k[2]-1,rxed[i].msg+k[2]+1);
+      }
+      else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
       sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
 printf("@ %s\n",out);
       if(checklog(out)){inlog++; continue;}
       if(checkesc(call)){inblack++; continue;}
-      sprintf(out,"%.*s",4,rxed[i].msg+sp1+1);
-      score=now-rxed[i].time+1000.0/(30.0+rxed[i].snr)+100000/(distlocator(out,mygrid)+0.1);;
-printf("# %s %lf\n",call,score);
+      ptime=now-rxed[i].time;
+      psnr=1000.0/(30.0+rxed[i].snr);
+      pdist=100000/(distlocator(grid,mygrid)+0.1);
+      score=ptime+psnr+pdist;
+printf("# %s %lf %lf %lf %lf\n",call,ptime,psnr,pdist,score);
       if(score<topscore){topscore=score; jsel=i;}
     }
     printf("## nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
