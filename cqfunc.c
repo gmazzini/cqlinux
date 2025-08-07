@@ -42,14 +42,14 @@ void Ws(char *b,char **q){
   *q+=4+len;
 }
 
-void Ru32(uint32_t *b,uint8_t **q){
-  uint8_t *p=*q;
+void Ru32(uint32_t *b,char **q){
+  char *p=*q;
   *b=((uint32_t)p[0]<<24)|((uint32_t)p[1]<<16)|((uint32_t)p[2]<<8)|((uint32_t)p[3]);
   *q+=4;
 }
 
-void Wu32(uint32_t b, uint8_t **q){
-  uint8_t *p=*q;
+void Wu32(uint32_t b, char **q){
+  char *p=*q;
   p[0]=(uint8_t)(b>>24);
   p[1]=(uint8_t)(b>>16);
   p[2]=(uint8_t)(b>>8);
@@ -57,14 +57,14 @@ void Wu32(uint32_t b, uint8_t **q){
   *q+=4;
 }
 
-void Ru64(uint64_t *b,uint8_t **q){
-  uint8_t *p=*q;
+void Ru64(uint64_t *b,char **q){
+  char *p=*q;
   *b=((uint64_t)p[0]<<56)|((uint64_t)p[1]<<48)|((uint64_t)p[2]<<40)|((uint64_t)p[3]<<32)|((uint64_t)p[4]<<24)|((uint64_t)p[5]<<16)|((uint64_t)p[6]<<8)|((uint64_t)p[7]);
   *q+=8;
 }
 
-void Wu64(uint64_t b,uint8_t **q){
-  uint8_t *p=*q;
+void Wu64(uint64_t b,char **q){
+  char *p=*q;
   p[0]=(uint8_t)(b>>56);
   p[1]=(uint8_t)(b>>48);
   p[2]=(uint8_t)(b>>40);
@@ -76,40 +76,40 @@ void Wu64(uint64_t b,uint8_t **q){
   *q+=8;
 }
 
-void Rb(uint8_t *b,uint8_t **q){
-  uint8_t *p=*q;
+void Rb(uint8_t *b,char **q){
+  char *p=*q;
   *b=p[0]&1;
   *q+=1;
 }
 
-void Wb(uint8_t b,uint8_t **q){
-  uint8_t *p=*q;
+void Wb(uint8_t b,char **q){
+  char *p=*q;
   p[0]=b?1:0;
   *q+=1;
 }
 
-void Ru8(uint8_t *b,uint8_t **q){
-  uint8_t *p=*q;
+void Ru8(uint8_t *b,char **q){
+  char *p=*q;
   *b=p[0];
   *q+=1;
 }
 
-void Wu8(uint8_t b,uint8_t **q){
-  uint8_t *p=*q;
+void Wu8(uint8_t b,char **q){
+  char *p=*q;
   p[0]=b;
   *q+=1;
 }
 
-void Rf(double *b,uint8_t **q){
-  uint8_t *p=*q;
+void Rf(double *b,char **q){
+  char *p=*q;
   uint64_t bb;
   bb=((uint64_t)p[0]<<56)|((uint64_t)p[1]<<48)|((uint64_t)p[2]<<40)|((uint64_t)p[3]<<32)|((uint64_t)p[4]<<24)|((uint64_t)p[5]<<16)|((uint64_t)p[6]<<8)|((uint64_t)p[7]);
   *b=*(double *)(&bb);
   *q+=8;
 }
 
-void Wf(double v,uint8_t **q){
-  uint8_t *p=*q;
+void Wf(double v,char **q){
+  char *p=*q;
   uint64_t b;
   b=*(uint64_t *)&v;
   p[0]=(uint8_t)(b>>56);
@@ -123,8 +123,8 @@ void Wf(double v,uint8_t **q){
   *q+=8;
 }
 
-void trim(uint8_t *p){
-  uint8_t i,len=strlen(p);
+void trim(char *p){
+  int i,len=strlen(p);
   for(i=len-1;i>0;i--)if(p[i]==' ')p[i]='\0'; else break;
 }
 
@@ -209,8 +209,9 @@ double distlocator(char *loc1,char *loc2){
   return 6371.0*2*atan2(sqrt(a),sqrt(1-a));
 }
 
-void extract(uint8_t *dst,uint8_t *src,uint8_t *look){
-  uint8_t lenlook,*ll,*le,ss[32],len;
+void extract(char *dst,char *src,char *look){
+  char *ll,*le,ss[32];
+  uint8_t lenlook,len;
 
   lenlook=strlen(look);
   *ss='<';
@@ -225,13 +226,13 @@ void extract(uint8_t *dst,uint8_t *src,uint8_t *look){
   sprintf(dst,"%.*s",len,le+1);
 }
 
-void inslog(uint8_t *p){
+void inslog(char *p){
   int pos,start,end,found,a,i;
   if(vlog==NULL){
-     vlog=(uint8_t **)malloc(MAX_LOG*sizeof(uint8_t *));
+     vlog=(char **)malloc(MAX_LOG*sizeof(char *));
     if(vlog==NULL)exit(1);
     for(i=0;i<MAX_LOG;i++){
-      vlog[i]=(uint8_t *)malloc(24*sizeof(uint8_t));
+      vlog[i]=(char *)malloc(24*sizeof(char));
       if(vlog[i]==NULL)exit(1);
     }
   }
@@ -254,7 +255,7 @@ void inslog(uint8_t *p){
   }
 }
 
-int checklog(uint8_t *p){
+int checklog(char *p){
   int pos,start,end,found,a;
   start=0;
   end=nlog-1;
@@ -269,13 +270,13 @@ int checklog(uint8_t *p){
   return found;
 }
 
-void insesc(uint8_t *p){
+void insesc(char *p){
   int pos,start,end,found,a,i;
   if(vesc==NULL){
-     vesc=(uint8_t **)malloc(MAX_ESC*sizeof(uint8_t *));
+     vesc=(char **)malloc(MAX_ESC*sizeof(char *));
     if(vesc==NULL)exit(1);
     for(i=0;i<MAX_ESC;i++){
-      vesc[i]=(uint8_t *)malloc(16*sizeof(uint8_t));
+      vesc[i]=(char *)malloc(16*sizeof(char));
       if(vesc[i]==NULL)exit(1);
     }
   }
@@ -298,7 +299,7 @@ void insesc(uint8_t *p){
   }
 }
 
-int checkesc(uint8_t *p){
+int checkesc(char *p){
   int pos,start,end,found,a;
   start=0;
   end=nesc-1;
