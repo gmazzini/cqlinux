@@ -71,8 +71,6 @@ int main() {
   addr.sin_port=htons(PORT);
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
   nrxed=0;
-  decoding=0;
-
   for(;;){
     len=recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
 
