@@ -34,7 +34,7 @@ int main() {
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
   char *p;
   uint8_t bb,bdec,enabletx;
-  uint32_t type,xx,len;
+  uint32_t type,xx;
   uint64_t lastfreq;
   time_t now;
   struct tm tm;
@@ -74,7 +74,7 @@ int main() {
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
   nrxed=0;
   for(;;){
-    len=recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
+    recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
 
     if((level&1) && winlog()){
       printf("Log\n");
