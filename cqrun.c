@@ -20,19 +20,20 @@ struct rxed {
   uint8_t LowConf;
   uint64_t freq;
 } *rxed;
+uint32_t nrxed;
 int sock;
 struct sockaddr_in addr,sender_addr;
 socklen_t addr_len=sizeof(addr);
+char mygrid[16];
 
 void* th_enabletx(void* arg);
 int main() {
-  int i,j,k,m;
-  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],aux[16],call[16],mode[8],lastmode[8];
-  char *p,*q;
-  uint8_t bb,decoding,bdec,enabletx;
-  uint32_t type,xx,nrxed,len;
+  int i,j;
+  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
+  char *p;
+  uint8_t bb,bdec,enabletx;
+  uint32_t type,xx,len;
   uint64_t lastfreq;
-  double aaa;
   time_t now;
   struct tm tm;
   pthread_t thread;
@@ -186,7 +187,7 @@ printf("# %s %lf\n",call,score);
     }
     printf("## nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
     printf("## jsel:%d topscored:%lf [%s]%d %lu\n",jsel,topscore,rxed[jsel].msg,rxed[jsel].snr,now-rxed[jsel].time);
-    if(jscore>=50){
+    if(jsel>=50){  // fake
       q=out;
       Wu32(0xadbccbda,&q);
       Wu32(2,&q);
