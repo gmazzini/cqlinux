@@ -35,9 +35,9 @@ int main() {
   socklen_t addr_len=sizeof(addr);
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],aux[16],call[16],mode[8];
   char *p,*q;
-  uint8_t bb,nrxed,decoding,bdec,enabletx,jcq,cqrate;
+  uint8_t bb,decoding,bdec,enabletx,jcq,cqrate;
   ssize_t len;
-  uint32_t type,xx;
+  uint32_t type,xx,nrxed;
   uint64_t lastfreq;
   double aaa,topscore;
   struct rxed *rxed;
