@@ -7,7 +7,7 @@
 #define CQRATE 2
 #define PORT 7777
 #define MAX_RXED 1000
-int level=0; // bit 0 (1 run/0 test)
+int level=1; // bit 0 (1 run/0 test)
 int jcq=0;
 struct rxed {
   uint32_t ttime;
@@ -161,7 +161,7 @@ void* th_enabletx(void* arg){
   time_t now;
   char out[BUF_SIZE],call[16],*q;
   
-  if(jcq==0){
+  if(jcq==CQRATE-1){
     jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
     now=time(NULL);
     for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
@@ -204,7 +204,7 @@ printf("# %s %lf\n",call,score);
   }
   sleep(6);
   emulate(XK_Alt_L,XK_n,2,wbase);
-  if(jcq>0)emulate(XK_Alt_L,XK_6,2,wbase);
-  if(++jcq>=CQRATE)jcq=0;
+  if(jcq!=CQRATE-1)emulate(XK_Alt_L,XK_6,2,wbase);
+  if(++jcq==CQRATE)jcq=0;
   pthread_exit(NULL);
 }
