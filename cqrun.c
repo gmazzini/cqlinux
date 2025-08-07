@@ -122,6 +122,7 @@ int main() {
       extract(aux,out,"freq"); if(*aux=='\0')goto go12;
       sprintf(out,"%s_%s_%d",call,mode,atoi(aux));
       inslog(out);
+      if(level&2)printf("Inslog:%s\n",out);
       go12:
     }
 
@@ -171,7 +172,6 @@ void* th_enabletx(void* arg){
     now=time(NULL);
     for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
       cqed++;
-  printf(">>>>> %s\n",rxed[i].msg);
       m=strlen(rxed[i].msg);
       nk=0;
       for(j=0;j<=m;j++){
@@ -180,25 +180,23 @@ void* th_enabletx(void* arg){
       }
       if(nk<3)continue;
       sprintf(call,"%.*s",k[1]-k[0]-1,rxed[i].msg+k[0]+1);
-printf(">>> %s %s\n",call,rxed[i].msg);
       if(onlychar(call)){
         sprintf(call,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
         sprintf(grid,"%.*s",k[3]-k[2]-1,rxed[i].msg+k[2]+1);
       }
       else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
       sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
-printf("@ %s\n",out);
       if(checklog(out)){inlog++; continue;}
       if(checkesc(call)){inblack++; continue;}
       ptime=now-rxed[i].time;
-      psnr=1000.0/(30.0+rxed[i].snr);
-      pdist=100000/(distlocator(grid,mygrid)+0.1);
-      score=ptime+psnr+pdist;
-printf("# %s %lf %lf %lf %lf\n",call,ptime,psnr,pdist,score);
-      if(score<topscore){topscore=score; jsel=i;}
+      psnr=30.0+rxed[i].snr;
+      pdist=distlocator(grid,mygrid)+1;
+      score=psnr*pdist/ptime;
+      if(level&2)printf("CQ:%s %lf %lf %lf %lf\n",call,ptime,psnr,pdist,score);
+      if(score>topscore){topscore=score; jsel=i;}
     }
-    printf("## nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
-    printf("## jsel:%d topscored:%lf [%s]%d %lu\n",jsel,topscore,rxed[jsel].msg,rxed[jsel].snr,now-rxed[jsel].time);
+    if(level&2)printf("Selection nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
+    if(level&2 && jsel>=0)printf("Selected %s\n",rxed[jsel].msg);
     if(jsel>=0){
       q=out;
       Wu32(0xadbccbda,&q);
