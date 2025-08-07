@@ -21,13 +21,7 @@ struct rxed {
   uint64_t freq;
 };
 
-void* th_enabletx(void* arg){
-  sleep(6);
-  emulate(XK_Alt_L,XK_n,2,wbase);
-  emulate(XK_Alt_L,XK_6,2,wbase);
-  pthread_exit(NULL);
-}
-
+void* th_enabletx(void* arg);
 int main() {
   int sock,i,j,k,m,jscore,cqed,inlog,inblack;
   struct sockaddr_in addr,sender_addr;
@@ -156,6 +150,13 @@ int main() {
       Rs(out,&p);
       Rs(out,&p); trim(out);  printf(" Msg:%s",out);
       printf("\n");
+      if((level&1) && (!enabletx)){
+        pthread_create(&thread,NULL,th_enabletx,NULL);
+        pthread_detach(thread);
+      }
+
+
+      
       if(bdec==0 && decoding==1){
         jscore=-1; topscore=1e37;
         cqed=0; inlog=0; inblack=0;
@@ -201,10 +202,13 @@ sendto(sock,out,q-out,0,(struct sockaddr*)&sender_addr,sizeof(addr));
         printf(">>> jscore:%d topscored:%lf [%s]%d %lu\n",jscore,topscore,rxed[jscore].msg,rxed[jscore].snr,now-rxed[jscore].time);
       }
       decoding=bdec;
-      if((level&1) && (!enabletx)){
-        pthread_create(&thread,NULL,th_enabletx,NULL);
-        pthread_detach(thread);
-      }
     }
   }
+}
+
+void* th_enabletx(void* arg){
+  sleep(6);
+  emulate(XK_Alt_L,XK_n,2,wbase);
+  emulate(XK_Alt_L,XK_6,2,wbase);
+  pthread_exit(NULL);
 }
