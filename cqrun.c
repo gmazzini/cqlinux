@@ -8,7 +8,7 @@
 #define PORT 7777
 #define MAX_RXED 1000
 int level=0; // bit 0 (1 run/0 test)
-
+int jcq=0;
 struct rxed {
   uint32_t ttime;
   time_t time;
@@ -19,20 +19,20 @@ struct rxed {
   char msg[40];
   uint8_t LowConf;
   uint64_t freq;
-};
+} *rxed;
+int sock;
+struct sockaddr_in addr,sender_addr;
+socklen_t addr_len=sizeof(addr);
 
 void* th_enabletx(void* arg);
 int main() {
-  int sock,i,j,k,m,jscore,cqed,inlog,inblack;
-  struct sockaddr_in addr,sender_addr;
-  socklen_t addr_len=sizeof(addr);
+  int i,j,k,m;
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],aux[16],call[16],mode[8],lastmode[8];
   char *p,*q;
-  uint8_t bb,decoding,bdec,enabletx,jcq,cqrate;
+  uint8_t bb,decoding,bdec,enabletx;
   uint32_t type,xx,nrxed,len;
   uint64_t lastfreq;
-  double aaa,topscore;
-  struct rxed *rxed;
+  double aaa;
   time_t now;
   struct tm tm;
   pthread_t thread;
@@ -71,8 +71,6 @@ int main() {
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
   nrxed=0;
   decoding=0;
-  cqrate=CQRATE;
-  jcq=0;
 
   for(;;){
     len=recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
@@ -154,61 +152,60 @@ int main() {
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
       }
-
-
-      
-      if(bdec==0 && decoding==1){
-        jscore=-1; topscore=1e37;
-        cqed=0; inlog=0; inblack=0;
-        now=time(NULL);
-        for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
-          cqed++;
-          m=strlen(rxed[i].msg);
-          for(k=0,j=m-1;j>0;j--){
-            if(rxed[i].msg[j]==' ')k++;
-            if(k==2)break;
-          }
-          if(j==0)continue;
-          sprintf(call,"%.*s",m-j-6,rxed[i].msg+j+1);
-          sprintf(out,"%s_%s_%d",call,rxed[i].mode,(int)(rxed[i].freq/1000000));
-printf("@ %s\n",out);
-          if(checklog(out)){inlog++; continue;}
-          if(checkesc(call)){inblack++; continue;}
-          out[4]='\0';
-          aaa=now-rxed[i].time+1000.0/(30.0+rxed[i].snr)+100000/(distlocator(out,mygrid)+0.1);;
-printf("# %s %lf\n",call,aaa);
-          if(aaa<topscore){topscore=aaa; jscore=i;}
-        }
-printf("## nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
-
-if(jscore>=50){
-q=out;
-Wu32(0xadbccbda,&q);
-Wu32(2,&q);
-Wu32(4,&q);
-Ws("GM1",&q);
-Wu32(rxed[jscore].ttime,&q);
-Wu32(rxed[jscore].snr,&q);
-Wf(rxed[jscore].dt,&q);
-Wu32(rxed[jscore].df,&q);
-Ws(rxed[jscore].mode,&q);
-Ws(rxed[jscore].msg,&q);
-Wb(rxed[jscore].LowConf,&q);
-Wu8(0x00,&q);
-sendto(sock,out,q-out,0,(struct sockaddr*)&sender_addr,sizeof(addr));
-
-}
-
-        printf(">>> jscore:%d topscored:%lf [%s]%d %lu\n",jscore,topscore,rxed[jscore].msg,rxed[jscore].snr,now-rxed[jscore].time);
-      }
-      decoding=bdec;
     }
   }
 }
 
 void* th_enabletx(void* arg){
+  int jsel,cqed,inlog,inblack,i,j,k,sp1,m;
+  double topscore,score;
+  time_t now;
+  char out[BUF_SIZE],call[16],*q;
+  
+  if(jcq==0){
+    jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
+    now=time(NULL);
+    for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
+      cqed++;
+      m=strlen(rxed[i].msg);
+      for(k=0,j=m-1;j>0;j--){
+        if(rxed[i].msg[j]==' ')k++;
+        if(k==1)sp1=j;
+        if(k==2)break;
+      }
+      if(j==0)continue;
+      sprintf(call,"%.*s",m-j-6,rxed[i].msg+j+1);
+      sprintf(out,"%s_%s_%d",call,rxed[i].mode,(int)(rxed[i].freq/1000000));
+printf("@ %s\n",out);
+      if(checklog(out)){inlog++; continue;}
+      if(checkesc(call)){inblack++; continue;}
+      sprintf(out,"%.*s",4,rxed[i].msg+sp1+1);
+      score=now-rxed[i].time+1000.0/(30.0+rxed[i].snr)+100000/(distlocator(out,mygrid)+0.1);;
+printf("# %s %lf\n",call,score);
+      if(score<topscore){topscore=score; jsel=i;}
+    }
+    printf("## nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
+    printf("## jsel:%d topscored:%lf [%s]%d %lu\n",jsel,topscore,rxed[jsel].msg,rxed[jsel].snr,now-rxed[jsel].time);
+    if(jscore>=50){
+      q=out;
+      Wu32(0xadbccbda,&q);
+      Wu32(2,&q);
+      Wu32(4,&q);
+      Ws("GM1",&q);
+      Wu32(rxed[jsel].ttime,&q);
+      Wu32(rxed[jsel].snr,&q);
+      Wf(rxed[jsel].dt,&q);
+      Wu32(rxed[jsel].df,&q);
+      Ws(rxed[jsel].mode,&q);
+      Ws(rxed[jsel].msg,&q);
+      Wb(rxed[jsel].LowConf,&q);
+      Wu8(0x00,&q);
+      sendto(sock,out,q-out,0,(struct sockaddr*)&sender_addr,sizeof(addr));
+    }    
+  }
   sleep(6);
   emulate(XK_Alt_L,XK_n,2,wbase);
-  emulate(XK_Alt_L,XK_6,2,wbase);
+  if(jcq>0)emulate(XK_Alt_L,XK_6,2,wbase);
+  if(++jcq>=CQRATE)jcq=0;
   pthread_exit(NULL);
 }
