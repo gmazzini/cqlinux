@@ -93,6 +93,8 @@ int main() {
     Ru32(&xx,&p); if(xx!=0xadbccbda)continue;
     Ru32(&xx,&p);
     Ru32(&type,&p);
+
+    // decode
     if(type==2){
       Rs(out,&p);
       Rb(&bb,&p);
@@ -108,12 +110,16 @@ int main() {
       rxed[nrxed].freq=lastfreq;
       if(++nrxed==MAX_RXED)nrxed=0;
     }
+
+    // Heartbeat
     else if(type==0){
       Rs(out,&p);
       Ru32(&xx,&p);
       Rs(version,&p);
       Rs(out,&p);
     }
+
+    // Logged ADIF 
     else if(type==12){
       Rs(out,&p);
       Rs(out,&p);
@@ -124,6 +130,8 @@ int main() {
       inslog(out);
       go12:
     }
+
+    // Status
     else if(type==1){
       printf("%d[%d]>",type,len);
       Rs(out,&p);
@@ -163,6 +171,7 @@ int main() {
           if(j==0)continue;
           sprintf(call,"%.*s",m-j-6,rxed[i].msg+j+1);
           sprintf(out,"%s_%s_%d",call,rxed[i].mode,(int)(rxed[i].freq/1000000));
+printf("@ %s\n",out);
           if(checklog(out)){inlog++; continue;}
           if(checkesc(call)){inblack++; continue;}
           out[4]='\0';
