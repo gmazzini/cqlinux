@@ -165,6 +165,7 @@ void* th_enabletx(void* arg){
   char out[BUF_SIZE],call[16],grid[8],*q;
 
   mylock=1;
+  sleep(6);
 printf("#### %d\n",jcq);  
   if(jcq==CQRATE-1){
     jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
@@ -214,7 +215,6 @@ printf("# %s %lf %lf %lf %lf\n",call,ptime,psnr,pdist,score);
       sendto(sock,out,q-out,0,(struct sockaddr*)&sender_addr,sizeof(addr));
     }    
   }
-  sleep(6);
   emulate(XK_Alt_L,XK_n,2,wbase);
   if(jcq!=CQRATE-1)emulate(XK_Alt_L,XK_6,2,wbase);
   if(++jcq==CQRATE)jcq=0;
