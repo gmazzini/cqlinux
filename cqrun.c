@@ -7,7 +7,7 @@
 #define CQRATE 2
 #define PORT 7777
 #define MAX_RXED 1000
-int level=1; // bit 0 (1 run/0 test)
+int level=3; // bit 0 (1 run/0 test) // bit 1 (1 print/0 noprint)
 int jcq=0;
 int mylock=0;
 struct rxed {
@@ -110,6 +110,7 @@ int main() {
       Ru32(&xx,&p);
       Rs(version,&p);
       Rs(out,&p);
+      if(level&2){printf("Heartbeat: %s\n",version);
     }
 
     // Logged ADIF 
@@ -126,21 +127,20 @@ int main() {
 
     // Status
     else if(type==1){
-      printf("%d[%d]>",type,len);
       Rs(out,&p);
-      Ru64(&lastfreq,&p); printf(" Freq:%" PRIu64,lastfreq);
-      Rs(lastmode,&p); printf(" Mode:%s",out);
-      Rs(out,&p); printf(" Dx:%s",out);
-      Rs(out,&p); printf(" Rep:%s",out);
+      Ru64(&lastfreq,&p);
+      Rs(lastmode,&p);
       Rs(out,&p);
-      Rb(&enabletx,&p); printf(" TxEnable:%1x",enabletx);
-      Rb(&bb,&p); printf(" Tx:%1x",bb);
+      Rs(out,&p);
+      Rs(out,&p);
+      Rb(&enabletx,&p);
+      Rb(&bb,&p);
       Rb(&bdec,&p);
-      Ru32(&xx,&p); printf(" RxF:%" PRIu32,xx);
-      Ru32(&xx,&p); printf(" TxF:%" PRIu32,xx);
+      Ru32(&xx,&p);
+      Ru32(&xx,&p);
       Rs(out,&p);
       Rs(mygrid,&p);
-      Rs(out,&p); printf(" DxGrid:%s",out);
+      Rs(out,&p);
       Rb(&bb,&p);
       Rs(out,&p);
       Rb(&bb,&p);
@@ -148,8 +148,7 @@ int main() {
       Rs(out,&p);
       Rs(out,&p);
       Rs(out,&p);
-      Rs(out,&p); trim(out);  printf(" Msg:%s",out);
-      printf("\n");
+      Rs(out,&p);
       if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
@@ -166,7 +165,7 @@ void* th_enabletx(void* arg){
 
   mylock=1;
   sleep(6);
-printf("#### %d\n",jcq);  
+  if(level&2)printf("Status: EnableTx %d\n",jcq);
   if(jcq==CQRATE-1){
     jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
     now=time(NULL);
@@ -180,6 +179,7 @@ printf("#### %d\n",jcq);
       }
       if(nk<3)continue;
       sprintf(call,"%.*s",k[1]-k[0]-1,rxed[i].msg+k[0]+1);
+printf(">>> %s %s\n",call,rxed[i].msg);
       if(onlychar(call)){
         sprintf(call,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
         sprintf(grid,"%.*s",k[3]-k[2]-1,rxed[i].msg+k[2]+1);
