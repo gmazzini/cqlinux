@@ -127,7 +127,7 @@ int main() {
     else if(type==1){
       printf("%d[%d]>",type,len);
       Rs(out,&p);
-      Ru64(&lastfreq,&p); printf(" Freq:%lld",lastfreq);
+      Ru64(&lastfreq,&p); printf(" Freq:"PRIu64,lastfreq);
       Rs(out,&p); printf(" Mode:%s",out);
       Rs(out,&p); printf(" Dx:%s",out);
       Rs(out,&p); printf(" Rep:%s",out);
