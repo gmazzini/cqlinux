@@ -110,7 +110,7 @@ int main() {
       Ru32(&xx,&p);
       Rs(version,&p);
       Rs(out,&p);
-      if(level&2){printf("Heartbeat: %s\n",version);
+      if(level&2)printf("Heartbeat: %s\n",version);
     }
 
     // Logged ADIF 
