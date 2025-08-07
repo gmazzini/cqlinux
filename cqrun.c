@@ -163,6 +163,7 @@ void* th_enabletx(void* arg){
   char out[BUF_SIZE],call[16],*q;
 
   mylock=1;
+printf("#### %d\n",jcq);  
   if(jcq==CQRATE-1){
     jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
     now=time(NULL);
