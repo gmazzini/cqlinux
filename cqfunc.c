@@ -130,8 +130,8 @@ void trim(char *p){
 
 void winid(){
   Window queue[MAX_WINDOWS],root,current,root_ret,parent_ret,*children;
-  int front=0,rear=0,i;
-  unsigned int nchildren;
+  int front=0,rear=0;
+  unsigned int nchildren,i;
   char *name;
   Display *dpy;
   XWindowAttributes attr;
@@ -157,7 +157,7 @@ void winid(){
     children=NULL;
     nchildren=0;
     if(XQueryTree(dpy,current,&root_ret,&parent_ret,&children,&nchildren)){
-      for(i=0; i<nchildren && rear<MAX_WINDOWS;i++)queue[rear++] = children[i];
+      for(i=0;i<nchildren && rear<MAX_WINDOWS;i++)queue[rear++] = children[i];
       if(children)XFree(children);
     }
   }
