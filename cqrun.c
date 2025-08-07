@@ -9,6 +9,7 @@
 #define MAX_RXED 1000
 int level=1; // bit 0 (1 run/0 test)
 int jcq=0;
+int mylock=0;
 struct rxed {
   uint32_t ttime;
   time_t time;
@@ -147,7 +148,7 @@ int main() {
       Rs(out,&p);
       Rs(out,&p); trim(out);  printf(" Msg:%s",out);
       printf("\n");
-      if((level&1) && (!enabletx)){
+      if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
       }
@@ -160,7 +161,8 @@ void* th_enabletx(void* arg){
   double topscore,score;
   time_t now;
   char out[BUF_SIZE],call[16],*q;
-  
+
+  mylock=1;
   if(jcq==CQRATE-1){
     jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
     now=time(NULL);
@@ -206,5 +208,6 @@ printf("# %s %lf\n",call,score);
   emulate(XK_Alt_L,XK_n,2,wbase);
   if(jcq!=CQRATE-1)emulate(XK_Alt_L,XK_6,2,wbase);
   if(++jcq==CQRATE)jcq=0;
+  mylock=0;
   pthread_exit(NULL);
 }
