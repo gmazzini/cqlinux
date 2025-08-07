@@ -315,3 +315,10 @@ int checkesc(char *p){
   }
   return found;
 }
+
+int onlychar(char *p){
+  char *q;
+  int j=0;
+  for(q=p;*q!='\0';q++)if(*q<'A' || *q>'Z')j++;
+  return (j==0)?1:0;
+}
