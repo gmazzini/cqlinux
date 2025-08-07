@@ -32,7 +32,7 @@ int main() {
   int sock,i,j,k,m,jscore,cqed,inlog,inblack;
   struct sockaddr_in addr,sender_addr;
   socklen_t addr_len=sizeof(addr);
-  uint8_t buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],*p,*q,aux[16],hh,mm,ss,bb;
+  uint8_t buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],*p,*q,aux[16],bb;
   uint8_t call[16],mode[8],nrxed,decoding,bdec,enabletx,jcq,cqrate;
   ssize_t len;
   uint32_t type,nn,xx;
