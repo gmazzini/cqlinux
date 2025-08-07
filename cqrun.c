@@ -7,7 +7,7 @@
 #define CQRATE 2
 #define PORT 7777
 #define MAX_RXED 1000
-int level=3; // bit 0 (1 run/0 test) // bit 1 (1 print/0 noprint)
+int level=3; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
 int jcq=0;
 int mylock=0;
 struct rxed {
@@ -66,7 +66,7 @@ int main() {
   if(rxed==NULL)return 0;
   for(i=0;i<MAX_RXED;i++)rxed[i].msg[0]='\0';
   winid();
-  printf("wbase:%lu wlog:%lu\n",wbase,wlog);
+  if(level&2)printf("wbase:%lu wlog:%lu\n",wbase,wlog);
   sock=socket(AF_INET,SOCK_DGRAM,0);
   addr.sin_family=AF_INET;
   addr.sin_addr.s_addr=inet_addr("127.0.0.1");
