@@ -18,6 +18,7 @@
 #define MAX_WINDOWS 1000
 #define MAX_LOG 10000
 #define MAX_ESC 2000
+#define BUF_SIZE 1024
 
 Window wbase,wlog;
 char **vlog=NULL,**vesc=NULL;
