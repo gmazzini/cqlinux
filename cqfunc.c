@@ -19,20 +19,20 @@
 #define MAX_ESC 2000
 
 Window wbase,wlog;
-uint8_t **vlog=NULL,**vesc=NULL;
+char **vlog=NULL,**vesc=NULL;
 uint16_t nlog=0,nesc=0;
 
-void Rs(uint8_t *b,uint8_t **q){
+void Rs(char *b,char **q){
   uint32_t x;
-  uint8_t *p=*q;
+  char *p=*q;
   x=((uint32_t)p[0]<<24)|((uint32_t)p[1]<<16)|((uint32_t)p[2]<<8)|((uint32_t)p[3]);
   if(x==0xffffffff)x=0;
   sprintf(b,"%.*s",x,p+4);
   *q+=4+x;
 }
 
-void Ws(const uint8_t *b,uint8_t **q){
-  uint8_t *p=*q;
+void Ws(char *b,char **q){
+  char *p=*q;
   uint32_t len=(uint32_t)strlen((char *)b);
   p[0]=(uint8_t)(len>>24);
   p[1]=(uint8_t)(len>>16);
