@@ -13,6 +13,7 @@
 #include <time.h>
 #include <math.h>
 #include <pthread.h>
+#include <inttypes.h>
 
 #define MAX_WINDOWS 1000
 #define MAX_LOG 10000
