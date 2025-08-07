@@ -177,7 +177,7 @@ printf("#### %d\n",jcq);
         if(rxed[i].msg[j]==' ' || rxed[i].msg[j]=='\0')k[nk++]=j;
         if(nk==4)break;
       }
-      if(j==m || nk<3)continue;
+      if(nk<3)continue;
       sprintf(call,"%.*s",k[1]-k[0]-1,rxed[i].msg+k[0]+1);
       if(onlychar(call)){
         sprintf(call,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
