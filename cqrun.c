@@ -6,7 +6,6 @@
 
 #define CQRATE 2
 #define PORT 7777
-#define BUF_SIZE 1024
 #define MAX_RXED 1000
 int level=0; // bit 0 (1 run/0 test)
 
