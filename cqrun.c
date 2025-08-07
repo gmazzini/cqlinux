@@ -187,7 +187,7 @@ printf("# %s %lf\n",call,score);
     }
     printf("## nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
     printf("## jsel:%d topscored:%lf [%s]%d %lu\n",jsel,topscore,rxed[jsel].msg,rxed[jsel].snr,now-rxed[jsel].time);
-    if(jsel>=50){  // fake
+    if(jsel>=0){
       q=out;
       Wu32(0xadbccbda,&q);
       Wu32(2,&q);
