@@ -1,6 +1,14 @@
+// @2025- by GM IK4LZH cqrun in C
+
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
+
+#define CQRATE 2
+#define PORT 7777
+#define BUF_SIZE 1024
+#define MAX_RXED 1000
+int level=0; // bit 0 (1 run/0 test)
 
 struct rxed {
   uint32_t ttime;
@@ -13,13 +21,6 @@ struct rxed {
   uint8_t LowConf;
   uint64_t freq;
 };
-
-#define CQRATE 2
-#define PORT 7777
-#define BUF_SIZE 1024
-#define MAX_RXED 1000
-
-int level=0; // bit 0 (1 run/0 test)
 void* th_enabletx(void* arg){
   sleep(6);
   emulate(XK_Alt_L,XK_n,2,wbase);
