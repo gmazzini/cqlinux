@@ -100,7 +100,7 @@ int main() {
       Ru32(&rxed[nrxed].ttime,&p);
       now=time(NULL); tm=*gmtime(&now); tm.tm_hour=0; tm.tm_min=0; tm.tm_sec=0;
       rxed[nrxed].time=timegm(&tm)+rxed[nrxed].ttime/1000;
-      Ru32(&(int32_t)rxed[nrxed].snr,&p);
+      Ru32((int32_t *)&rxed[nrxed].snr,&p);
       Rf(&rxed[nrxed].dt,&p);
       Ru32(&rxed[nrxed].df,&p);
       Rs(rxed[nrxed].mode,&p);
