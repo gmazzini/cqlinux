@@ -174,7 +174,7 @@ void* th_enabletx(void* arg){
   printf(">>>>> %s\n",rxed[i].msg);
       m=strlen(rxed[i].msg);
       nk=0;
-      for(j=0;j<m;j++){
+      for(j=0;j<=m;j++){
         if(rxed[i].msg[j]==' ' || rxed[i].msg[j]=='\0')k[nk++]=j;
         if(nk==4)break;
       }
