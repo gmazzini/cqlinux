@@ -1,4 +1,4 @@
-#include "qq.c"
+#include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
 
