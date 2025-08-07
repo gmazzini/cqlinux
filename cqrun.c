@@ -19,7 +19,8 @@ struct rxed {
   char mode[8];
   char msg[40];
   uint8_t LowConf;
-  uint64_t freq;
+  char modeS[8];
+  uint64_t freqS;
 } *rxed;
 uint32_t nrxed;
 int sock;
@@ -95,10 +96,11 @@ int main() {
       Ru32((uint32_t *)&rxed[nrxed].snr,&p);
       Rf(&rxed[nrxed].dt,&p);
       Ru32(&rxed[nrxed].df,&p);
-      Rs(out,&p); strcpy(rxed[nrxed].mode,lastmode);
+      Rs(rxed[nrxed].mode,&p);
       Rs(rxed[nrxed].msg,&p);
       Rb(&rxed[nrxed].LowConf,&p);
-      rxed[nrxed].freq=lastfreq;
+      rxed[nrxed].freqS=lastfreq;
+      strcpy(rxed[nrxed].modeS,lastmode);
       if(++nrxed==MAX_RXED)nrxed=0;
     }
 
@@ -177,7 +179,7 @@ printf("#### %d\n",jcq);
       }
       if(j==0)continue;
       sprintf(call,"%.*s",m-j-6,rxed[i].msg+j+1);
-      sprintf(out,"%s_%s_%d",call,rxed[i].mode,(int)(rxed[i].freq/1000000));
+      sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
 printf("@ %s\n",out);
       if(checklog(out)){inlog++; continue;}
       if(checkesc(call)){inblack++; continue;}
