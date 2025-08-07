@@ -135,8 +135,8 @@ int main() {
       Rb(&enabletx,&p); printf(" TxEnable:%1x",enabletx);
       Rb(&bb,&p); printf(" Tx:%1x",bb);
       Rb(&bdec,&p);
-      Ru32(&xx,&p); printf(" RxF:%lu",xx);
-      Ru32(&xx,&p); printf(" TxF:%lu",xx);
+      Ru32(&xx,&p); printf(" RxF:%" PRIu32,xx);
+      Ru32(&xx,&p); printf(" TxF:%" PRIu32,xx);
       Rs(out,&p);
       Rs(mygrid,&p);
       Rs(out,&p); printf(" DxGrid:%s",out);
@@ -162,7 +162,7 @@ int main() {
           }
           if(j==0)continue;
           sprintf(call,"%.*s",m-j-6,rxed[i].msg+j+1);
-          sprintf(out,"%s_%s_%d",call,rxed[i].mode,rxed[i].freq/1000000);
+          sprintf(out,"%s_%s_%d",call,rxed[i].mode,(int)(rxed[i].freq/1000000));
           if(checklog(out)){inlog++; continue;}
           if(checkesc(call)){inblack++; continue;}
           out[4]='\0';
