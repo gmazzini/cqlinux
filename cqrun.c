@@ -33,7 +33,7 @@ int main() {
   int sock,i,j,k,m,jscore,cqed,inlog,inblack;
   struct sockaddr_in addr,sender_addr;
   socklen_t addr_len=sizeof(addr);
-  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],aux[16],call[16],mode[8];
+  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],aux[16],call[16],mode[8],lastmode[8];
   char *p,*q;
   uint8_t bb,decoding,bdec,enabletx,jcq,cqrate;
   uint32_t type,xx,nrxed,len;
@@ -104,7 +104,7 @@ int main() {
       Ru32((uint32_t *)&rxed[nrxed].snr,&p);
       Rf(&rxed[nrxed].dt,&p);
       Ru32(&rxed[nrxed].df,&p);
-      Rs(rxed[nrxed].mode,&p);
+      Rs(out,&p); strcpy(rxed[nrxed].mode,lastmode);
       Rs(rxed[nrxed].msg,&p);
       Rb(&rxed[nrxed].LowConf,&p);
       rxed[nrxed].freq=lastfreq;
@@ -136,7 +136,7 @@ int main() {
       printf("%d[%d]>",type,len);
       Rs(out,&p);
       Ru64(&lastfreq,&p); printf(" Freq:%" PRIu64,lastfreq);
-      Rs(out,&p); printf(" Mode:%s",out);
+      Rs(lastmode,&p); printf(" Mode:%s",out);
       Rs(out,&p); printf(" Dx:%s",out);
       Rs(out,&p); printf(" Rep:%s",out);
       Rs(out,&p);
