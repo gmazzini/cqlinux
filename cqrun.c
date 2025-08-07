@@ -35,9 +35,9 @@ int main() {
   uint8_t buffer[BUF_SIZE],out[BUF_SIZE],version[16],mygrid[16],*p,*q,aux[16],bb;
   uint8_t call[16],mode[8],nrxed,decoding,bdec,enabletx,jcq,cqrate;
   ssize_t len;
-  uint32_t type,nn,xx;
+  uint32_t type,xx;
   uint64_t lastfreq;
-  double vv,aaa,topscore;
+  double aaa,topscore;
   struct rxed *rxed;
   time_t now;
   struct tm tm;
