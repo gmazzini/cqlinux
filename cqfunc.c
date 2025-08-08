@@ -18,6 +18,7 @@
 #define MAX_WINDOWS 1000
 #define MAX_LOG 10000
 #define MAX_ESC 2000
+#define MAX_USED 2000
 #define BUF_SIZE 1024
 
 Window wbase,wlog;
@@ -347,7 +348,7 @@ void addused(char *p){
     pos=start;
     for(i=nused;i>pos;i--)memcpy(used+i,used+i-1,sizeof(struct used));
     nused++;
-    if(nused>=MAX_ESC)nused=MAX_ESC;
+    if(nused>=MAX_USED)nused=MAX_USED;
     strcpy(used[pos].call,p);
     used[pos].times=1;
   }
