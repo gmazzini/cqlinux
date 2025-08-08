@@ -160,9 +160,10 @@ int main() {
 
 void* th_enabletx(void* arg){
   int jsel,cqed,inlog,inblack,i,j,m,nk,k[4];
+  uint16_t times;
   double topscore,score,ptime,psnr,pdist;
   time_t now;
-  char out[BUF_SIZE],call[16],grid[8],*q;
+  char out[BUF_SIZE],call[16],selcall[16],grid[8],*q;
 
   mylock=1;
   sleep(6);
@@ -191,13 +192,19 @@ void* th_enabletx(void* arg){
       ptime=now-rxed[i].time;
       psnr=30.0+rxed[i].snr;
       pdist=distlocator(grid,mygrid)+1;
-      score=psnr*pdist/ptime;
-      if(level&2)printf("CQ:%s %lf %lf %lf %lf\n",call,ptime,psnr,pdist,score);
-      if(score>topscore){topscore=score; jsel=i;}
+      times=timesused(call);
+      score=psnr*pdist/ptime/(1+times);
+      if(level&2)printf("CQ:%s %lf %lf %lf %lf %d\n",call,ptime,psnr,pdist,score,times);
+      if(score>topscore){
+        topscore=score; 
+        jsel=i;
+        strcpy(selcall,call);
+      }
     }
     if(level&2)printf("Selection nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
     if(level&2 && jsel>=0)printf("Selected %s\n",rxed[jsel].msg);
     if(jsel>=0){
+      addused(selcall);
       q=out;
       Wu32(0xadbccbda,&q);
       Wu32(2,&q);
