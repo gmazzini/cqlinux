@@ -368,10 +368,3 @@ uint16_t timesused(char *p){
   }
   return (found==1)?used[pos].times:0;
 }
-
-struct used {
-  char call[16];
-  uint16_t times;
-} *used=NULL;
-char **vlog=NULL,**vesc=NULL;
-uint16_t nlog=0,nesc=0,nused=0;
