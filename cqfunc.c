@@ -253,11 +253,10 @@ void inslog(char *p){
     else if(a<0)start=pos+1;
     else end=pos-1;
   }
-  if(!found){
+  if(!found && nlog<=MAX_LOG){
     pos=start;
     for(i=nlog;i>pos;i--)strcpy(vlog[i],vlog[i-1]);
     nlog++;
-    if(nlog>=MAX_LOG)nlog=MAX_LOG;
     strcpy(vlog[pos],p);
   }
 }
@@ -297,11 +296,10 @@ void insesc(char *p){
     else if(a<0)start=pos+1;
     else end=pos-1;
   }
-  if(!found){
+  if(!found && nesc<=MAX_ESC-2){
     pos=start;
     for(i=nesc;i>pos;i--)strcpy(vesc[i],vesc[i-1]);
     nesc++;
-    if(nesc>=MAX_ESC)nesc=MAX_ESC;
     strcpy(vesc[pos],p);
   }
 }
@@ -344,11 +342,9 @@ void addused(char *p){
     else if(a<0)start=pos+1;
     else end=pos-1;
   }
-  if(!found){
-    pos=start;
+  if(!found && nused<MAX_USED-2){;
     for(i=nused;i>pos;i--)memcpy(used+i,used+i-1,sizeof(struct used));
     nused++;
-    if(nused>=MAX_USED)nused=MAX_USED;
     strcpy(used[pos].call,p);
     used[pos].times=1;
   }
