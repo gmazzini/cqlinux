@@ -21,8 +21,12 @@
 #define BUF_SIZE 1024
 
 Window wbase,wlog;
+struct used {
+  char call[16];
+  uint16_t times;
+} *used=NULL;
 char **vlog=NULL,**vesc=NULL;
-uint16_t nlog=0,nesc=0;
+uint16_t nlog=0,nesc=0,nused=0;
 
 void Rs(char *b,char **q){
   uint32_t x;
@@ -322,3 +326,51 @@ int onlychar(char *p){
   for(q=p;*q!='\0';q++)if(*q<'A' || *q>'Z')j++;
   return (j==0)?1:0;
 }
+
+void addused(char *p){
+  int pos,start,end,found,a,i;
+  if(used==NULL){
+     used=(struct used *)malloc(MAX_USED*sizeof(struct used));
+    if(used==NULL)exit(1);
+  }
+  start=0;
+  end=nused-1;
+  found=0;
+  while(start<=end){
+    pos=start+(end-start)/2;
+    a=strcmp(used[pos].call,p);
+    if(a==0){found=1; break;}
+    else if(a<0)start=pos+1;
+    else end=pos-1;
+  }
+  if(!found){
+    pos=start;
+    for(i=nused;i>pos;i--)memcpy(used+i,used+i-1,sizeof(struct used));
+    nused++;
+    if(nused>=MAX_ESC)nused=MAX_ESC;
+    strcpy(used[pos].call,p);
+    used[pos].times=1;
+  }
+}
+
+uint16_t timesused(char *p){
+  int pos,start,end,found,a;
+  start=0;
+  end=nused-1;
+  found=0;
+  while(start<=end){
+    pos=start+(end-start)/2;
+    a=strcmp(used[pos].call,p);
+    if(a==0){found=1; break;}
+    else if(a<0)start=pos+1;
+    else end=pos-1;
+  }
+  return (found==1)?used[pos].times:0;
+}
+
+struct used {
+  char call[16];
+  uint16_t times;
+} *used=NULL;
+char **vlog=NULL,**vesc=NULL;
+uint16_t nlog=0,nesc=0,nused=0;
