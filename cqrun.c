@@ -234,13 +234,13 @@ void* th_enabletx(void* arg){
 
 void sigint_handler(int sig){
   FILE *fp;
-  int i;
+  uint32_t i;
   fp=fopen(FILE_INFO,"w");
   if(fp==NULL)return;
   fprintf(fp,"RXED,%d\n",nrxed);
   for(i=0;i<nrxed;i++){
     fprintf(fp,"%d,",i);
-    fprintf(fp,"%lu,%lu,%d,%4.1f,%lu,%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
+    fprintf(fp,"%lu,%ld,%d,%4.1f,%lu,%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
     fprintf(fp,"%s,%llu\n",rxed[i].modeS,rxed[i].freqS);
   }
   fclose(fp);
