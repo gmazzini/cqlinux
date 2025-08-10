@@ -8,7 +8,7 @@
 #define CQRATE 2
 #define PORT 7777
 #define MAX_RXED 1000
-int level=3; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
+int level=0; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
 int jcq=0;
 int mylock=0;
 struct rxed {
@@ -237,8 +237,11 @@ void sigint_handler(int sig){
   int i;
   fp=fopen(FILE_INFO,"w");
   if(fp==NULL)return;
-  fprintf(fp,"nrxed:%d\n",nrxed);
-  
-  
+  fprintf(fp,"RXED,%d\n",nrxed);
+  for(i=0;i<nrxed;i++){
+    fprintf(fp,"%d,",i);
+    fprintf(fp,"%lu,%lu,%d,%4.1f,%lu,%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
+    fprintf(fp,"%s,%llu\n",rxed[i].modeS,rxed[i].freqS);
+  }
   fclose(fp);
 }
