@@ -234,4 +234,11 @@ void* th_enabletx(void* arg){
 
 void sigint_handler(int sig){
   FILE *fp;
+  int i;
+  fp=fopen(FILE_INFO,"w");
+  if(fp==NULL)return;
+  fprintf(fp,"nrxed:%d\n",nrxed);
+  
+  
+  fclose(fp);
 }
