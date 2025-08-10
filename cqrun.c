@@ -3,6 +3,7 @@
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
+#define FILE_INFO "/home/gmazzini/gm/cqlinux/info.txt"
 
 #define CQRATE 2
 #define PORT 7777
@@ -28,7 +29,9 @@ struct sockaddr_in addr,sender_addr;
 socklen_t addr_len=sizeof(addr);
 char mygrid[16];
 
-void* th_enabletx(void* arg);
+void* th_enabletx(void *);
+void sigint_handler(int);
+
 int main() {
   int i,j;
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
@@ -72,6 +75,7 @@ int main() {
   addr.sin_addr.s_addr=inet_addr("127.0.0.1");
   addr.sin_port=htons(PORT);
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
+  signal(34,sigint_handler);
   nrxed=0;
   for(;;){
     recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
@@ -226,4 +230,8 @@ void* th_enabletx(void* arg){
   if(++jcq==CQRATE)jcq=0;
   mylock=0;
   pthread_exit(NULL);
+}
+
+void sigint_handler(int sig){
+  FILE *fp;
 }
