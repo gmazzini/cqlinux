@@ -252,9 +252,9 @@ void sigint_handler(int sig){
     fprintf(fp,"%" PRIu32 ",%ld,%d,%4.1f,%" PRIu32 ",%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
     fprintf(fp,"%s,%" PRIu64 "\n",rxed[i].modeS,rxed[i].freqS);
   }
-  fprintf(fp,"<< RXED,%d\n",nrxed);
+  fprintf(fp,"<< RXED\n");
   fprintf(fp,">> CQED\n");
   cqselection(selcall,&jsel,fp);
-  fprintf(fp,"<< CQED,%d\n",cqed);
+  fprintf(fp,"<< CQED\n");
   fclose(fp);
 }
