@@ -162,50 +162,57 @@ int main() {
   }
 }
 
-void* th_enabletx(void* arg){
-  int jsel,cqed,inlog,inblack,i,j,m,nk,k[4];
-  uint16_t times;
-  double topscore,score,ptime,psnr,pdist;
+void cqselection(char *selcall,int *jsel,FILE *fp){
+  int cqed,inlog,inblack,i,m,j,nk,k[4];
+  double topscore,score,ptime,psnr,pdist;;
   time_t now;
-  char out[BUF_SIZE],call[16],selcall[16],grid[8],*q;
+  char call[16],grid[8],out[BUF_SIZE];
+  
+  *jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
+  now=time(NULL);
+  for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
+    cqed++;
+    m=strlen(rxed[i].msg);
+    nk=0;
+    for(j=0;j<=m;j++){
+      if(rxed[i].msg[j]==' ' || rxed[i].msg[j]=='\0')k[nk++]=j;
+      if(nk==4)break;
+    }
+    if(nk<3)continue;
+    sprintf(call,"%.*s",k[1]-k[0]-1,rxed[i].msg+k[0]+1);
+    if(onlychar(call)){
+      sprintf(call,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
+      sprintf(grid,"%.*s",k[3]-k[2]-1,rxed[i].msg+k[2]+1);
+    }
+    else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
+    sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
+    if(checklog(out)){inlog++; continue;}
+    if(checkesc(call)){inblack++; continue;}
+    ptime=now-rxed[i].time;
+    psnr=30.0+rxed[i].snr;
+    pdist=distlocator(grid,mygrid)+1;
+    times=timesused(call);
+    score=psnr*pdist/ptime/(1+times);
+    if(fp==NULL)printf("CQ:%s %lf %lf %lf %lf %d\n",call,ptime,psnr,pdist,score,times);
+    if(score>topscore){
+      topscore=score;
+      *jsel=i;
+      strcpy(selcall,call);
+    }
+  }
+  if(fp==NULL)printf("Selection nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
+}
+
+void* th_enabletx(void* arg){
+  int i,j,m,jsel;
+  uint16_t times;
+  char out[BUF_SIZE],selcall[16],*q;
 
   mylock=1;
   sleep(6);
   if(level&2)printf("Status: EnableTx %d\n",jcq);
   if(jcq==CQRATE-1){
-    jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
-    now=time(NULL);
-    for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
-      cqed++;
-      m=strlen(rxed[i].msg);
-      nk=0;
-      for(j=0;j<=m;j++){
-        if(rxed[i].msg[j]==' ' || rxed[i].msg[j]=='\0')k[nk++]=j;
-        if(nk==4)break;
-      }
-      if(nk<3)continue;
-      sprintf(call,"%.*s",k[1]-k[0]-1,rxed[i].msg+k[0]+1);
-      if(onlychar(call)){
-        sprintf(call,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
-        sprintf(grid,"%.*s",k[3]-k[2]-1,rxed[i].msg+k[2]+1);
-      }
-      else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
-      sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
-      if(checklog(out)){inlog++; continue;}
-      if(checkesc(call)){inblack++; continue;}
-      ptime=now-rxed[i].time;
-      psnr=30.0+rxed[i].snr;
-      pdist=distlocator(grid,mygrid)+1;
-      times=timesused(call);
-      score=psnr*pdist/ptime/(1+times);
-      if(level&2)printf("CQ:%s %lf %lf %lf %lf %d\n",call,ptime,psnr,pdist,score,times);
-      if(score>topscore){
-        topscore=score; 
-        jsel=i;
-        strcpy(selcall,call);
-      }
-    }
-    if(level&2)printf("Selection nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
+    cqselection(selcall,&jsel,NULL);
     if(level&2 && jsel>=0)printf("Selected %s\n",rxed[jsel].msg);
     if(jsel>=0){
       addused(selcall);
@@ -237,11 +244,13 @@ void sigint_handler(int sig){
   uint32_t i;
   fp=fopen(FILE_INFO,"w");
   if(fp==NULL)return;
-  fprintf(fp,"RXED,%d\n",nrxed);
+  fprintf(fp,">> RXED\n");
   for(i=0;i<nrxed;i++){
     fprintf(fp,"%d,",i);
     fprintf(fp,"%lu,%ld,%d,%4.1f,%lu,%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
     fprintf(fp,"%s,%llu\n",rxed[i].modeS,rxed[i].freqS);
   }
+  fprintf(fp,"<< RXED,%d\n",nrxed);
+
   fclose(fp);
 }
