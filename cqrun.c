@@ -242,6 +242,8 @@ void* th_enabletx(void* arg){
 void sigint_handler(int sig){
   FILE *fp;
   uint32_t i;
+  int jsel;
+  char selcall[16];
   fp=fopen(FILE_INFO,"w");
   if(fp==NULL)return;
   fprintf(fp,">> RXED\n");
@@ -251,6 +253,8 @@ void sigint_handler(int sig){
     fprintf(fp,"%s,%" PRIu64 "\n",rxed[i].modeS,rxed[i].freqS);
   }
   fprintf(fp,"<< RXED,%d\n",nrxed);
-
+  fprintf(fp,">> CQED\n");
+  cqselection(selcall,&jsel,fp);
+  fprintf(fp,"<< CQED,%d\n",cqed);
   fclose(fp);
 }
