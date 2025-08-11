@@ -3,7 +3,7 @@
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
-#define FILE_INFO "/home/gmazzini/gm/cqlinux/info.txt"
+#define FILE_INFO "/home/gmazzini/gm/info.txt"
 
 #define CQRATE 2
 #define PORT 7777
