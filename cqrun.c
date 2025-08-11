@@ -194,14 +194,14 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
     pdist=distlocator(grid,mygrid)+1;
     times=timesused(call);
     score=psnr*pdist/ptime/(1+times);
-    if(fp==NULL)printf("CQ:%s %lf %lf %lf %lf %d\n",call,ptime,psnr,pdist,score,times);
+    if(fp!=NULL)fprintf(fp,"%d,%s,%lf,%lf,%lf,%d,%lf\n",i,call,ptime,psnr,pdist,times,score);
     if(score>topscore){
       topscore=score;
       *jsel=i;
       strcpy(selcall,call);
     }
   }
-  if(fp==NULL)printf("Selection nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
+  if(fp!=NULL)fprintf(fp,"Selection nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
 }
 
 void* th_enabletx(void* arg){
