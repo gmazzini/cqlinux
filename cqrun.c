@@ -167,6 +167,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
   double topscore,score,ptime,psnr,pdist;;
   time_t now;
   char call[16],grid[8],out[BUF_SIZE];
+  uint16_t times;
   
   *jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
   now=time(NULL);
@@ -204,8 +205,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
 }
 
 void* th_enabletx(void* arg){
-  int i,j,m,jsel;
-  uint16_t times;
+  int jsel;
   char out[BUF_SIZE],selcall[16],*q;
 
   mylock=1;
@@ -247,8 +247,8 @@ void sigint_handler(int sig){
   fprintf(fp,">> RXED\n");
   for(i=0;i<nrxed;i++){
     fprintf(fp,"%d,",i);
-    fprintf(fp,"%lu,%ld,%d,%4.1f,%lu,%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
-    fprintf(fp,"%s,%llu\n",rxed[i].modeS,rxed[i].freqS);
+    fprintf(fp,"%" PRIu64 ",%ld,%d,%4.1f,%" PRIu32 ",%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
+    fprintf(fp,"%s,%" PRIu64 "\n",rxed[i].modeS,rxed[i].freqS);
   }
   fprintf(fp,"<< RXED,%d\n",nrxed);
 
