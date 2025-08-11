@@ -247,7 +247,7 @@ void sigint_handler(int sig){
   fprintf(fp,">> RXED\n");
   for(i=0;i<nrxed;i++){
     fprintf(fp,"%d,",i);
-    fprintf(fp,"%" PRIu64 ",%ld,%d,%4.1f,%" PRIu32 ",%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
+    fprintf(fp,"%" PRIu32 ",%ld,%d,%4.1f,%" PRIu32 ",%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
     fprintf(fp,"%s,%" PRIu64 "\n",rxed[i].modeS,rxed[i].freqS);
   }
   fprintf(fp,"<< RXED,%d\n",nrxed);
