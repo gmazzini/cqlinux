@@ -164,7 +164,7 @@ int main() {
 }
 
 void cqselection(char *selcall,int *jsel,FILE *fp){
-  int cqed,inlog,inblack,i,m,j,nk,k[4];
+  int cqed,inlog,inblack,i,m,j,nk,k[4],vchecklog,vcheckesc;
   double topscore,score,ptime,psnr,pdist;;
   time_t now;
   char call[16],grid[8],out[BUF_SIZE];
@@ -188,18 +188,17 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
     }
     else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
     sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
-
-    if(fp!=NULL)fprintf(fp,"%d,%s\n",i,out);
-
-    
-    if(checklog(out)){inlog++; continue;}
-    if(checkesc(call)){inblack++; continue;}
+    vchecklog=checklog(out);
+    vcheckesc=checkesc(call);
     ptime=now-rxed[i].time;
     psnr=30.0+rxed[i].snr;
     pdist=distlocator(grid,mygrid)+1;
     times=timesused(call);
     score=psnr*pdist/ptime/(1+times);
-    if(fp!=NULL)fprintf(fp,"%d,%s,%.0lf,%.0lf,%.0lf,%d,%.0lf\n",i,call,ptime,psnr,pdist,times,score);
+    if(fp!=NULL)fprintf(fp,"%d,%s,%.0lf,%.0lf,%.0lf,%d,%.0lf,%d,%d\n",i,call,ptime,psnr,pdist,times,score,vchecklog,vcheckesc);
+    if(vchecklog)inlog++;
+    if(vcheckesc)inblack++;
+    if(vchecklog || vcheckesc)continue;
     if(score>topscore){
       topscore=score;
       *jsel=i;
