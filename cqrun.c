@@ -170,7 +170,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
   char call[16],grid[8],out[BUF_SIZE];
   uint16_t times;
   
-  *jsel=-1; topscore=1e37; cqed=0; inlog=0; inblack=0;
+  *jsel=-1; topscore=0; cqed=0; inlog=0; inblack=0;
   now=time(NULL);
   for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
     cqed++;
@@ -260,7 +260,7 @@ void sigint_handler(){
   fprintf(fp,"<< RXED\n");
   fprintf(fp,">> CQED\n");
   cqselection(selcall,&jsel,fp);
-  fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
+  fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
   fprintf(fp,"<< CQED\n");
   fclose(fp);
 }
