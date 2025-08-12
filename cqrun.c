@@ -30,7 +30,7 @@ socklen_t addr_len=sizeof(addr);
 char mygrid[16];
 
 void* th_enabletx(void *);
-void sigint_handler(int);
+void sigint_handler();
 
 int main() {
   int i,j;
