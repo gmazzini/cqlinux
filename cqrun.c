@@ -188,6 +188,10 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
     }
     else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
     sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
+
+    if(fp!=NULL)fprintf(fp,"%d,%s\n",i,out);
+
+    
     if(checklog(out)){inlog++; continue;}
     if(checkesc(call)){inblack++; continue;}
     ptime=now-rxed[i].time;
@@ -195,7 +199,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
     pdist=distlocator(grid,mygrid)+1;
     times=timesused(call);
     score=psnr*pdist/ptime/(1+times);
-    if(fp!=NULL)fprintf(fp,"%d,%s,%lf,%lf,%lf,%d,%lf\n",i,call,ptime,psnr,pdist,times,score);
+    if(fp!=NULL)fprintf(fp,"%d,%s,%.0lf,%.0lf,%.0lf,%d,%.0lf\n",i,call,ptime,psnr,pdist,times,score);
     if(score>topscore){
       topscore=score;
       *jsel=i;
