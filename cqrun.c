@@ -164,10 +164,10 @@ int main() {
 }
 
 void cqselection(char *selcall,int *jsel,FILE *fp){
-  int cqed,inlog,inblack,i,m,j,nk,k[4],vchecklog,vcheckesc;
+  int cqed,inlog,inblack,i,m,j,nk,k[4],vchecklog,vcheckesc,vmodifier;
   double topscore,score,ptime,psnr,pdist;;
   time_t now;
-  char call[16],grid[8],out[BUF_SIZE];
+  char call[16],grid[8],out[BUF_SIZE],modifier[8];
   uint16_t times;
   
   *jsel=-1; topscore=0; cqed=0; inlog=0; inblack=0;
@@ -181,31 +181,40 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
       if(nk==4)break;
     }
     if(nk<3)continue;
+    *modifier='\0';
     sprintf(call,"%.*s",k[1]-k[0]-1,rxed[i].msg+k[0]+1);
     if(onlychar(call)){
+      strcpy(modifier,call);
       sprintf(call,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
       sprintf(grid,"%.*s",k[3]-k[2]-1,rxed[i].msg+k[2]+1);
     }
     else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
     sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
-    vchecklog=checklog(out);
-    vcheckesc=checkesc(call);
     ptime=now-rxed[i].time;
     psnr=30.0+rxed[i].snr;
     pdist=distlocator(grid,mygrid)+1;
     times=timesused(call);
     score=psnr*pdist/ptime/(1+times);
-    if(fp!=NULL)fprintf(fp,"%d,%s,%.0lf,%.0lf,%.0lf,%d,%.0lf,%d,%d\n",i,call,ptime,psnr,pdist,times,score,vchecklog,vcheckesc);
+    vchecklog=checklog(out);
+    vcheckesc=checkesc(call);
+    vmodifier=0;
+    if(*modifier!='\0'){
+      vmodifier=1;
+      if(strcmp(modifier,"EU")==0)vmodifier=0;
+      if(strcmp(modifier,"DX")==0 && pdist>1500)vmodifier=0;
+    }
+    if(fp!=NULL)fprintf(fp,"%d,%s,%.0lf,%.0lf,%.0lf,%d,%.0lf,%d,%d,%d\n",i,call,ptime,psnr,pdist,times,score,vchecklog,vcheckesc,vmodifier);
     if(vchecklog)inlog++;
     if(vcheckesc)inblack++;
-    if(vchecklog || vcheckesc)continue;
+    if(vmodifier)inmodifier++;
+    if(vchecklog || vcheckesc || vmodifier)continue;
     if(score>topscore){
       topscore=score;
       *jsel=i;
       strcpy(selcall,call);
     }
   }
-  if(fp!=NULL)fprintf(fp,"# Selection cqed:%d inlog:%d inblack:%d\n",cqed,inlog,inblack);
+  if(fp!=NULL)fprintf(fp,"# Selection cqed:%d inlog:%d inblack:%d inmodifier:%d\n",cqed,inlog,inblack,inmodifier);
 }
 
 void* th_enabletx(){
