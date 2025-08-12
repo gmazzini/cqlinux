@@ -205,7 +205,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
       strcpy(selcall,call);
     }
   }
-  if(fp!=NULL)fprintf(fp,"Selection cqed:%d inlog:%d inblack:%d\n",cqed,inlog,inblack);
+  if(fp!=NULL)fprintf(fp,"# Selection cqed:%d inlog:%d inblack:%d\n",cqed,inlog,inblack);
 }
 
 void* th_enabletx(void* arg){
@@ -243,7 +243,7 @@ void* th_enabletx(void* arg){
   pthread_exit(NULL);
 }
 
-void sigint_handler(int sig){
+void sigint_handler(){
   FILE *fp;
   uint32_t i;
   int jsel;
@@ -260,6 +260,7 @@ void sigint_handler(int sig){
   fprintf(fp,"<< RXED\n");
   fprintf(fp,">> CQED\n");
   cqselection(selcall,&jsel,fp);
+  fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
   fprintf(fp,"<< CQED\n");
   fclose(fp);
 }
