@@ -8,7 +8,7 @@
 #define CQRATE 2
 #define PORT 7777
 #define MAX_RXED 1000
-int level=0; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
+int level=2; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
 int jcq=0;
 int mylock=0;
 struct rxed {
@@ -90,7 +90,7 @@ int main() {
     Ru32(&xx,&p);
     Ru32(&type,&p);
 
-    // decode
+    // Decode
     if(type==2){
       Rs(out,&p);
       Rb(&bb,&p);
@@ -105,6 +105,7 @@ int main() {
       Rb(&rxed[nrxed].LowConf,&p);
       rxed[nrxed].freqS=lastfreq;
       strcpy(rxed[nrxed].modeS,lastmode);
+  printf("Decoded %d %s\n",nrxed,rxed[nrxed].msg);
       if(++nrxed==MAX_RXED)nrxed=0;
     }
 
@@ -201,7 +202,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
       strcpy(selcall,call);
     }
   }
-  if(fp!=NULL)fprintf(fp,"Selection nrxed:%d cqed:%d inlog:%d inblack:%d\n",nrxed,cqed,inlog,inblack);
+  if(fp!=NULL)fprintf(fp,"Selection cqed:%d inlog:%d inblack:%d\n",cqed,inlog,inblack);
 }
 
 void* th_enabletx(void* arg){
@@ -247,7 +248,8 @@ void sigint_handler(int sig){
   fp=fopen(FILE_INFO,"w");
   if(fp==NULL)return;
   fprintf(fp,">> RXED\n");
-  for(i=0;i<nrxed;i++){
+  for(i=0;i<MAX_RXED;i++){
+    if(rxed[i].msg[0]='\0')continue;
     fprintf(fp,"%d,",i);
     fprintf(fp,"%" PRIu32 ",%ld,%d,%3.1f,%" PRIu32 ",%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
     fprintf(fp,"%s,%" PRIu64 "\n",rxed[i].modeS,rxed[i].freqS);
