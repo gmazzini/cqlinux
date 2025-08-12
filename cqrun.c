@@ -262,5 +262,14 @@ void sigint_handler(){
   cqselection(selcall,&jsel,fp);
   if(jsel>=0)fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
   fprintf(fp,"<< CQED\n");
+  fprintf(fp,">> LOG\n");
+  for(i=0;i<nlog;i++)printf(fp,"%d,%s\n",i,vlog[i]);
+  fprintf(fp,"<< LOG\n");
+  printf(fp,">> ESC\n");
+  for(i=0;i<nesc;i++)printf(fp,"%d,%s\n",i,vesc[i]);
+  fprintf(fp,"<< ESC\n");
+  printf(fp,">> USED\n");
+  for(i=0;i<nused;i++)printf(fp,"%d,%s,%d\n",i,used[i].call,used[i].times);
+  fprintf(fp,"<< USED\n");
   fclose(fp);
 }
