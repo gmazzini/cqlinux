@@ -164,7 +164,7 @@ int main() {
 }
 
 void cqselection(char *selcall,int *jsel,FILE *fp){
-  int cqed,inlog,inblack,i,m,j,nk,k[4],vchecklog,vcheckesc,vmodifier;
+  int cqed,inlog,inblack,inmodifier,i,m,j,nk,k[4],vchecklog,vcheckesc,vmodifier;
   double topscore,score,ptime,psnr,pdist;;
   time_t now;
   char call[16],grid[8],out[BUF_SIZE],modifier[8];
