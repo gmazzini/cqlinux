@@ -29,7 +29,7 @@ struct sockaddr_in addr,sender_addr;
 socklen_t addr_len=sizeof(addr);
 char mygrid[16];
 
-void* th_enabletx(void *);
+void* th_enabletx();
 void sigint_handler();
 
 int main() {
@@ -208,7 +208,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
   if(fp!=NULL)fprintf(fp,"# Selection cqed:%d inlog:%d inblack:%d\n",cqed,inlog,inblack);
 }
 
-void* th_enabletx(void* arg){
+void* th_enabletx(){
   int jsel;
   char out[BUF_SIZE],selcall[16],*q;
 
@@ -260,7 +260,7 @@ void sigint_handler(){
   fprintf(fp,"<< RXED\n");
   fprintf(fp,">> CQED\n");
   cqselection(selcall,&jsel,fp);
-  fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
+  if(jsel>=0)fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
   fprintf(fp,"<< CQED\n");
   fclose(fp);
 }
