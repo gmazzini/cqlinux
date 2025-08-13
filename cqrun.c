@@ -155,7 +155,7 @@ int main() {
       Ru32(&xx,&p);
       Rs(out,&p);
       Rs(out,&p);
-      if(transmitting)printf("@@@ %lu\n",ceil(((double)time(NULL))/7.5));
+      if(transmitting)printf("@@@ %lu\n",ms_since_midnight_utc()/7500);
       if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
