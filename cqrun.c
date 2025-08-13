@@ -22,6 +22,7 @@ struct rxed {
   uint8_t LowConf;
   char modeS[8];
   uint64_t freqS;
+  uint8_t eo;
 } *rxed;
 uint32_t nrxed;
 int sock;
@@ -36,7 +37,7 @@ int main() {
   int i,j;
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
   char *p;
-  uint8_t bb,bdec,enabletx,transmitting;
+  uint8_t bb,bdec,enabletx,transmitting,lasteo;
   uint32_t type,xx,TPeriod;
   uint64_t lastfreq;
   time_t now;
@@ -77,6 +78,7 @@ int main() {
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
   signal(34,sigint_handler);
   nrxed=0;
+  lasteo=0;
   for(;;){
     recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
 
@@ -105,7 +107,8 @@ int main() {
       Rb(&rxed[nrxed].LowConf,&p);
       rxed[nrxed].freqS=lastfreq;
       strcpy(rxed[nrxed].modeS,lastmode);
-  printf("Decoded %d %s\n",nrxed,rxed[nrxed].msg);
+      rxed[nrxed].eo=lasteo;
+  printf("Decoded %d %s >> %d\n",nrxed,rxed[nrxed].msg,lasteo);
       if(++nrxed==MAX_RXED)nrxed=0;
     }
 
@@ -159,7 +162,8 @@ int main() {
         TPeriod=0;
         if(strcmp(lastmode,"FT4")==0)TPeriod=7500;
         if(strcmp(lastmode,"FT8")==0)TPeriod=15000;
-        printf("@@@ %lf\n",((double)ms_since_midnight_utc())/TPeriod);
+        xx=(uint32_t)(ms_since_midnight_utc())/TPeriod);
+        lasteo=xx&1;
       }
       if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
