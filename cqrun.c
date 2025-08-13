@@ -260,6 +260,10 @@ void sigint_handler(){
   char selcall[16];
   fp=fopen(FILE_INFO,"w");
   if(fp==NULL)return;
+  fprintf(fp,">> CQED\n");
+  cqselection(selcall,&jsel,fp);
+  if(jsel>=0)fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
+  fprintf(fp,"<< CQED\n");
   fprintf(fp,">> RXED\n");
   for(i=0;i<MAX_RXED;i++){
     if(rxed[i].msg[0]=='\0')continue;
@@ -268,10 +272,6 @@ void sigint_handler(){
     fprintf(fp,"%s,%" PRIu64 "\n",rxed[i].modeS,rxed[i].freqS);
   }
   fprintf(fp,"<< RXED\n");
-  fprintf(fp,">> CQED\n");
-  cqselection(selcall,&jsel,fp);
-  if(jsel>=0)fprintf(fp,"# Selected jsel:%d call:%s\n",jsel,selcall);
-  fprintf(fp,"<< CQED\n");
   fprintf(fp,">> LOG\n");
   for(i=0;i<nlog;i++)fprintf(fp,"%d,%s\n",i,vlog[i]);
   fprintf(fp,"<< LOG\n");
