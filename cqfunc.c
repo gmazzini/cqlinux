@@ -365,3 +365,13 @@ uint16_t timesused(char *p){
   }
   return (found==1)?used[pos].times:0;
 }
+
+uint64_t ms_since_midnight_utc(void){
+  struct timeval tv;
+  struct tm utc;
+  uint64_t sec_midnight;
+  gettimeofday(&tv,NULL);
+  gmtime_r(&tv.tv_sec,&utc);
+  sec_midnight=utc.tm_hour*3600LL+utc.tm_min*60LL+utc.tm_sec;
+  return sec_midnight*1000LL+(tv.tv_usec/1000);
+}
