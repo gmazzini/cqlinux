@@ -37,7 +37,7 @@ int main() {
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
   char *p;
   uint8_t bb,bdec,enabletx,transmitting;
-  uint32_t type,xx,TRperiod;
+  uint32_t type,xx,TRPeriod;
   uint64_t lastfreq;
   time_t now;
   struct tm tm;
