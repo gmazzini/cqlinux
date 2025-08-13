@@ -37,7 +37,7 @@ int main() {
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
   char *p;
   uint8_t bb,bdec,enabletx,transmitting;
-  uint32_t type,xx,TRPeriod;
+  uint32_t type,xx;
   uint64_t lastfreq;
   time_t now;
   struct tm tm;
@@ -152,10 +152,10 @@ int main() {
       Rb(&bb,&p);
       Ru8(&bb,&p);
       Ru32(&xx,&p);
-      Ru32(&TRPeriod,&p);
+      Ru32(&xx,&p);
       Rs(out,&p);
       Rs(out,&p);
-      if(transmitting)printf("@@@ %lf %lu %lu\n",((double)time(NULL))/TRPeriod,time(NULL),TRPeriod);
+      if(transmitting)printf("@@@ %lf\n",((double)time(NULL))/7.5);
       if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
