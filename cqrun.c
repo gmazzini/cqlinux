@@ -22,7 +22,7 @@ struct rxed {
   uint8_t LowConf;
   char modeS[8];
   uint64_t freqS;
-  uint8_t eo;
+  uint8_t eoS;
 } *rxed;
 uint32_t nrxed;
 int sock;
@@ -107,7 +107,7 @@ int main() {
       Rb(&rxed[nrxed].LowConf,&p);
       rxed[nrxed].freqS=lastfreq;
       strcpy(rxed[nrxed].modeS,lastmode);
-      rxed[nrxed].eo=lasteo;
+      rxed[nrxed].eoS=lasteo;
   printf("Decoded %d %s >> %d\n",nrxed,rxed[nrxed].msg,lasteo);
       if(++nrxed==MAX_RXED)nrxed=0;
     }
@@ -278,7 +278,7 @@ void sigint_handler(){
     if(rxed[i].msg[0]=='\0')continue;
     fprintf(fp,"%d,",i);
     fprintf(fp,"%" PRIu32 ",%ld,%d,%3.1f,%" PRIu32 ",%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
-    fprintf(fp,"%s,%" PRIu64 "\n",rxed[i].modeS,rxed[i].freqS);
+    fprintf(fp,"%s,%" PRIu64 ",%d\n",rxed[i].modeS,rxed[i].freqS,rxed[i].eoS);
   }
   fprintf(fp,"<< RXED\n");
   fprintf(fp,">> LOG\n");
