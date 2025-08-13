@@ -36,8 +36,8 @@ int main() {
   int i,j;
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
   char *p;
-  uint8_t bb,bdec,enabletx;
-  uint32_t type,xx;
+  uint8_t bb,bdec,enabletx,transmitting;
+  uint32_t type,xx,TRperiod;
   uint64_t lastfreq;
   time_t now;
   struct tm tm;
@@ -140,7 +140,7 @@ int main() {
       Rs(out,&p);
       Rs(out,&p);
       Rb(&enabletx,&p);
-      Rb(&bb,&p);
+      Rb(&transmitting,&p);
       Rb(&bdec,&p);
       Ru32(&xx,&p);
       Ru32(&xx,&p);
@@ -151,10 +151,11 @@ int main() {
       Rs(out,&p);
       Rb(&bb,&p);
       Ru8(&bb,&p);
+      Ru32(&xx,&p);
+      Ru32(&TRPeriod,&p);
       Rs(out,&p);
       Rs(out,&p);
-      Rs(out,&p);
-      Rs(out,&p);
+      if(transmitting)printf("@@@ %lf\n",time(NULL)/TRPeriod);
       if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
