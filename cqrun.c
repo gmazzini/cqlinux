@@ -155,7 +155,7 @@ int main() {
       Ru32(&TRPeriod,&p);
       Rs(out,&p);
       Rs(out,&p);
-      if(transmitting)printf("@@@ %lf\n",((double)time(NULL))/TRPeriod);
+      if(transmitting)printf("@@@ %lf %ld %d\n",((double)time(NULL))/TRPeriod,time(NULL),TRPeriod);
       if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
