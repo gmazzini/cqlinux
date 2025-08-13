@@ -78,7 +78,7 @@ int main() {
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
   signal(34,sigint_handler);
   nrxed=0;
-  lasteo=0;
+  lasteo=2;
   for(;;){
     recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
 
