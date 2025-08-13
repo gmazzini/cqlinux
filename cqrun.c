@@ -37,7 +37,7 @@ int main() {
   char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
   char *p;
   uint8_t bb,bdec,enabletx,transmitting;
-  uint32_t type,xx;
+  uint32_t type,xx,TPeriod;
   uint64_t lastfreq;
   time_t now;
   struct tm tm;
@@ -154,8 +154,13 @@ int main() {
       Ru32(&xx,&p);
       Ru32(&xx,&p);
       Rs(out,&p);
-      Rs(out,&p);
-      if(transmitting)printf("@@@ %lu\n",ms_since_midnight_utc()/7500);
+      Rs(out,&p);      
+      if(transmitting){
+        TPeriod=0;
+        if(strcmp(lastmode,"FT4")==0)TPeriod=7500;
+        if(strcmp(lastmode,"FT8")==0)TPeriod=15000;
+        printf("@@@ %lf\n",((double)ms_since_midnight_utc())/TPeriod);
+      }
       if((level&1) && (!enabletx) && (!mylock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
