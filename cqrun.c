@@ -162,7 +162,7 @@ int main() {
         TPeriod=0;
         if(strcmp(lastmode,"FT4")==0)TPeriod=7500;
         if(strcmp(lastmode,"FT8")==0)TPeriod=15000;
-        xx=(uint32_t)(ms_since_midnight_utc())/TPeriod);
+        xx=(uint32_t)(ms_since_midnight_utc()/TPeriod);
         lasteo=xx&1;
       }
       if((level&1) && (!enabletx) && (!mylock)){
