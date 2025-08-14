@@ -28,18 +28,19 @@ uint32_t nrxed;
 int sock;
 struct sockaddr_in addr,sender_addr;
 socklen_t addr_len=sizeof(addr);
-char mygrid[16];
+char mygrid[16],lastmode[8];
+uint8_t lasteo;
+uint64_t lastfreq;
 
 void* th_enabletx();
 void sigint_handler();
 
 int main() {
   int i,j;
-  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],lastmode[8];
+  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8];
   char *p;
-  uint8_t bb,bdec,enabletx,transmitting,lasteo;
+  uint8_t bb,bdec,enabletx,transmitting;
   uint32_t type,xx,TPeriod;
-  uint64_t lastfreq;
   time_t now;
   struct tm tm;
   pthread_t thread;
