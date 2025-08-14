@@ -215,13 +215,13 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
       if(strcmp(modifier,"EU")==0)vmodifier=0;
       if(strcmp(modifier,"DX")==0 && pdist>1500)vmodifier=0;
     }
-    if(fp!=NULL)fprintf(fp,"%d,%s,%.0lf,%.0lf,%.0lf,%d,%.0lf,%d,%d,%d\n",i,call,ptime,psnr,pdist,times,score,vchecklog,vcheckesc,vmodifier);
-    if(vchecklog)inlog++;
-    if(vcheckesc)inblack++;
-    if(vmodifier)inmodifier++;
     vbadmode=(strcmp(rxed[i].modeS,lastmode)==0)?0:1;
     vbadfreq=((int)(rxed[i].freqS/1000000)==(int)(lastfreq/1000000))?0:1;
     vbadeo=(rxed[i].eoS==lasteo)?0:1;
+    if(fp!=NULL)fprintf(fp,"%d,%s,%.0lf,%.0lf,%.0lf,%d,%.0lf,%d,%d,%d,%d,%d,%d\n",i,call,ptime,psnr,pdist,times,score,vchecklog,vcheckesc,vmodifier,vbadmode,vbadfreq,vbadeo);
+    if(vchecklog)inlog++;
+    if(vcheckesc)inblack++;
+    if(vmodifier)inmodifier++;
     if(vbadmode)badmode++;
     if(vbadfreq)badfreq++;
     if(vbadeo)badeo++;
@@ -232,7 +232,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
       strcpy(selcall,call);
     }
   }
-  if(fp!=NULL)fprintf(fp,"# Selection cqed:%d inlog:%d inblack:%d inmodifier:%d\n",cqed,inlog,inblack,inmodifier);
+  if(fp!=NULL)fprintf(fp,"# Selection cqed:%d inlog:%d inblack:%d inmodifier:%d badmode:%d badfreq:%d badeo:%d\n",cqed,inlog,inblack,inmodifier,badmode,badfreq,badeo);
 }
 
 void* th_enabletx(){
