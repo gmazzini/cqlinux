@@ -174,7 +174,8 @@ int main() {
 }
 
 void cqselection(char *selcall,int *jsel,FILE *fp){
-  int cqed,inlog,inblack,inmodifier,i,m,j,nk,k[4],vchecklog,vcheckesc,vmodifier;
+  int cqed,inlog,inblack,inmodifier,badmode,badfreq,badeo,i,m,j,nk,k[4];
+  int vchecklog,vcheckesc,vmodifier,vbadmode,vbadfreq,vbadeo;
   double topscore,score,ptime,psnr,pdist;;
   time_t now;
   char call[16],grid[8],out[BUF_SIZE],modifier[8];
@@ -217,7 +218,13 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
     if(vchecklog)inlog++;
     if(vcheckesc)inblack++;
     if(vmodifier)inmodifier++;
-    if(vchecklog || vcheckesc || vmodifier)continue;
+    vbadmode=(strcmp(rxed[i].modeS,lastmode)==0)?0:1;
+    vbadfreq=((int)(rxed[i].freqS/1000000)==(int)(lastfreq/1000000))?0:1;
+    vbadeo=(rxed[i].eoS==lasteo)?0:1;
+    if(vbadmode)badmode++;
+    if(vbadfreq)badfreq++;
+    if(vbadeo)badeo++;
+    if(vchecklog || vcheckesc || vmodifier || vbadmode || vbadfreq || vbadeo)continue;
     if(score>topscore){
       topscore=score;
       *jsel=i;
