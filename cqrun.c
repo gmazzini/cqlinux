@@ -8,7 +8,7 @@
 #define CQRATE 2
 #define PORT 7777
 #define MAX_RXED 1000
-int level=2; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
+int level=3; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
 int jcq=0;
 int mylock=0;
 struct rxed {
