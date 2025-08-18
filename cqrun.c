@@ -34,6 +34,7 @@ uint8_t lasteo;
 uint64_t lastfreq;
 
 void* th_enabletx();
+void* th_logging();
 void sigint_handler();
 
 int main() {
