@@ -241,7 +241,7 @@ void* th_enabletx(){
   char out[BUF_SIZE],selcall[16],*q;
 
   txenablelock=1;
-  sleep(6);
+  sleep(16);
   if(level&2)printf("Status: EnableTx %d\n",jcq);
   if(jcq==CQRATE-1){
     cqselection(selcall,&jsel,stdout);
@@ -273,7 +273,7 @@ void* th_enabletx(){
 
 void* th_logging(){
   logginglock=1;
-  sleep(3);
+  sleep(4);
   printf("Log\n");
   emulate(XK_Return,XK_Return,1,wlog);
   logginglock=0;
