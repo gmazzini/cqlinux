@@ -10,7 +10,8 @@
 #define MAX_RXED 1000
 int level=3; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
 int jcq=0;
-int mylock=0;
+int txenablelock=0;
+int logginglock=0;
 struct rxed {
   uint32_t ttime;
   time_t time;
@@ -43,7 +44,7 @@ int main() {
   uint32_t type,xx,TPeriod;
   time_t now;
   struct tm tm;
-  pthread_t thread;
+  pthread_t thread,thread2;
   FILE *fp;
 
   fp=fopen(FILE_LOG,"r");
@@ -82,12 +83,12 @@ int main() {
   lasteo=2;
   for(;;){
     recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
-
-    if((level&1) && winlog()){
-      printf("Log\n");
-      emulate(XK_Return,XK_Return,1,wlog);
+    
+    if((level&1) && winlog() && (!logginglock)){
+      pthread_create(&thread2,NULL,th_logging,NULL);
+      pthread_detach(thread2);
     }
-
+    
     p=buffer;
     Ru32(&xx,&p); if(xx!=0xadbccbda)continue;
     Ru32(&xx,&p);
@@ -165,7 +166,7 @@ int main() {
         xx=(uint32_t)(ms_since_midnight_utc()/TPeriod);
         lasteo=xx&1;
       }
-      if((level&1) && (!enabletx) && (!mylock)){
+      if((level&1) && (!enabletx) && (!txenablelock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
       }
@@ -238,7 +239,7 @@ void* th_enabletx(){
   int jsel;
   char out[BUF_SIZE],selcall[16],*q;
 
-  mylock=1;
+  txenablelock=1;
   sleep(6);
   if(level&2)printf("Status: EnableTx %d\n",jcq);
   if(jcq==CQRATE-1){
@@ -265,7 +266,16 @@ void* th_enabletx(){
   emulate(XK_Alt_L,XK_n,2,wbase);
   if(jcq!=CQRATE-1)emulate(XK_Alt_L,XK_6,2,wbase);
   if(++jcq==CQRATE)jcq=0;
-  mylock=0;
+  txenablelock=0;
+  pthread_exit(NULL);
+}
+
+void* th_logging(){
+  logginglock=1;
+  sleep(3);
+  printf("Log\n");
+  emulate(XK_Return,XK_Return,1,wlog);
+  logginglock=0;
   pthread_exit(NULL);
 }
 
