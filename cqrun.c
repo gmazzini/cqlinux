@@ -39,7 +39,7 @@ void sigint_handler();
 
 int main() {
   int i,j;
-  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8];
+  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],stime[16];
   char *p;
   uint8_t bb,bdec,enabletx,transmitting;
   uint32_t type,xx,TPeriod;
@@ -121,7 +121,8 @@ int main() {
       Rs(version,&p);
       Rs(out,&p);
       if(level&2){
-        printf("Heartbeat: %s\n",version);
+        time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
+        printf("%s Heartbeat: %s\n",stime,version);
       }
     }
 
@@ -134,7 +135,10 @@ int main() {
       extract(aux,out,"freq"); if(*aux=='\0')goto go12;
       sprintf(out,"%s_%s_%d",call,mode,atoi(aux));
       inslog(out);
-      if(level&2)printf("Inslog:%s\n",out);
+      if(level&2){
+        time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
+        printf("%s Inslog:%s\n",stime,out);
+      }
       go12:
     }
 
@@ -240,21 +244,21 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
 
 void* th_enabletx(){
   int jsel;
-  char out[BUF_SIZE],selcall[16],*q;
+  char out[BUF_SIZE],selcall[16],*q,stime[16];
   time_t rawtime;
   struct tm *ptm;
 
   txenablelock=1;
   if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
-    printf("%s EnableTx in\n",out);
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
+    printf("%s EnableTx in\n",stime);
   }
   sleep(16);
   if(jcq==CQRATE-1){
     cqselection(selcall,&jsel,NULL);
     if(level&2 && jsel>=0){
-      time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
-      printf("%s Selected %s\n",out,rxed[jsel].msg);
+      time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
+      printf("%s Selected %s\n",stime,rxed[jsel].msg);
     }
     if(jsel>=0){
       addused(selcall);
@@ -279,27 +283,27 @@ void* th_enabletx(){
   if(++jcq==CQRATE)jcq=0;
   txenablelock=0;
   if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
-    printf("%s EnableTx out\n",out);
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
+    printf("%s EnableTx out\n",stime);
   }
   pthread_exit(NULL);
 }
 
 void* th_logging(){
-  char out[BUF_SIZE];
+  char out[BUF_SIZE],stime[16];
   time_t rawtime;
   struct tm *ptm;
   logginglock=1;
   if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
-    printf("%s Logging in\n",out);
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
+    printf("%s Logging in\n",stime);
   }
   sleep(4);
   emulate(XK_Return,XK_Return,1,wlog);
   logginglock=0;
   if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
-    printf("%s Logging out\n",out);
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
+    printf("%s Logging out\n",stime);
   }
   pthread_exit(NULL);
 }
