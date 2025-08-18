@@ -109,7 +109,6 @@ int main() {
       rxed[nrxed].freqS=lastfreq;
       strcpy(rxed[nrxed].modeS,lastmode);
       rxed[nrxed].eoS=lasteo;
-  printf("Decoded %d %s >> %d\n",nrxed,rxed[nrxed].msg,lasteo);
       if(++nrxed==MAX_RXED)nrxed=0;
     }
 
@@ -243,7 +242,7 @@ void* th_enabletx(){
   sleep(6);
   if(level&2)printf("Status: EnableTx %d\n",jcq);
   if(jcq==CQRATE-1){
-    cqselection(selcall,&jsel,NULL);
+    cqselection(selcall,&jsel,stdout);
     if(level&2 && jsel>=0)printf("Selected %s\n",rxed[jsel].msg);
     if(jsel>=0){
       addused(selcall);
