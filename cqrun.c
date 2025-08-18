@@ -43,8 +43,8 @@ int main() {
   char *p;
   uint8_t bb,bdec,enabletx,transmitting;
   uint32_t type,xx,TPeriod;
-  time_t now;
-  struct tm tm;
+  time_t rawtime;
+  struct tm tm,*ptm;
   pthread_t thread,thread2;
   FILE *fp;
 
@@ -100,7 +100,7 @@ int main() {
       Rs(out,&p);
       Rb(&bb,&p);
       Ru32(&rxed[nrxed].ttime,&p);
-      now=time(NULL); tm=*gmtime(&now); tm.tm_hour=0; tm.tm_min=0; tm.tm_sec=0;
+      time(&rawtime); tm=*gmtime(&rawtime); tm.tm_hour=0; tm.tm_min=0; tm.tm_sec=0;
       rxed[nrxed].time=timegm(&tm)+rxed[nrxed].ttime/1000;
       Ru32((uint32_t *)&rxed[nrxed].snr,&p);
       Rf(&rxed[nrxed].dt,&p);
@@ -120,7 +120,9 @@ int main() {
       Ru32(&xx,&p);
       Rs(version,&p);
       Rs(out,&p);
-      if(level&2)printf("Heartbeat: %s\n",version);
+      if(level&2){
+        printf("Heartbeat: %s\n",version);
+      }
     }
 
     // Logged ADIF 
@@ -179,12 +181,12 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
   int cqed,inlog,inblack,inmodifier,badmode,badfreq,badeo,i,m,j,nk,k[4];
   int vchecklog,vcheckesc,vmodifier,vbadmode,vbadfreq,vbadeo;
   double topscore,score,ptime,psnr,pdist;;
-  time_t now;
+  time_t rawtime;
   char call[16],grid[8],out[BUF_SIZE],modifier[8];
   uint16_t times;
   
   *jsel=-1; topscore=0; cqed=0; inlog=0; inblack=0; inmodifier=0; badmode=0; badfreq=0; badeo=0;
-  now=time(NULL);
+  time(&rawtime);
   for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
     cqed++;
     m=strlen(rxed[i].msg);
@@ -203,7 +205,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
     }
     else sprintf(grid,"%.*s",k[2]-k[1]-1,rxed[i].msg+k[1]+1);
     sprintf(out,"%s_%s_%d",call,rxed[i].modeS,(int)(rxed[i].freqS/1000000));
-    ptime=now-rxed[i].time;
+    ptime=rawtime-rxed[i].time;
     psnr=30.0+rxed[i].snr;
     pdist=distlocator(grid,mygrid)+1;
     times=timesused(call);
@@ -239,13 +241,21 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
 void* th_enabletx(){
   int jsel;
   char out[BUF_SIZE],selcall[16],*q;
+  time_t rawtime;
+  struct tm *ptm;
 
   txenablelock=1;
+  if(level&2){
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
+    printf("%s EnableTx in\n",out);
+  }
   sleep(16);
-  if(level&2)printf("Status: EnableTx %d\n",jcq);
   if(jcq==CQRATE-1){
-    cqselection(selcall,&jsel,stdout);
-    if(level&2 && jsel>=0)printf("Selected %s\n",rxed[jsel].msg);
+    cqselection(selcall,&jsel,NULL);
+    if(level&2 && jsel>=0){
+      time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
+      printf("%s Selected %s\n",out,rxed[jsel].msg);
+    }
     if(jsel>=0){
       addused(selcall);
       q=out;
@@ -268,15 +278,29 @@ void* th_enabletx(){
   if(jcq!=CQRATE-1)emulate(XK_Alt_L,XK_6,2,wbase);
   if(++jcq==CQRATE)jcq=0;
   txenablelock=0;
+  if(level&2){
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
+    printf("%s EnableTx out\n",out);
+  }
   pthread_exit(NULL);
 }
 
 void* th_logging(){
+  char out[BUF_SIZE];
+  time_t rawtime;
+  struct tm *ptm;
   logginglock=1;
+  if(level&2){
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
+    printf("%s Logging in\n",out);
+  }
   sleep(4);
-  printf("Log\n");
   emulate(XK_Return,XK_Return,1,wlog);
   logginglock=0;
+  if(level&2){
+    time(&rawtime); ptm=gmtime(&rawtime); strftime(out,BUF_SIZE,"%H%M%S",ptm);
+    printf("%s Logging out\n",out);
+  }
   pthread_exit(NULL);
 }
 
