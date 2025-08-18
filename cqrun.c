@@ -290,7 +290,7 @@ void* th_enabletx(){
 }
 
 void* th_logging(){
-  char out[BUF_SIZE],stime[16];
+  char stime[16];
   time_t rawtime;
   struct tm *ptm;
   logginglock=1;
