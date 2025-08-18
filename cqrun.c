@@ -167,7 +167,7 @@ int main() {
         xx=(uint32_t)(ms_since_midnight_utc()/TPeriod);
         lasteo=xx&1;
       }
-      if((level&1) && (!enabletx) && (!txenablelock)){
+      if((level&1) && (!enabletx) && (!txenablelock) && (!logginglock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
       }
