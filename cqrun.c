@@ -181,7 +181,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
   char call[16],grid[8],out[BUF_SIZE],modifier[8];
   uint16_t times;
   
-  *jsel=-1; topscore=0; cqed=0; inlog=0; inblack=0;
+  *jsel=-1; topscore=0; cqed=0; inlog=0; inblack=0; inmodifier=0; badmode=0; badfreq=0; badeo=0;
   now=time(NULL);
   for(i=0;i<MAX_RXED;i++)if(strncmp(rxed[i].msg,"CQ ",3)==0){
     cqed++;
