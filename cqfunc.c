@@ -375,3 +375,13 @@ uint64_t ms_since_midnight_utc(void){
   sec_midnight=utc.tm_hour*3600LL+utc.tm_min*60LL+utc.tm_sec;
   return sec_midnight*1000LL+(tv.tv_usec/1000);
 }
+
+char *mytime(void){
+  static char stime[16];
+  time_t rawtime;
+  struct tm *ptm;
+  time(&rawtime); 
+  ptm=gmtime(&rawtime); 
+  strftime(stime,16,"%H%M%S",ptm);
+  return stime;
+}
