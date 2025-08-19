@@ -24,12 +24,12 @@ struct rxed {
   uint64_t freqS;
   uint8_t eoS;
 } *rxed;
-uint32_t nrxed;
 int sock;
 struct sockaddr_in addr,sender_addr;
 socklen_t addr_len=sizeof(addr);
 char mygrid[16],lastmode[8],version[16];
 uint8_t lasteo,enabletx;
+uint32_t nrxed,rxdf,txdf;
 uint64_t lastfreq;
 void cqselection(char *,int *,char *);
 void* th_enabletx();
@@ -158,8 +158,8 @@ int main() {
       Rb(&enabletx,&p);
       Rb(&transmitting,&p);
       Rb(&bdec,&p);
-      Ru32(&xx,&p);
-      Ru32(&xx,&p);
+      Ru32(&rxdf,&p);
+      Ru32(&txdf,&p);
       Rs(out,&p);
       Rs(mygrid,&p);
       Rs(out,&p);
