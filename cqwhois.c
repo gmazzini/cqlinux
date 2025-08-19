@@ -1,5 +1,5 @@
 void *whois_server_thread(void *arg){
-  int client_fd,opt;
+  int server_fd,client_fd,opt;
   struct sockaddr_in addr;
   char buf[200];
   ssize_t n;
@@ -13,7 +13,7 @@ void *whois_server_thread(void *arg){
   addr.sin_port=htons(43);
   bind(server_fd,(struct sockaddr *)&addr,sizeof(addr));
   listen(server_fd,5);
-  while(!interrupted){
+  for(;;){
     client_fd=accept(server_fd,NULL,NULL);
     if(client_fd<0)continue;
     n=read(client_fd,buf,199);
