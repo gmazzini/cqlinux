@@ -1,9 +1,8 @@
 void *whois_server_thread(){
-  int server_fd,client_fd,opt;
+  int server_fd,client_fd,opt,i,jsel;
   struct sockaddr_in addr;
   char buf[200],selcall[16],*out,*ll;
   ssize_t n;
-  int i;
 
   out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
