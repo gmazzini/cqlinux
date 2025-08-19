@@ -125,12 +125,11 @@ int main() {
 
     // Logged ADIF 
     else if(type==12){
-printf("%s Inslog <<<<<<\n",mytime());
       Rs(out,&p);
       Rs(out,&p);
-printf("Inslog %s\n",out);
+printf(">>> %s Inslog %s\n",mytime(),out);
       extract(call,out,"call"); if(*call=='\0')goto go12;
-      extract(mode,buffer,"submode"); if(*mode=='\0')extract(mode,buffer,"mode"); if(*mode=='\0')goto go12;
+      extract(mode,out,"submode"); if(*mode=='\0')extract(mode,out,"mode"); if(*mode=='\0')goto go12;
       extract(aux,out,"freq"); if(*aux=='\0')goto go12;
       sprintf(out,"%s_%s_%d",call,mode,atoi(aux));
       inslog(out);
