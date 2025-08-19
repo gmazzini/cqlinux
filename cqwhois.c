@@ -52,7 +52,10 @@ void *whois_server_thread(){
         write(client_fd,out,strlen(out));
       }
     }
-  
+    else {
+      sprintf(out,"Unknow\n");
+      write(client_fd,out,strlen(out));
+    }
   
     close(client_fd);
   }
