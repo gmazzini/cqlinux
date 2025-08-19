@@ -58,7 +58,7 @@ void *whois_server_thread(){
       write(client_fd,out,strlen(out));
     }
     else if(strcmp(ll,"status")==0){
-      sprintf(out,"lastfreq=%" PRIu64 " lastmode=%s enabletx=%d lasteo=%d\n",lastfreq,lastmode,enabletx,lasteo);
+      sprintf(out,"lastfreq=%" PRIu64 " lastmode=%s enabletx=%d lasteo=%d rxdf=%" PRIu32 " txdf=%" PRIu32 "\n",lastfreq,lastmode,enabletx,lasteo,rxdf,txdf);
       write(client_fd,out,strlen(out));
     }
     else {
