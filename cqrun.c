@@ -36,6 +36,7 @@ uint64_t lastfreq;
 void* th_enabletx();
 void* th_logging();
 void sigint_handler();
+char *mytime();
 
 int main() {
   int i,j;
@@ -120,10 +121,7 @@ int main() {
       Ru32(&xx,&p);
       Rs(version,&p);
       Rs(out,&p);
-      if(level&2){
-        time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
-        printf("%s Heartbeat: %s\n",stime,version);
-      }
+      if(level&2)printf("%s Heartbeat: %s\n",mytime(),version);
     }
 
     // Logged ADIF 
@@ -135,10 +133,7 @@ int main() {
       extract(aux,out,"freq"); if(*aux=='\0')goto go12;
       sprintf(out,"%s_%s_%d",call,mode,atoi(aux));
       inslog(out);
-      if(level&2){
-        time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
-        printf("%s Inslog:%s\n",stime,out);
-      }
+      if(level&2)printf("%s Inslog:%s\n",mytime(),out);
       go12:
     }
 
@@ -249,17 +244,11 @@ void* th_enabletx(){
   struct tm *ptm;
 
   txenablelock=1;
-  if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
-    printf("%s EnableTx in\n",stime);
-  }
+  if(level&2)printf("%s EnableTx in\n",mytime());
   sleep(16);
   if(jcq==CQRATE-1){
     cqselection(selcall,&jsel,NULL);
-    if(level&2 && jsel>=0){
-      time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
-      printf("%s Selected %s\n",stime,rxed[jsel].msg);
-    }
+    if(level&2 && jsel>=0)printf("%s Selected %s\n",mytime(),rxed[jsel].msg);
     if(jsel>=0){
       addused(selcall);
       q=out;
@@ -282,10 +271,7 @@ void* th_enabletx(){
   if(jcq!=CQRATE-1)emulate(XK_Alt_L,XK_6,2,wbase);
   if(++jcq==CQRATE)jcq=0;
   txenablelock=0;
-  if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
-    printf("%s EnableTx out\n",stime);
-  }
+  if(level&2)printf("%s EnableTx out\n",mytime());
   pthread_exit(NULL);
 }
 
@@ -294,17 +280,11 @@ void* th_logging(){
   time_t rawtime;
   struct tm *ptm;
   logginglock=1;
-  if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
-    printf("%s Logging in\n",stime);
-  }
+  if(level&2)printf("%s Logging in\n",mytime());
   sleep(4);
   emulate(XK_Return,XK_Return,1,wlog);
   logginglock=0;
-  if(level&2){
-    time(&rawtime); ptm=gmtime(&rawtime); strftime(stime,16,"%H%M%S",ptm);
-    printf("%s Logging out\n",stime);
-  }
+  if(level&2)printf("%s Logging out\n",mytime());
   pthread_exit(NULL);
 }
 
@@ -337,4 +317,14 @@ void sigint_handler(){
   for(i=0;i<nused;i++)fprintf(fp,"%d,%s,%d\n",i,used[i].call,used[i].times);
   fprintf(fp,"<< USED\n");
   fclose(fp);
+}
+
+char *mytime(void){
+  static char stime[16];
+  time_t rawtime;
+  struct tm *ptm;
+  time(&rawtime); 
+  ptm=gmtime(&rawtime); 
+  strftime(stime,16,"%H%M%S",ptm);
+  return stime;
 }
