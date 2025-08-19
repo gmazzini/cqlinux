@@ -8,7 +8,7 @@ void *whois_server_thread(){
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
   addr.sin_family=AF_INET;
   addr.sin_addr.s_addr=INADDR_ANY;
-  addr.sin_port=htons(43);
+  addr.sin_port=htons(4343);
   bind(server_fd,(struct sockaddr *)&addr,sizeof(addr));
   listen(server_fd,5);
   for(;;){
