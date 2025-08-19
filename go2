@@ -3,7 +3,7 @@ killall -9 wsjtx
 killall -9 jt9
 wsjtx &
 sleep 10
-for (( ; ; )); do
+while true; do
     /home/gmazzini/gm/cqrun
     sleep 10
 done
