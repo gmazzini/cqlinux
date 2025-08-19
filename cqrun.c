@@ -36,7 +36,6 @@ uint64_t lastfreq;
 void* th_enabletx();
 void* th_logging();
 void sigint_handler();
-char *mytime();
 
 int main() {
   int i,j;
@@ -313,14 +312,4 @@ void sigint_handler(){
   for(i=0;i<nused;i++)fprintf(fp,"%d,%s,%d\n",i,used[i].call,used[i].times);
   fprintf(fp,"<< USED\n");
   fclose(fp);
-}
-
-char *mytime(void){
-  static char stime[16];
-  time_t rawtime;
-  struct tm *ptm;
-  time(&rawtime); 
-  ptm=gmtime(&rawtime); 
-  strftime(stime,16,"%H%M%S",ptm);
-  return stime;
 }
