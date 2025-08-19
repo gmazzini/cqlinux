@@ -40,12 +40,12 @@ char *mytime();
 
 int main() {
   int i,j;
-  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8],stime[16];
+  char buffer[BUF_SIZE],out[BUF_SIZE],version[16],aux[16],call[16],mode[8];
   char *p;
   uint8_t bb,bdec,enabletx,transmitting;
   uint32_t type,xx,TPeriod;
   time_t rawtime;
-  struct tm tm,*ptm;
+  struct tm tm;
   pthread_t thread,thread2;
   FILE *fp;
 
@@ -239,9 +239,7 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
 
 void* th_enabletx(){
   int jsel;
-  char out[BUF_SIZE],selcall[16],*q,stime[16];
-  time_t rawtime;
-  struct tm *ptm;
+  char out[BUF_SIZE],selcall[16],*q;
 
   txenablelock=1;
   if(level&2)printf("%s EnableTx in\n",mytime());
@@ -276,9 +274,6 @@ void* th_enabletx(){
 }
 
 void* th_logging(){
-  char stime[16];
-  time_t rawtime;
-  struct tm *ptm;
   logginglock=1;
   if(level&2)printf("%s Logging in\n",mytime());
   sleep(4);
