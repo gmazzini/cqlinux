@@ -5,7 +5,6 @@ void *whois_server_thread(void *arg){
   ssize_t n;
   uint8_t cidr;
 
-
   server_fd=socket(AF_INET,SOCK_STREAM,0);
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
   addr.sin_family=AF_INET;
@@ -19,7 +18,7 @@ void *whois_server_thread(void *arg){
     n=read(client_fd,buf,199);
     if(n>0){
       buf[n]='\0';
-              sprintf(buf,"%u %lu %s\n",cidr,aiv6->asn,mydata(aiv6->ts)); write(client_fd,buf,strlen(buf));
+      sprintf(buf,"ciao\n"); write(client_fd,buf,strlen(buf));
     }    
     close(client_fd);
   }
