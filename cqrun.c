@@ -75,10 +75,10 @@ int main() {
   winid();
   if(wlog==0){
     sleep(3);
-    emulate(XK_Alt_L,XK_n,Q,wbase);
+    emulate(XK_Alt_L,XK_Q,2,wbase);
     sleep(2);
     winid();
-    emulate(XK_ESC,XK_ESC,1,wlog);
+    emulate(XK_Escape,XK_Escape,1,wlog);
     sleep(1);
   }
   if(level&2)printf("wbase:%lu wlog:%lu\n",wbase,wlog);
