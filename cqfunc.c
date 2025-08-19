@@ -350,6 +350,7 @@ void addused(char *p){
     strcpy(used[pos].call,p);
     used[pos].times=1;
   }
+  if(found)used[pos].times++;
 }
 
 uint16_t timesused(char *p){
