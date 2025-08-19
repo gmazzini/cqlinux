@@ -46,7 +46,7 @@ int main() {
   uint32_t type,xx,TPeriod;
   time_t rawtime;
   struct tm tm;
-  pthread_t thread,thread2;
+  pthread_t thread,thread2,thread3;
   FILE *fp;
 
   fp=fopen(FILE_LOG,"r");
@@ -89,6 +89,9 @@ int main() {
   addr.sin_port=htons(PORT);
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
   signal(34,sigint_handler);
+  pthread_create(&thread3,NULL,whois_server_thread,NULL);
+  pthread_detach(thread3);
+
   nrxed=0;
   lasteo=2;
   for(;;){  
