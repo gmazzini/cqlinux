@@ -86,7 +86,6 @@ int main() {
     if((level&1) && winlog() && (!logginglock)){
       pthread_create(&thread2,NULL,th_logging,NULL);
       pthread_detach(thread2);
-      sleep(1);
       continue;
     }
     recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
@@ -169,7 +168,7 @@ printf("%s Inslog <<<<<<\n",mytime());
         xx=(uint32_t)(ms_since_midnight_utc()/TPeriod);
         lasteo=xx&1;
       }
-      if((level&1) && (!enabletx) && (!txenablelock) && (!logginglock)){
+      if((level&1) && (!enabletx) && (!winlog()) && (!txenablelock) && (!logginglock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
       }
@@ -278,12 +277,15 @@ void* th_enabletx(){
 }
 
 void* th_logging(){
+  static time_t last=0;
+  if(time(NULL)-last<2)return NULL;
   logginglock=1;
   if(level&2)printf("%s Logging in\n",mytime());
   sleep(3);
   emulate(XK_Return,XK_Return,1,wlog);
   sleep(3);
   logginglock=0;
+  time(&last);
   if(level&2)printf("%s Logging out\n",mytime());
   pthread_exit(NULL);
 }
