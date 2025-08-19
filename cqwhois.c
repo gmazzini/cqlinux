@@ -1,7 +1,7 @@
 void *whois_server_thread(){
   int server_fd,client_fd,opt;
   struct sockaddr_in addr;
-  char buf[200],*ll;
+  char buf[200],out[300],*ll;
   ssize_t n;
 
   server_fd=socket(AF_INET,SOCK_STREAM,0);
@@ -18,8 +18,9 @@ void *whois_server_thread(){
     buf[n]='\0';
     if(n==0){close(client_fd); continue;}
     ll=buf;
-    if(strcmp(ll,"version")==0){sprintf(buf,"Version: %s\n",version); write(client_fd,buf,strlen(buf));}
-    if(strcmp(ll,"heartbeat")==0){sprintf(buf,"Heartbeat: %s\n",mytime()); write(client_fd,buf,strlen(buf));}
+    sprintf(out,"Input: %s\n",ll); write(client_fd,out,strlen(out));
+    if(strcmp(ll,"version")==0){sprintf(out,"Version: %s\n",version); write(client_fd,out,strlen(out));}
+    if(strcmp(ll,"heartbeat")==0){sprintf(out,"Heartbeat: %s\n",mytime()); write(client_fd,out,strlen(out));}
     close(client_fd);
   }
   close(server_fd);
