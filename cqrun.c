@@ -127,7 +127,6 @@ int main() {
     else if(type==12){
       Rs(out,&p);
       Rs(out,&p);
-printf(">>> %s Inslog %s\n",mytime(),out);
       extract(call,out,"call"); if(*call=='\0')goto go12;
       extract(mode,out,"submode"); if(*mode=='\0')extract(mode,out,"mode"); if(*mode=='\0')goto go12;
       extract(aux,out,"freq"); if(*aux=='\0')goto go12;
