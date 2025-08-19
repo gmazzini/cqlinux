@@ -32,11 +32,12 @@ socklen_t addr_len=sizeof(addr);
 char mygrid[16],lastmode[8],version[16];
 uint8_t lasteo;
 uint64_t lastfreq;
-#include "cqwhois.c"
-
+void cqselection(char *,int *,char *);
 void* th_enabletx();
 void* th_logging();
 void sigint_handler();
+
+#include "cqwhois.c"
 
 int main() {
   int i,j;
