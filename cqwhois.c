@@ -55,7 +55,7 @@ void *whois_server_thread(){
     }
     else if(strcmp(ll,"cqed")==0){
       cqselection(selcall,&jsel,out);
-      if(jsel>=0)sprintf(out+sstrlen(out),"# Selected jsel:%d call:%s\n",jsel,selcall);
+      if(jsel>=0)sprintf(out+strlen(out),"# Selected jsel:%d call:%s\n",jsel,selcall);
        write(client_fd,out,strlen(out));
     }
     else {
