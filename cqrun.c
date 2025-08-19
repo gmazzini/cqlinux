@@ -126,6 +126,7 @@ int main() {
 
     // Logged ADIF 
     else if(type==12){
+printf("%s Inslog <<<<<<\n",mytime());
       Rs(out,&p);
       Rs(out,&p);
       extract(call,out,"call"); if(*call=='\0')goto go12;
