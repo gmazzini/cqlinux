@@ -1,10 +1,11 @@
 void *whois_server_thread(){
   int server_fd,client_fd,opt;
   struct sockaddr_in addr;
-  char buf[200],out[300],*ll;
+  char buf[200],*out,*ll;
   ssize_t n;
   int i;
 
+  out=(chat *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
   addr.sin_family=AF_INET;
@@ -51,6 +52,11 @@ void *whois_server_thread(){
         sprintf(out,"%d,%" PRIu32 ",%ld,%d,%3.1f,%" PRIu32 ",%s,%s,%d,%s,%" PRIu64 ",%d\n",i,rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf,rxed[i].modeS,rxed[i].freqS,rxed[i].eoS);
         write(client_fd,out,strlen(out));
       }
+    }
+    else if(strcmp(ll,"cqed")==0){
+      cqselection(selcall,&jsel,out);
+      if(jsel>=0)sprintf(out+sstrlen(out),"# Selected jsel:%d call:%s\n",jsel,selcall);
+       write(client_fd,out,strlen(out));
     }
     else {
       sprintf(out,"Unknow\n");
