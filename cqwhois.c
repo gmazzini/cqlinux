@@ -1,4 +1,4 @@
-void *whois_server_thread(void *arg){
+void *whois_server_thread(){
   int server_fd,client_fd,opt;
   struct sockaddr_in addr;
   char buf[200];
