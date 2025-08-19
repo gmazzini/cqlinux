@@ -15,7 +15,7 @@ void *whois_server_thread(){
     client_fd=accept(server_fd,NULL,NULL);
     if(client_fd<0)continue;
     n=read(client_fd,buf,199);
-    buf[n-1]='\0';
+    buf[n-2]='\0';
     if(n==0){close(client_fd); continue;}
     ll=buf;
     sprintf(out,">>Input: %s<<\n",ll); write(client_fd,out,strlen(out));
