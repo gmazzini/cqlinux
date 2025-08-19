@@ -29,7 +29,7 @@ int sock;
 struct sockaddr_in addr,sender_addr;
 socklen_t addr_len=sizeof(addr);
 char mygrid[16],lastmode[8],version[16];
-uint8_t lasteo;
+uint8_t lasteo,enabletx;
 uint64_t lastfreq;
 void cqselection(char *,int *,char *);
 void* th_enabletx();
@@ -42,7 +42,7 @@ int main() {
   int i,j;
   char buffer[BUF_SIZE],out[BUF_SIZE],aux[16],call[16],mode[8];
   char *p;
-  uint8_t bb,bdec,enabletx,transmitting;
+  uint8_t bb,bdec,transmitting;
   uint32_t type,xx,TPeriod;
   time_t rawtime;
   struct tm tm;
