@@ -33,6 +33,27 @@ void *whois_server_thread(){
         write(client_fd,out,strlen(out));
       }
     }
+    else if(strcmp(ll,"escluded")==0){
+      for(i=0;i<nesc;i++){
+        sprintf(out,"%d,%s\n",i,vesc[i]);
+        write(client_fd,out,strlen(out));
+      }
+    }
+    else if(strcmp(ll,"logged")==0){
+      for(i=0;i<nlog;i++){
+        sprintf(out,"%d,%s\n",i,vlog[i]);
+        write(client_fd,out,strlen(out));
+      }
+    }
+    else if(strcmp(ll,"rxed")==0){
+      for(i=0;i<MAX_RXED;i++){
+        if(rxed[i].msg[0]=='\0')continue;
+        sprintf(out,"%d,%" PRIu32 ",%ld,%d,%3.1f,%" PRIu32 ",%s,%s,%d,%s,%" PRIu64 ",%d\n",i,rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf,rxed[i].modeS,rxed[i].freqS,rxed[i].eoS);
+        write(client_fd,out,strlen(out));
+      }
+    }
+  
+  
     close(client_fd);
   }
   close(server_fd);
