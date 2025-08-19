@@ -121,7 +121,6 @@ int main() {
       Rs(version,&p);
       Rs(out,&p);
       time(&heartbeat);
-      if(level&2)printf("%s Heartbeat: %s\n",mytime(),version);
     }
 
     // Logged ADIF 
