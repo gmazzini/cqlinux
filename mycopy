@@ -1,2 +1,7 @@
 rm -rf cqlinux
 git clone https://github.com/gmazzini/cqlinux
+cd cqlinux 
+gcc -Wall -Wextra -o ../cqrun cqrun.c -lX11 -lXtst -lm
+cd ..
+
+
