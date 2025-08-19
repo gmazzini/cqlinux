@@ -243,7 +243,7 @@ void* th_enabletx(){
   char out[BUF_SIZE],selcall[16],*q;
   static time_t last=0;
 
-  if(time(NULL)-last<2)return;
+  if(time(NULL)-last<2)return NULL;
   txenablelock=1;
   if(level&2)printf("%s EnableTx in %d\n",mytime(),jcq);
   sleep(15);
