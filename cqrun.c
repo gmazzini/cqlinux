@@ -82,13 +82,14 @@ int main() {
   signal(34,sigint_handler);
   nrxed=0;
   lasteo=2;
-  for(;;){
-    recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
-    
+  for(;;){  
     if((level&1) && winlog() && (!logginglock)){
       pthread_create(&thread2,NULL,th_logging,NULL);
       pthread_detach(thread2);
+      sleep(1);
+      continue;
     }
+    recvfrom(sock,buffer,BUF_SIZE,0,(struct sockaddr *)&sender_addr,&addr_len);
     
     p=buffer;
     Ru32(&xx,&p); if(xx!=0xadbccbda)continue;
@@ -171,6 +172,7 @@ printf("%s Inslog <<<<<<\n",mytime());
       if((level&1) && (!enabletx) && (!txenablelock) && (!logginglock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
+        sleep(1);
       }
     }
   }
@@ -243,7 +245,7 @@ void* th_enabletx(){
 
   txenablelock=1;
   if(level&2)printf("%s EnableTx in %d\n",mytime(),jcq);
-  sleep(16);
+  sleep(15);
   if(jcq==CQRATE-1){
     cqselection(selcall,&jsel,NULL);
     if(level&2 && jsel>=0)printf("%s Selected %s\n",mytime(),rxed[jsel].msg);
@@ -276,8 +278,9 @@ void* th_enabletx(){
 void* th_logging(){
   logginglock=1;
   if(level&2)printf("%s Logging in\n",mytime());
-  sleep(4);
+  sleep(3);
   emulate(XK_Return,XK_Return,1,wlog);
+  sleep(3);
   logginglock=0;
   if(level&2)printf("%s Logging out\n",mytime());
   pthread_exit(NULL);
