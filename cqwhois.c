@@ -15,10 +15,11 @@ void *whois_server_thread(){
     client_fd=accept(server_fd,NULL,NULL);
     if(client_fd<0)continue;
     n=read(client_fd,buf,199);
-    if(n>0){
-      buf[n]='\0';
-      sprintf(buf,"ciao\n"); write(client_fd,buf,strlen(buf));
-    }    
+    buf[n]='\0';
+    if(n==0){close(client_fd); continue;}
+    ll=buf;
+    if(strcmp(ll,"version")==0){sprintf(buf,"Version: %s\n",version); write(client_fd,buf,strlen(buf));}
+    if(strcmp(ll,"heartbeat")==0){sprintf(buf,"Heartbeat: %s\n",mytime()); write(client_fd,buf,strlen(buf));}
     close(client_fd);
   }
   close(server_fd);
