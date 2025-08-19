@@ -3,7 +3,6 @@
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
-#define FILE_INFO "/home/gmazzini/gm/info.txt"
 
 #define CQRATE 2
 #define PORT 7777
@@ -89,7 +88,6 @@ int main() {
   addr.sin_addr.s_addr=inet_addr("127.0.0.1");
   addr.sin_port=htons(PORT);
   bind(sock,(struct sockaddr*)&addr,sizeof(addr));
-  signal(34,sigint_handler);
   pthread_create(&thread3,NULL,whois_server_thread,NULL);
   pthread_detach(thread3);
 
@@ -302,29 +300,3 @@ void* th_logging(){
   pthread_exit(NULL);
 }
 
-void sigint_handler(){
-  FILE *fp;
-  uint32_t i;
-  int jsel;
-  char selcall[16];
-  fp=fopen(FILE_INFO,"w");
-  if(fp==NULL)return;
-  fprintf(fp,">> RXED\n");
-  for(i=0;i<MAX_RXED;i++){
-    if(rxed[i].msg[0]=='\0')continue;
-    fprintf(fp,"%d,",i);
-    fprintf(fp,"%" PRIu32 ",%ld,%d,%3.1f,%" PRIu32 ",%s,%s,%d,",rxed[i].ttime,rxed[i].time,rxed[i].snr,rxed[i].dt,rxed[i].df,rxed[i].mode,rxed[i].msg,rxed[i].LowConf);
-    fprintf(fp,"%s,%" PRIu64 ",%d\n",rxed[i].modeS,rxed[i].freqS,rxed[i].eoS);
-  }
-  fprintf(fp,"<< RXED\n");
-  fprintf(fp,">> LOG\n");
-  for(i=0;i<nlog;i++)fprintf(fp,"%d,%s\n",i,vlog[i]);
-  fprintf(fp,"<< LOG\n");
-  fprintf(fp,">> ESC\n");
-  for(i=0;i<nesc;i++)fprintf(fp,"%d,%s\n",i,vesc[i]);
-  fprintf(fp,"<< ESC\n");
-  fprintf(fp,">> USED\n");
-  for(i=0;i<nused;i++)fprintf(fp,"%d,%s,%d\n",i,used[i].call,used[i].times);
-  fprintf(fp,"<< USED\n");
-  fclose(fp);
-}
