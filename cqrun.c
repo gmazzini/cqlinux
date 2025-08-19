@@ -73,6 +73,14 @@ int main() {
   if(rxed==NULL)return 0;
   for(i=0;i<MAX_RXED;i++)rxed[i].msg[0]='\0';
   winid();
+  if(wlog==0){
+    sleep(3);
+    emulate(XK_Alt_L,XK_n,Q,wbase);
+    sleep(2);
+    winid();
+    emulate(XK_ESC,XK_ESC,1,wlog);
+    sleep(1);
+  }
   if(level&2)printf("wbase:%lu wlog:%lu\n",wbase,wlog);
   sock=socket(AF_INET,SOCK_DGRAM,0);
   addr.sin_family=AF_INET;
