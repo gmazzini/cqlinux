@@ -1,7 +1,7 @@
 void *whois_server_thread(){
   int server_fd,client_fd,opt;
   struct sockaddr_in addr;
-  char buf[200],*out,*ll;
+  char buf[200],selcall[16],*out,*ll;
   ssize_t n;
   int i;
 
