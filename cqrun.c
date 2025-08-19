@@ -120,6 +120,7 @@ int main() {
       Ru32(&xx,&p);
       Rs(version,&p);
       Rs(out,&p);
+      time(&heartbeat);
       if(level&2)printf("%s Heartbeat: %s\n",mytime(),version);
     }
 
