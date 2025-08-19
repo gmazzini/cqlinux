@@ -3,6 +3,7 @@ void *whois_server_thread(){
   struct sockaddr_in addr;
   char buf[200],out[300],*ll;
   ssize_t n;
+  int i;
 
   server_fd=socket(AF_INET,SOCK_STREAM,0);
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
