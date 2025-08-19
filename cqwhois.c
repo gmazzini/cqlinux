@@ -20,7 +20,7 @@ void *whois_server_thread(){
     if(n==0){close(client_fd); continue;}
     ll=buf;
     if(strcmp(ll,"version")==0){
-      sprintf(out,"Version: %s\n",version); 
+      sprintf(out,"IK4LZH Versione: %s %s\nWSJTX Version: %s\n",__DATE__,__TIME__,version); 
       write(client_fd,out,strlen(out));
     }
     else if(strcmp(ll,"heartbeat")==0){
