@@ -18,9 +18,20 @@ void *whois_server_thread(){
     buf[n-2]='\0';
     if(n==0){close(client_fd); continue;}
     ll=buf;
-    sprintf(out,">>Input: %s<<\n",ll); write(client_fd,out,strlen(out));
-    if(strcmp(ll,"version")==0){sprintf(out,"Version: %s\n",version); write(client_fd,out,strlen(out));}
-    if(strcmp(ll,"heartbeat")==0){sprintf(out,"Heartbeat: %s\n",mytime()); write(client_fd,out,strlen(out));}
+    if(strcmp(ll,"version")==0){
+      sprintf(out,"Version: %s\n",version); 
+      write(client_fd,out,strlen(out));
+    }
+    else if(strcmp(ll,"heartbeat")==0){
+      sprintf(out,"Heartbeat: %s\n",mytime()); 
+      write(client_fd,out,strlen(out));
+    }
+    else if(strcmp(ll,"used")==0){
+      for(i=0;i<nused;i++){
+        sprintf(out,"%d,%s,%d\n",i,used[i].call,used[i].times);
+        write(client_fd,out,strlen(out));
+      }
+    }
     close(client_fd);
   }
   close(server_fd);
