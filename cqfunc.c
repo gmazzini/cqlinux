@@ -29,6 +29,7 @@ struct used {
 } *used=NULL;
 char **vlog=NULL,**vesc=NULL;
 uint16_t nlog=0,nesc=0,nused=0;
+time_t heartbeat=0;
 
 void Rs(char *b,char **q){
   uint32_t x;
@@ -378,10 +379,13 @@ uint64_t ms_since_midnight_utc(void){
 
 char *mytime(void){
   static char stime[16];
-  time_t rawtime;
+  time_t rawtime,dd;
   struct tm *ptm;
-  time(&rawtime); 
+  time(&rawtime);
+  dd=rawtime-heartbeat; if(dd>99)dd=99;
   ptm=gmtime(&rawtime); 
   strftime(stime,16,"%H%M%S",ptm);
+  stime[6]='('; stime[9]=')'; stime[10]='\0';
+  stime[7]=(int)(dd/10)+'0'; stime[8]=(int)(dd%10)+'0';
   return stime;
 }
