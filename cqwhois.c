@@ -1,7 +1,7 @@
 void *whois_server_thread(){
   int server_fd,client_fd,opt;
   struct sockaddr_in addr;
-  char buf[200];
+  char buf[200],*ll;
   ssize_t n;
 
   server_fd=socket(AF_INET,SOCK_STREAM,0);
