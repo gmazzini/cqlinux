@@ -5,7 +5,7 @@ void *whois_server_thread(){
   ssize_t n;
   int i;
 
-  out=(chat *)malloc(60000*sizeof(char));
+  out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
   addr.sin_family=AF_INET;
