@@ -172,7 +172,6 @@ printf("%s Inslog <<<<<<\n",mytime());
       if((level&1) && (!enabletx) && (!txenablelock) && (!logginglock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
-        sleep(1);
       }
     }
   }
@@ -242,7 +241,9 @@ void cqselection(char *selcall,int *jsel,FILE *fp){
 void* th_enabletx(){
   int jsel;
   char out[BUF_SIZE],selcall[16],*q;
+  static time_t last=0;
 
+  if(time(NULL)-last<2)return;
   txenablelock=1;
   if(level&2)printf("%s EnableTx in %d\n",mytime(),jcq);
   sleep(15);
@@ -271,6 +272,7 @@ void* th_enabletx(){
   if(jcq!=CQRATE-1)emulate(XK_Alt_L,XK_6,2,wbase);
   if(++jcq==CQRATE)jcq=0;
   txenablelock=0;
+  time(&last);
   if(level&2)printf("%s EnableTx out %d\n",mytime(),jcq);
   pthread_exit(NULL);
 }
