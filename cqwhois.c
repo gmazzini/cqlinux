@@ -75,9 +75,13 @@ void *whois_server_thread(){
         if(rxed[i].eoS!=lasteo)continue;
         for(e=rxed[i].df+occ,j=rxed[i].df;j<e;j++)busy[j]=1;
       }
+      for(busy[199]=2,j=200;j<=3000;j++){
+        if(busy[j]==0 && busy[j]!=busy[j-1])e=j;
+        else if(busy[j]==1 && busy[j]!=busy[j-1]){sprintf(out,"%d-%s\n",e,j-1); write(client_fd,out,strlen(out)); }
+      }
     }
     else {
-      sprintf(out,"Unknow\n");
+      sprintf(out,"Unknown\n");
       write(client_fd,out,strlen(out));
     }
   
