@@ -92,6 +92,9 @@ void *whois_server_thread(){
       if(strcmp(token,KEY)==0){
         token=strtok(NULL," ");
         sprintf(out,"set: %s\n",token); write(client_fd,out,strlen(out));
+        if(strcmp(token,"odd")==0)
+          ctrl+E
+            Shidt+E
       }
     }
     else {
