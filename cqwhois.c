@@ -92,7 +92,7 @@ void *whois_server_thread(){
       if(strcmp(token,KEY)==0){
         token=strtok(NULL," ");
         sprintf(out,"set: %s\n",token); write(client_fd,out,strlen(out));
-        if(strcmp(token,"odd")==0)emulate(XK_Ctrl_L,XK_E,2,wbase);
+        if(strcmp(token,"odd")==0)emulate(XK_Control_L,XK_E,2,wbase);
         else if(strcmp(token,"even")==0)emulate(XK_Shift_L,XK_E,2,wbase);
       }
     }
