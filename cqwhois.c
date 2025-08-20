@@ -1,7 +1,9 @@
+#define KEY "pluto"
+
 void *whois_server_thread(){
   int server_fd,client_fd,opt,i,j,e,jsel,occ;
   struct sockaddr_in addr;
-  char buf[200],selcall[16],*out,*ll;
+  char buf[200],selcall[16],*out,*ll,*token;
   ssize_t n;
   uint8_t busy[3200];
   time_t rawtime;
@@ -82,6 +84,14 @@ void *whois_server_thread(){
       for(j=200;j<=3000;j++){
         if(busy[j-1]==1 && busy[j]==0)e=j;
         else if(busy[j-1]==0 && busy[j]==1 && j-e>=occ){sprintf(out,"%d-%d\n",e,j-1); write(client_fd,out,strlen(out)); }
+      }
+    }
+    else if(strncmp(ll,"set",3)==0){
+      token=strtok(ll," ");
+      token=strtok(NULL," ");
+      if(strcmp(token,KEY)==0){
+        token=strtok(NULL," ");
+        sprintf(out,"set: %s\n",token); write(client_fd,out,strlen(out));
       }
     }
     else {
