@@ -1,5 +1,3 @@
-#define KEY "pluto"
-
 void *whois_server_thread(){
   int server_fd,client_fd,opt,i,j,e,jsel,occ;
   struct sockaddr_in addr;
