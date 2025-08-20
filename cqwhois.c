@@ -4,6 +4,7 @@ void *whois_server_thread(){
   char buf[200],selcall[16],*out,*ll;
   ssize_t n;
   uint8_t busy[3200];
+  time_t rawtime;
 
   out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
@@ -66,18 +67,19 @@ void *whois_server_thread(){
     }
     else if(strcmp(ll,"freefreq")==0){
       occ=0;
+      time(&rawtime);
       for(j=0;j<3200;j++)busy[j]=0;
       if(strcmp(rxed[i].modeS,"FT4")==0)occ=100;
       else if(strcmp(rxed[i].modeS,"FT8")==0)occ=50;
       for(i=0;i<MAX_RXED;i++){
         if(strcmp(rxed[i].modeS,lastmode)!=0)continue;
         if((int)(rxed[i].freqS/1000000)!=(int)(lastfreq/1000000))continue;
-        if(rxed[i].eoS!=lasteo)continue;
+        if(rawtime-rxed[i].time>300)continue;
         for(e=rxed[i].df+occ,j=rxed[i].df;j<e;j++)busy[j]=1;
       }
-      for(busy[199]=2,j=200;j<=3000;j++){
-        if(busy[j]==0 && busy[j]!=busy[j-1])e=j;
-        else if(busy[j]==1 && busy[j]!=busy[j-1]){sprintf(out,"%d-%d\n",e,j-1); write(client_fd,out,strlen(out)); }
+      for(busy[199]=1,j=200;j<=3000;j++){
+        if(busy[j-1]==1 && busy[j]==0)e=j;
+        else if(busy[j-1]==0 && busy[j]==1){sprintf(out,"%d-%d\n",e,j-1); write(client_fd,out,strlen(out)); }
       }
     }
     else {
