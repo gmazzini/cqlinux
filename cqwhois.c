@@ -69,8 +69,8 @@ void *whois_server_thread(){
       occ=0;
       time(&rawtime);
       for(j=0;j<3200;j++)busy[j]=0;
-      if(strcmp(rxed[i].modeS,"FT4")==0)occ=100;
-      else if(strcmp(rxed[i].modeS,"FT8")==0)occ=50;
+      if(strcmp(lastmode,"FT4")==0)occ=100;
+      else if(strcmp(lastmode,"FT8")==0)occ=50;
       for(i=0;i<MAX_RXED;i++){
         if(strcmp(rxed[i].modeS,lastmode)!=0)continue;
         if((int)(rxed[i].freqS/1000000)!=(int)(lastfreq/1000000))continue;
