@@ -1,8 +1,9 @@
 void *whois_server_thread(){
-  int server_fd,client_fd,opt,i,jsel;
+  int server_fd,client_fd,opt,i,j,e,jsel,occ;
   struct sockaddr_in addr;
   char buf[200],selcall[16],*out,*ll;
   ssize_t n;
+  uint8_t busy[3200];
 
   out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
@@ -62,6 +63,18 @@ void *whois_server_thread(){
     else if(strcmp(ll,"status")==0){
       sprintf(out,"lastfreq=%" PRIu64 " lastmode=%s enabletx=%d lasteo=%d rxdf=%" PRIu32 " txdf=%" PRIu32 "\n",lastfreq,lastmode,enabletx,lasteo,rxdf,txdf);
       write(client_fd,out,strlen(out));
+    }
+    else if(strcmp(ll,"freefreq")==0){
+      occ=0;
+      for(j=0;j<3200;j++)busy[j]=0;
+      if(strcmp(rxed[i].modeS,"FT4")==0)occ=100;
+      else if(strcmp(rxed[i].modeS,"FT8")==0)occ=50;
+      for(i=0;i<MAX_RXED;i++){
+        if(strcmp(rxed[i].modeS,lastmode)!=0)continue;
+        if((int)(rxed[i].freqS/1000000)!=(int)(lastfreq/1000000))continue;
+        if(rxed[i].eoS!=lasteo)continue;
+        for(e=rxed[i].df+occ,j=rxed[i].df;j<e;j++)busy[j]=1;
+      }
     }
     else {
       sprintf(out,"Unknow\n");
