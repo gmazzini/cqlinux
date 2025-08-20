@@ -77,9 +77,11 @@ void *whois_server_thread(){
         if(rawtime-rxed[i].time>300)continue;
         for(e=rxed[i].df+occ,j=rxed[i].df;j<e;j++)busy[j]=1;
       }
-      for(busy[199]=1,j=200;j<=3000;j++){
+      busy[199]=1;
+      busy[3000]=1;
+      for(j=200;j<=3000;j++){
         if(busy[j-1]==1 && busy[j]==0)e=j;
-        else if(busy[j-1]==0 && busy[j]==1){sprintf(out,"%d-%d\n",e,j-1); write(client_fd,out,strlen(out)); }
+        else if(busy[j-1]==0 && busy[j]==1 && j-e>=occ){sprintf(out,"%d-%d\n",e,j-1); write(client_fd,out,strlen(out)); }
       }
     }
     else {
