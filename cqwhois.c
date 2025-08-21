@@ -23,7 +23,7 @@ void *whois_server_thread(){
     ll=buf;
     if(strcmp(ll,"version")==0){
       time(&rawtime);
-      sprintf(out,"Release: %s\nIK4LZH version: %s %s\nWSJTX version: %s\nStart: %lu sec ago\n",RELEASE,__DATE__,__TIME__,version,(unsigned long)(rawtime-tstart)); 
+      sprintf(out,"Release: %s\nIK4LZH version: %s %s\nWSJTX version: %s\nStarted: %lu sec ago\n",RELEASE,__DATE__,__TIME__,version,(unsigned long)(rawtime-tstart)); 
       write(client_fd,out,strlen(out));
     }
     else if(strcmp(ll,"heartbeat")==0){
