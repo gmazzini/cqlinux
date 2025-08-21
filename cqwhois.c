@@ -7,7 +7,7 @@ void *whois_server_thread(){
   time_t rawtime;
   struct timespec ts;
   
-  ts.tv_sec=0; ts.tv_nsec=100*1000000L;
+  ts.tv_sec=0; ts.tv_nsec=20*1000000L;
   out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
