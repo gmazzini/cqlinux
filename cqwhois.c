@@ -1,7 +1,7 @@
 void *whois_server_thread(){
   int server_fd,client_fd,opt,i,j,e,jsel,occ;
   struct sockaddr_in addr;
-  char buf[200],selcall[16],*out,*ll,*token;
+  char buf[BUF_SIZE],selcall[16],*out,*ll,*token,*q;
   ssize_t n;
   uint8_t busy[3200];
   time_t rawtime;
@@ -93,6 +93,13 @@ void *whois_server_thread(){
         sprintf(out,"set: %s\n",token); write(client_fd,out,strlen(out));
         if(strcmp(token,"odd")==0)emulate(XK_Control_L,XK_E,2,wbase);
         else if(strcmp(token,"even")==0)emulate(XK_Shift_L,XK_E,2,wbase);
+        else if(strcmp(token,"FT8")==0){
+          q=buf;
+          Wu32(0xadbccbda,&q); Wu32(2,&q); Wu32(4,&q); 
+          Ws("GM1",&q); Ws("FT8",&q); Wu32(0xffffffff,&q); Ws("",&q); Wb(0,&q); 
+          Wu32(0xffffffff,&q); Wu32(0xffffffff,&q); Ws("",&q); Ws("",&q); Wb(1,&q);
+          sendto(sock,out,q-out,0,(struct sockaddr*)&sender_addr,sizeof(addr));
+        }
       }
     }
     else {
