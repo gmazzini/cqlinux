@@ -5,7 +5,9 @@ void *whois_server_thread(){
   ssize_t n;
   uint8_t busy[3200];
   time_t rawtime;
-
+  struct timespec ts;
+  
+  ts.tv_sec=0; ts.tv_nsec=100*1000000L;
   out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
@@ -91,8 +93,12 @@ void *whois_server_thread(){
       if(strcmp(token,KEY)==0){
         token=strtok(NULL," "); if(token==NULL)goto go20;
         sprintf(out,"set: %s\n",token); write(client_fd,out,strlen(out));
-        if(strcmp(token,"odd")==0)emulate(XK_Control_L,XK_E,2,wbase);
-        else if(strcmp(token,"even")==0)emulate(XK_Shift_L,XK_E,2,wbase);
+        if(strcmp(token,"odd")==0){
+          emulate(XK_Control_L,XK_E,2,wbase);
+        }
+        else if(strcmp(token,"even")==0){
+          emulate(XK_Shift_L,XK_E,2,wbase);
+        }
         else if(strcmp(token,"ft8")==0){
           q=myout;
           Wu32(0xadbccbda,&q); Wu32(2,&q); Wu32(15,&q); 
@@ -106,6 +112,21 @@ void *whois_server_thread(){
           Ws("GM1",&q); Ws("FT4",&q); Wu32(0xffffffff,&q); Ws("",&q); Wb(0,&q); 
           Wu32(0xffffffff,&q); Wu32(0xffffffff,&q); Ws("",&q); Ws("",&q); Wb(1,&q);
           sendto(sock,myout,q-myout,0,(struct sockaddr*)&sender_addr,sizeof(addr));
+        }
+        else if(token[0]>='0' && token[0]<='9')==0){
+          occ=0;
+          if(strcmp(lastmode,"FT4")==0)occ=90;
+          else if(strcmp(lastmode,"FT8")==0)occ=60;
+          if(occ==0)goto go20;
+          i=atoi(token);
+          if(i>txdf){
+            e=(i-txdf)/occ;
+            for(j=0;j<e;j++){emulate(XK_Shift_L,XK_F12,2,wbase); nanosleep(&ts,NULL);}
+          }
+          else {
+            e=(txdf-i)/occ;
+            for(j=0;j<e;j++){emulate(XK_Shift_L,XK_F11,2,wbase); nanosleep(&ts,NULL);}
+          }
         }
       }
       go20:
