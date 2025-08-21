@@ -86,6 +86,7 @@ void *whois_server_thread(){
       }
     }
     else if(strncmp(ll,"set",3)==0){
+  printf(">>> %s\n",ll);
       token=strtok(ll," ");
       token=strtok(NULL," ");
       if(strcmp(token,KEY)==0){
