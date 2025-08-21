@@ -119,8 +119,8 @@ void *whois_server_thread(){
           else if(strcmp(lastmode,"FT8")==0)occ=60;
           if(occ==0)goto go20;
           i=atoi(token);
-          if(i>txdf){
-            e=(i-(int)txdf)/occ;
+          if(i>(int)txdf){
+            e=(i-txdf)/occ;
             for(j=0;j<e;j++){emulate(XK_Shift_L,XK_F12,2,wbase); nanosleep(&ts,NULL);}
           }
           else {
