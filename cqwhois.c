@@ -94,10 +94,16 @@ void *whois_server_thread(){
         if(strcmp(token,"odd")==0)emulate(XK_Control_L,XK_E,2,wbase);
         else if(strcmp(token,"even")==0)emulate(XK_Shift_L,XK_E,2,wbase);
         else if(strcmp(token,"ft8")==0){
-          printf("provooo\n");
           q=myout;
           Wu32(0xadbccbda,&q); Wu32(2,&q); Wu32(15,&q); 
           Ws("GM1",&q); Ws("FT8",&q); Wu32(0xffffffff,&q); Ws("",&q); Wb(0,&q); 
+          Wu32(0xffffffff,&q); Wu32(0xffffffff,&q); Ws("",&q); Ws("",&q); Wb(1,&q);
+          sendto(sock,myout,q-myout,0,(struct sockaddr*)&sender_addr,sizeof(addr));
+        }
+        else if(strcmp(token,"ft4")==0){
+          q=myout;
+          Wu32(0xadbccbda,&q); Wu32(2,&q); Wu32(15,&q); 
+          Ws("GM1",&q); Ws("FT4",&q); Wu32(0xffffffff,&q); Ws("",&q); Wb(0,&q); 
           Wu32(0xffffffff,&q); Wu32(0xffffffff,&q); Ws("",&q); Ws("",&q); Wb(1,&q);
           sendto(sock,myout,q-myout,0,(struct sockaddr*)&sender_addr,sizeof(addr));
         }
