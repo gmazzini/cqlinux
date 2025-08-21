@@ -1,5 +1,5 @@
 void *whois_server_thread(){
-  int server_fd,client_fd,opt,i,j,e,jsel,occ;
+  int server_fd,client_fd,opt,i,j,e,jsel,occ,to;
   struct sockaddr_in addr;
   char buf[200],selcall[16],*out,*ll,*token,myout[BUF_SIZE],*q;
   ssize_t n;
@@ -120,14 +120,14 @@ void *whois_server_thread(){
           if(occ==0)goto go20;
           i=atoi(token);
           if(i>(int)txdf){
-            e=(i-txdf)/occ;
+            e=(i-txdf)/occ; to=txdf+e*occ;
             for(j=0;j<e;j++){emulate(XK_Shift_L,XK_F12,2,wbase); nanosleep(&ts,NULL);}
-            sprintf(out,"new txdf=%d\n",txdf+e*occ); write(client_fd,out,strlen(out));
+            sprintf(out,"new txdf=%d\n",to); write(client_fd,out,strlen(out));
           }
           else {
-            e=(txdf-i)/occ;
+            e=(txdf-i)/occ; to=txdf-e*occ;
             for(j=0;j<e;j++){emulate(XK_Shift_L,XK_F11,2,wbase); nanosleep(&ts,NULL);}
-            sprintf(out,"new txdf=%d\n",txdf-e*occ); write(client_fd,out,strlen(out));
+            sprintf(out,"new txdf=%d\n",to); write(client_fd,out,strlen(out));
           }
         }
       }
