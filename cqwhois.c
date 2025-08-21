@@ -87,10 +87,10 @@ void *whois_server_thread(){
     }
     else if(strncmp(ll,"set",3)==0){
   printf(">>> %s\n",ll);
-      token=strtok(ll," ");
-      token=strtok(NULL," ");
+      token=strtok(ll," "); if(token==NULL)goto go20;
+      token=strtok(NULL," "); if(token==NULL)goto go20;
       if(strcmp(token,KEY)==0){
-        token=strtok(NULL," ");
+        token=strtok(NULL," "); if(token==NULL)goto go20;
         sprintf(out,"set: %s\n",token); write(client_fd,out,strlen(out));
         if(strcmp(token,"odd")==0)emulate(XK_Control_L,XK_E,2,wbase);
         else if(strcmp(token,"even")==0)emulate(XK_Shift_L,XK_E,2,wbase);
@@ -102,6 +102,7 @@ void *whois_server_thread(){
           sendto(sock,myout,q-myout,0,(struct sockaddr*)&sender_addr,sizeof(addr));
         }
       }
+      go20:
     }
     else {
       sprintf(out,"Unknown\n");
