@@ -1,5 +1,4 @@
-// @2025- by GM IK4LZH cqrun in C
-
+#define RELEASE "cqrun @IK4LZH @GM 2020-2025 Rel 3"
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
@@ -31,6 +30,7 @@ char mygrid[16],lastmode[8],version[16];
 uint8_t lasteo,enabletx;
 uint32_t nrxed,rxdf,txdf;
 uint64_t lastfreq;
+time_t tstart;
 void cqselection(char *,int *,char *);
 void* th_enabletx();
 void* th_logging();
@@ -49,6 +49,7 @@ int main() {
   pthread_t thread,thread2,thread3;
   FILE *fp;
 
+  time(&tstart);
   fp=fopen(FILE_LOG,"r");
   if(fp==NULL)return 0;
   for(;;){
