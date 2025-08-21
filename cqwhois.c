@@ -7,7 +7,7 @@ void *whois_server_thread(){
   time_t rawtime;
   struct timespec ts;
   
-  ts.tv_sec=0; ts.tv_nsec=20*1000000L;
+  ts.tv_sec=0; ts.tv_nsec=50*1000000L;
   out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
   setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
@@ -122,10 +122,12 @@ void *whois_server_thread(){
           if(i>(int)txdf){
             e=(i-txdf)/occ;
             for(j=0;j<e;j++){emulate(XK_Shift_L,XK_F12,2,wbase); nanosleep(&ts,NULL);}
+            sprintf(out,"new txdf=%d\n",txdf+e*occ); write(client_fd,out,strlen(out));
           }
           else {
             e=(txdf-i)/occ;
             for(j=0;j<e;j++){emulate(XK_Shift_L,XK_F11,2,wbase); nanosleep(&ts,NULL);}
+            sprintf(out,"new txdf=%d\n",txdf-e*occ); write(client_fd,out,strlen(out));
           }
         }
       }
