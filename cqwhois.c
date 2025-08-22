@@ -87,6 +87,27 @@ void *whois_server_thread(){
         else if(busy[j-1]==0 && busy[j]==1 && j-e>=occ){sprintf(out,"%d-%d\n",e,j-1); write(client_fd,out,strlen(out)); }
       }
     }
+    else if(strncmp(ll,"read",4)==0){
+      token=strtok(ll," "); if(token==NULL)goto go21;
+      token=strtok(NULL," "); if(token==NULL)goto go21;
+      i=atoi(token);
+      switch(i){
+        case 1: sprintf(out,"%d\n# nlog",nlog); break;
+        case 2: sprintf(out,"%d\n# nesc",nesc); break;
+        case 3: sprintf(out,"%d\n# nused",nused); break;
+        case 4: sprintf(out,"%" PRIu64 "\n# heartbeat",(uint64_t)heartbeat); break;
+        case 5: sprintf(out,"%d\n# lasteo",lasteo); break;
+        case 6: sprintf(out,"%d\n# enabletx",enabletx); break;
+        case 7: sprintf(out,"%" PRIu32 "\n# nrxed",(uint32_t)nrxed); break;
+        case 8: sprintf(out,"%" PRIu32 "\n# rxdf",(uint32_t)rxdf); break;
+        case 9: sprintf(out,"%" PRIu32 "\n# txdf",(uint32_t)txdf); break;
+        case 10: sprintf(out,"%" PRIu64 "\n# lastfreq",(uint64_t)lastfreq); break;
+        case 11: sprintf(out,"%" PRIu64 "\n# tstart",(uint64_t)tstart); break;
+        default: sprintf(out,"# tbd\n"); break;
+      }
+      write(client_fd,out,strlen(out));
+      go21:
+    }
     else if(strncmp(ll,"set",3)==0){
       token=strtok(ll," "); if(token==NULL)goto go20;
       token=strtok(NULL," "); if(token==NULL)goto go20;
