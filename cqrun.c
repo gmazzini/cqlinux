@@ -6,7 +6,6 @@
 #define CQRATE 2
 #define PORT 7777
 #define MAX_RXED 1000
-int level=3; // bit 0 (1 run/0 test) bit 1 (1 print/0 noprint)
 int jcq=0;
 int txenablelock=0;
 int logginglock=0;
@@ -83,7 +82,7 @@ int main() {
     emulate(XK_Escape,XK_Escape,1,wlog);
     sleep(1);
   }
-  if(level&2)printf("wbase:%lu wlog:%lu\n",wbase,wlog);
+  printf("# %s\n# wbase:%lu wlog:%lu\n",RELEASE,wbase,wlog);
   sock=socket(AF_INET,SOCK_DGRAM,0);
   addr.sin_family=AF_INET;
   addr.sin_addr.s_addr=inet_addr("127.0.0.1");
@@ -95,7 +94,7 @@ int main() {
   nrxed=0;
   lasteo=2;
   for(;;){  
-    if((level&1) && winlog() && (!logginglock)){
+    if(winlog() && (!logginglock)){
       pthread_create(&thread2,NULL,th_logging,NULL);
       pthread_detach(thread2);
       continue;
@@ -144,7 +143,7 @@ int main() {
       extract(aux,out,"freq"); if(*aux=='\0')goto go12;
       sprintf(out,"%s_%s_%d",call,mode,atoi(aux));
       inslog(out);
-      if(level&2)printf("%s Inslog:%s\n",mytime(),out);
+      printf("%s Inslog:%s\n",mytime(),out);
       go12:
     }
 
@@ -179,7 +178,7 @@ int main() {
         xx=(uint32_t)(ms_since_midnight_utc()/TPeriod);
         lasteo=xx&1;
       }
-      if((level&1) && (!enabletx) && (!winlog()) && (!txenablelock) && (!logginglock)){
+      if((!enabletx) && (!winlog()) && (!txenablelock) && (!logginglock)){
         pthread_create(&thread,NULL,th_enabletx,NULL);
         pthread_detach(thread);
       }
@@ -255,11 +254,11 @@ void* th_enabletx(){
 
   if(time(NULL)-last<2)return NULL;
   txenablelock=1;
-  if(level&2)printf("%s EnableTx in %d\n",mytime(),jcq);
+  printf("%s EnableTx in %d\n",mytime(),jcq);
   sleep(15);
   if(jcq==CQRATE-1){
     cqselection(selcall,&jsel,NULL);
-    if(level&2 && jsel>=0)printf("%s Selected %s\n",mytime(),rxed[jsel].msg);
+    if(jsel>=0)printf("%s Selected %s\n",mytime(),rxed[jsel].msg);
     if(jsel>=0){
       addused(selcall);
       q=out;
@@ -283,7 +282,7 @@ void* th_enabletx(){
   if(++jcq==CQRATE)jcq=0;
   txenablelock=0;
   time(&last);
-  if(level&2)printf("%s EnableTx out %d\n",mytime(),jcq);
+  printf("%s EnableTx out %d\n",mytime(),jcq);
   pthread_exit(NULL);
 }
 
@@ -291,13 +290,13 @@ void* th_logging(){
   static time_t last=0;
   if(time(NULL)-last<2)return NULL;
   logginglock=1;
-  if(level&2)printf("%s Logging in\n",mytime());
+  printf("%s Logging in\n",mytime());
   sleep(3);
   emulate(XK_Return,XK_Return,1,wlog);
   sleep(3);
   logginglock=0;
   time(&last);
-  if(level&2)printf("%s Logging out\n",mytime());
+  printf("%s Logging out\n",mytime());
   pthread_exit(NULL);
 }
 
