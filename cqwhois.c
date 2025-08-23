@@ -92,18 +92,18 @@ void *whois_server_thread(){
       token=strtok(NULL," "); if(token==NULL)goto go21;
       i=atoi(token);
       switch(i){
-        case 1: sprintf(out,"%d\n# nlog",nlog); break;
-        case 2: sprintf(out,"%d\n# nesc",nesc); break;
-        case 3: sprintf(out,"%d\n# nused",nused); break;
-        case 4: sprintf(out,"%" PRIu64 "\n# heartbeat",(uint64_t)heartbeat); break;
-        case 5: sprintf(out,"%d\n# lasteo",lasteo); break;
-        case 6: sprintf(out,"%d\n# enabletx",enabletx); break;
-        case 7: sprintf(out,"%" PRIu32 "\n# nrxed",(uint32_t)nrxed); break;
-        case 8: sprintf(out,"%" PRIu32 "\n# rxdf",(uint32_t)rxdf); break;
-        case 9: sprintf(out,"%" PRIu32 "\n# txdf",(uint32_t)txdf); break;
-        case 10: sprintf(out,"%" PRIu64 "\n# lastfreq",(uint64_t)lastfreq); break;
-        case 11: sprintf(out,"%" PRIu64 "\n# tstart",(uint64_t)tstart); break;
-        case 12: sprintf(out,"%" PRIu64 "\n# tlastlogged",(uint64_t)tlastlogged); break;
+        case 1: sprintf(out,"%d\n# nlog\n",nlog); break;
+        case 2: sprintf(out,"%d\n# nesc\n",nesc); break;
+        case 3: sprintf(out,"%d\n# nused\n",nused); break;
+        case 4: sprintf(out,"%" PRIu64 "\n# heartbeat\n",(uint64_t)heartbeat); break;
+        case 5: sprintf(out,"%d\n# lasteo\n",lasteo); break;
+        case 6: sprintf(out,"%d\n# enabletx\n",enabletx); break;
+        case 7: sprintf(out,"%" PRIu32 "\n# nrxed\n",(uint32_t)nrxed); break;
+        case 8: sprintf(out,"%" PRIu32 "\n# rxdf\n",(uint32_t)rxdf); break;
+        case 9: sprintf(out,"%" PRIu32 "\n# txdf\n",(uint32_t)txdf); break;
+        case 10: sprintf(out,"%" PRIu64 "\n# lastfreq\n",(uint64_t)lastfreq); break;
+        case 11: sprintf(out,"%" PRIu64 "\n# tstart\n",(uint64_t)tstart); break;
+        case 12: sprintf(out,"%" PRIu64 "\n# tlastlogged\n",(uint64_t)tlastlogged); break;
         default: sprintf(out,"# tbd\n"); break;
       }
       write(client_fd,out,strlen(out));
