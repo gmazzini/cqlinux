@@ -1,4 +1,4 @@
-#define RELEASE "cqrun @IK4LZH @GM 2020-2025 Rel 3.3"
+#define RELEASE "cqrun @IK4LZH @GM 2020-2025 Rel 3.4"
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
@@ -29,7 +29,7 @@ char mygrid[16],lastmode[8],version[16];
 uint8_t lasteo,enabletx;
 uint32_t nrxed,rxdf,txdf;
 uint64_t lastfreq;
-time_t tstart;
+time_t tstart,tlastlogged=0;
 void cqselection(char *,int *,char *);
 void* th_enabletx();
 void* th_logging();
@@ -144,6 +144,7 @@ int main() {
       sprintf(out,"%s_%s_%d",call,mode,atoi(aux));
       inslog(out);
       printf("%s Inslog:%s\n",mytime(),out);
+      time(&tlastlogged);
       go12:
     }
 
