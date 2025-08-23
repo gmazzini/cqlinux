@@ -103,6 +103,7 @@ void *whois_server_thread(){
         case 9: sprintf(out,"%" PRIu32 "\n# txdf",(uint32_t)txdf); break;
         case 10: sprintf(out,"%" PRIu64 "\n# lastfreq",(uint64_t)lastfreq); break;
         case 11: sprintf(out,"%" PRIu64 "\n# tstart",(uint64_t)tstart); break;
+        case 12: sprintf(out,"%" PRIu64 "\n# tlastlogged",(uint64_t)tlastlogged); break;
         default: sprintf(out,"# tbd\n"); break;
       }
       write(client_fd,out,strlen(out));
