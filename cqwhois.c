@@ -10,7 +10,7 @@ void *whois_server_thread(){
   ts.tv_sec=0; ts.tv_nsec=50*1000000L;
   out=(char *)malloc(60000*sizeof(char));
   server_fd=socket(AF_INET,SOCK_STREAM,0);
-  setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR,&opt,sizeof(opt));
+  setsockopt(server_fd,SOL_SOCKET,SO_REUSEADDR|SO_REUSEPORT,&opt,sizeof(opt));
   addr.sin_family=AF_INET;
   addr.sin_addr.s_addr=INADDR_ANY;
   addr.sin_port=htons(4343);
