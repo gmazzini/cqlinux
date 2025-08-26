@@ -138,6 +138,9 @@ void *whois_server_thread(){
             Wu32(0xffffffff,&q); Wu32(0xffffffff,&q); Ws("",&q); Ws("",&q); Wb(1,&q);
             sendto(sock,myout,q-myout,0,(struct sockaddr*)&sender_addr,sizeof(addr));
           }
+          else if(strcmp(token,"exit")==0){
+            exit(0);
+          }
           else if(token[0]>='0' && token[0]<='9'){
             occ=0;
             if(strcmp(lastmode,"FT4")==0)occ=90;
