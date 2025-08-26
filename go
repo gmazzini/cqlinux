@@ -9,6 +9,12 @@ while true; do
     sleep 8
     /home/gmazzini/gm/cqrun &
   else
+    start_epoch=$(whois -h 127.0.0.1 -p 4343 read 11 | head -n 1)
+    now_epoch=$(date +%s)
+    delta=$(( now_epoch - start_epoch ))
+    if [ "$delta" -gt 28800 ]; then
+       killall -9 cqrun
+    fi
     sleep 10
   fi
 done
