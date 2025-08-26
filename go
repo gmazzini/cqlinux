@@ -10,6 +10,7 @@ while true; do
     wsjtx &
     sleep 8
     /home/gmazzini/gm/cqrun &
+    sleep 10
   else
     sleep 10
     start_epoch=$(whois -h 127.0.0.1 -p 4343 read 11 | head -n 1)
