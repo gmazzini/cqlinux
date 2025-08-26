@@ -1,4 +1,6 @@
 #!/bin/bash
+killall -9 cqrun
+sleep 5
 while true; do
   if ! pgrep -x cqrun >/dev/null; then
     killall -9 wsjtx
