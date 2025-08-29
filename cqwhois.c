@@ -139,6 +139,8 @@ void *whois_server_thread(){
             sendto(sock,myout,q-myout,0,(struct sockaddr*)&sender_addr,sizeof(addr));
           }
           else if(strcmp(token,"exit")==0){
+            emulate(XK_Alt_L,XK_F4,2,wbase);
+            sleep(2);
             exit(0);
           }
           else if(token[0]>='0' && token[0]<='9'){
