@@ -18,7 +18,7 @@ while true; do
   else
     sleep 10
     runtime=$(ps -o etimes= -p "$pid")
-    if [ "$runtime" -gt 200 ]; then
+    if [ "$runtime" -gt 28800 ]; then
        whois -h 127.0.0.1 -p 4343 set 55Jwb4VQtwK1 exit
        sleep 5
        killall -9 wsjtx 2>/dev/null 
