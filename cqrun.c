@@ -226,7 +226,8 @@ void cqselection(char *selcall,int *jsel,char *ttt){
     if(*modifier!='\0'){
       vmodifier=1;
       if(strcmp(modifier,"EU")==0)vmodifier=0;
-      if(strcmp(modifier,"DX")==0 && pdist>1500)vmodifier=0;
+      else if(strcmp(modifier,"DX")==0 && pdist>1500)vmodifier=0;
+      else if(strcmp(modifier,"WW")==0)vmodifier=0;
     }
     vbadmode=(strcmp(rxed[i].modeS,lastmode)==0)?0:1;
     vbadfreq=((int)(rxed[i].freqS/1000000)==(int)(lastfreq/1000000))?0:1;
