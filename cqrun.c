@@ -311,7 +311,7 @@ void cqselection(char *selcall,int *jsel,char *ttt){
   int vchecklog,vcheckesc,vmodifier,vbadmode,vbadfreq,vbadeo,vbadgrid,vbadcall,vold,vlowconf;
   double topscore,score,ptime,psnr,pdist;
   time_t rawtime;
-  char call[16],grid[8],out[BUF_SIZE],modifier[8],line[192];
+  char call[16],grid[8],out[BUF_SIZE],modifier[16],line[192];
   uint16_t times;
   
   *jsel=-1; topscore=0; cqed=0; inlog=0; inblack=0; inmodifier=0; badmode=0; badfreq=0; badeo=0; badgrid=0; badcall=0; old=0; lowconf=0;
