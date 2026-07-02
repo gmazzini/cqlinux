@@ -30,7 +30,8 @@ Control commands use the historical <code>set</code> form:
 printf "set KEY ft4\r\n" | nc 10.0.0.8 4343
 printf "set KEY even\r\n" | nc 10.0.0.8 4343
 printf "set KEY odd\r\n" | nc 10.0.0.8 4343
-printf "set KEY 1500\r\n" | nc 10.0.0.8 4343</code></pre>
+printf "set KEY txup\r\n" | nc 10.0.0.8 4343
+printf "set KEY txdw\r\n" | nc 10.0.0.8 4343</code></pre>
 
 <h3>Read commands</h3>
 
@@ -43,7 +44,7 @@ printf "set KEY 1500\r\n" | nc 10.0.0.8 4343</code></pre>
 <tr><td><code>KEY rxed</code></td><td>Decodes received from WSJT-X</td></tr>
 <tr><td><code>KEY cqed</code></td><td>CQ selection diagnostics</td></tr>
 <tr><td><code>KEY freefreq</code></td><td>Free audio ranges in the 200-3000 Hz window</td></tr>
-<tr><td><code>KEY used</code></td><td>Calls already selected/used</td></tr>
+<tr><td><code>KEY used</code></td><td>Calls already selected or used</td></tr>
 <tr><td><code>KEY logged</code></td><td>QSOs already present in the ADIF log</td></tr>
 <tr><td><code>KEY escluded</code></td><td>Blacklisted calls; alias: <code>excluded</code></td></tr>
 <tr><td><code>KEY read N</code></td><td>Read an internal numeric value</td></tr>
@@ -53,11 +54,13 @@ printf "set KEY 1500\r\n" | nc 10.0.0.8 4343</code></pre>
 
 <table>
 <tr><th>Command</th><th>Action</th></tr>
-<tr><td><code>set KEY ft8</code></td><td>Switch WSJT-X to FT8</td></tr>
-<tr><td><code>set KEY ft4</code></td><td>Switch WSJT-X to FT4</td></tr>
-<tr><td><code>set KEY even</code></td><td>Select even TX period</td></tr>
-<tr><td><code>set KEY odd</code></td><td>Select odd TX period</td></tr>
-<tr><td><code>set KEY 1500</code></td><td>Move TX audio offset toward 1500 Hz</td></tr>
+<tr><td><code>set KEY ft8</code></td><td>Switch WSJT-X to FT8 using the WSJT-X UDP Configure message</td></tr>
+<tr><td><code>set KEY ft4</code></td><td>Switch WSJT-X to FT4 using the WSJT-X UDP Configure message</td></tr>
+<tr><td><code>set KEY even</code></td><td>Select even TX period using WSJT-X keyboard automation</td></tr>
+<tr><td><code>set KEY odd</code></td><td>Select odd TX period using WSJT-X keyboard automation</td></tr>
+<tr><td><code>set KEY txup</code></td><td>Move the WSJT-X TX audio offset one step up using Shift+F12</td></tr>
+<tr><td><code>set KEY txdw</code></td><td>Move the WSJT-X TX audio offset one step down using Shift+F11</td></tr>
+<tr><td><code>set KEY txdown</code></td><td>Alias for <code>txdw</code></td></tr>
 <tr><td><code>set KEY exit</code></td><td>Close WSJT-X and terminate cqrun</td></tr>
 </table>
 
