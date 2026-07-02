@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/gmazzini/gm
+cd /home/gmazzini/gm2
 killall -9 wsjtx 2>/dev/null 
 killall -9 jt9 2>/dev/null
 killall -9 cqrun 2>/dev/null 
