@@ -1,7 +1,7 @@
 #define RELEASE "cqrun @IK4LZH @GM 2020-2026 Rel 3.10"
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
-#define FILE_ESC "/home/gmazzini/gm/cqlinux/wsjtx_black.txt"
+#define FILE_ESC "/home/gmazzini/gm2/cqlinux/wsjtx_black.txt"
 
 #define CQRATE 2
 #define PORT 7777
