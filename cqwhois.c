@@ -46,6 +46,22 @@ void whois_send_wsjtx_mode(char *mode){
   sendto(sock,myout,q-myout,0,(struct sockaddr*)&sender_addr,sizeof(sender_addr));
 }
 
+int whois_wsjtx_key(KeySym mod,KeySym key,char *out,int client_fd,char *name){
+  winid();
+
+  if(wbase==0){
+    sprintf(out,"%s: WSJT-X main window not found\n",name);
+    whois_write(client_fd,out);
+    return 0;
+  }
+
+  emulate(mod,key,2,wbase);
+
+  sprintf(out,"%s: sent\n",name);
+  whois_write(client_fd,out);
+  return 1;
+}
+
 void whois_help(int fd,char *out){
   sprintf(out,
     "Usage:\n"
@@ -65,22 +81,20 @@ void whois_help(int fd,char *out){
     "  set KEY even\n"
     "  set KEY ft8\n"
     "  set KEY ft4\n"
-    "  set KEY exit\n"
-    "  set KEY TXDF\n");
+    "  set KEY txup\n"
+    "  set KEY txdw\n"
+    "  set KEY txdown\n"
+    "  set KEY exit\n");
   whois_write(fd,out);
 }
 
 void *whois_server_thread(){
-  int server_fd,client_fd,opt,i,j,e,jsel,occ,to,from,to2,is_set;
+  int server_fd,client_fd,opt,i,j,e,jsel,occ,from,to2,is_set;
   struct sockaddr_in addr;
   struct timeval tv;
   char buf[200],work[200],selcall[16],*out,*cmd,*arg,*token;
   uint8_t busy[3200];
   time_t rawtime;
-  struct timespec ts;
-
-  ts.tv_sec=0;
-  ts.tv_nsec=50*1000000L;
 
   out=(char *)malloc(60000*sizeof(char));
   if(out==NULL)return NULL;
@@ -309,51 +323,52 @@ void *whois_server_thread(){
         whois_write(client_fd,out);
 
         if(strcmp(cmd,"odd")==0){
-          emulate(XK_Control_L,XK_E,2,wbase);
+          winid();
+          if(wbase==0){
+            sprintf(out,"odd: WSJT-X main window not found\n");
+            whois_write(client_fd,out);
+          }
+          else emulate(XK_Control_L,XK_E,2,wbase);
         }
+
         else if(strcmp(cmd,"even")==0){
-          emulate(XK_Shift_L,XK_E,2,wbase);
+          winid();
+          if(wbase==0){
+            sprintf(out,"even: WSJT-X main window not found\n");
+            whois_write(client_fd,out);
+          }
+          else emulate(XK_Shift_L,XK_E,2,wbase);
         }
+
         else if(strcmp(cmd,"ft8")==0){
           whois_send_wsjtx_mode("FT8");
         }
+
         else if(strcmp(cmd,"ft4")==0){
           whois_send_wsjtx_mode("FT4");
         }
+
+        else if(strcmp(cmd,"txup")==0){
+          whois_wsjtx_key(XK_Shift_L,XK_F12,out,client_fd,"txup");
+        }
+
+        else if(strcmp(cmd,"txdw")==0 || strcmp(cmd,"txdown")==0){
+          whois_wsjtx_key(XK_Shift_L,XK_F11,out,client_fd,"txdw");
+        }
+
         else if(strcmp(cmd,"exit")==0){
-          emulate(XK_Alt_L,XK_F4,2,wbase);
-          sleep(2);
+          winid();
+          if(wbase==0){
+            sprintf(out,"exit: WSJT-X main window not found\n");
+            whois_write(client_fd,out);
+          }
+          else {
+            emulate(XK_Alt_L,XK_F4,2,wbase);
+            sleep(2);
+          }
           exit(0);
         }
-        else if(cmd[0]>='0' && cmd[0]<='9'){
-          occ=0;
-          if(strcmp(lastmode,"FT4")==0)occ=90;
-          else if(strcmp(lastmode,"FT8")==0)occ=60;
 
-          if(occ>0){
-            i=atoi(cmd);
-            if(i>(int)txdf){
-              e=(i-txdf)/occ;
-              to=txdf+e*occ;
-              for(j=0;j<e;j++){
-                emulate(XK_Shift_L,XK_F12,2,wbase);
-                nanosleep(&ts,NULL);
-              }
-              sprintf(out,"new txdf=%d\n",to);
-              whois_write(client_fd,out);
-            }
-            else {
-              e=(txdf-i)/occ;
-              to=txdf-e*occ;
-              for(j=0;j<e;j++){
-                emulate(XK_Shift_L,XK_F11,2,wbase);
-                nanosleep(&ts,NULL);
-              }
-              sprintf(out,"new txdf=%d\n",to);
-              whois_write(client_fd,out);
-            }
-          }
-        }
         else {
           sprintf(out,"Unknown set command\n");
           whois_write(client_fd,out);
