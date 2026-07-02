@@ -1,4 +1,4 @@
-#define RELEASE "cqrun @IK4LZH @GM 2020-2026 Rel 3.11"
+#define RELEASE "cqrun @IK4LZH @GM 2020-2026 Rel 3.12"
 #include "cqfunc.c"
 #define FILE_LOG "/home/gmazzini/.local/share/WSJT-X/wsjtx_log.adi"
 #define FILE_ESC "/home/gmazzini/gm2/cqlinux/wsjtx_black.txt"
