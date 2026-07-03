@@ -10,8 +10,8 @@ ping 10.0.0.10
 
 <p>
 cqrun provides a small text-based TCP interface on port <code>4343</code>.
-It can be used to read status, received decodes and diagnostics from another host.
-All commands require <code>KEY</code>.
+It can be used to read WSJT-X status, received decodes and diagnostics from
+another host. All commands require <code>KEY</code>.
 </p>
 
 <h3>Usage</h3>
@@ -20,7 +20,8 @@ All commands require <code>KEY</code>.
 printf "KEY version\r\n" | nc 10.0.0.8 4343
 printf "KEY cqed\r\n" | nc 10.0.0.8 4343
 printf "KEY rxed\r\n" | nc 10.0.0.8 4343
-printf "KEY freefreq\r\n" | nc 10.0.0.8 4343</code></pre>
+printf "KEY freefreq\r\n" | nc 10.0.0.8 4343
+printf "KEY read 9\r\n" | nc 10.0.0.8 4343</code></pre>
 
 <p>
 Control commands use the historical <code>set</code> form:
@@ -47,7 +48,25 @@ printf "set KEY txdw\r\n" | nc 10.0.0.8 4343</code></pre>
 <tr><td><code>KEY used</code></td><td>Calls already selected or used</td></tr>
 <tr><td><code>KEY logged</code></td><td>QSOs already present in the ADIF log</td></tr>
 <tr><td><code>KEY escluded</code></td><td>Blacklisted calls; alias: <code>excluded</code></td></tr>
-<tr><td><code>KEY read N</code></td><td>Read an internal numeric value</td></tr>
+<tr><td><code>KEY read N</code></td><td>Read a single internal numeric value, mainly for scripts</td></tr>
+</table>
+
+<h4><code>read N</code> values</h4>
+
+<table>
+<tr><th>Command</th><th>Value</th></tr>
+<tr><td><code>KEY read 1</code></td><td>Number of ADIF log entries loaded (<code>nlog</code>)</td></tr>
+<tr><td><code>KEY read 2</code></td><td>Number of blacklisted calls (<code>nesc</code>)</td></tr>
+<tr><td><code>KEY read 3</code></td><td>Number of calls already selected or used (<code>nused</code>)</td></tr>
+<tr><td><code>KEY read 4</code></td><td>Unix timestamp of the last WSJT-X heartbeat</td></tr>
+<tr><td><code>KEY read 5</code></td><td>Current even/odd TX period flag (<code>lasteo</code>)</td></tr>
+<tr><td><code>KEY read 6</code></td><td>WSJT-X Enable TX state</td></tr>
+<tr><td><code>KEY read 7</code></td><td>Current decode ring-buffer index (<code>nrxed</code>)</td></tr>
+<tr><td><code>KEY read 8</code></td><td>Current RX audio offset in Hz (<code>rxdf</code>)</td></tr>
+<tr><td><code>KEY read 9</code></td><td>Current TX audio offset in Hz (<code>txdf</code>)</td></tr>
+<tr><td><code>KEY read 10</code></td><td>Current radio frequency in Hz (<code>lastfreq</code>)</td></tr>
+<tr><td><code>KEY read 11</code></td><td>Unix timestamp when cqrun was started</td></tr>
+<tr><td><code>KEY read 12</code></td><td>Unix timestamp of the last logged QSO</td></tr>
 </table>
 
 <h3>Control commands</h3>
